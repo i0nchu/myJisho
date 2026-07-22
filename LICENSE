@@ -1,0 +1,10 @@
+Copyright (c) 2026 Kotoba Project. All rights reserved.
+
+This source code and the original dictionary fixtures are provided for
+evaluation of the Kotoba MVP only. No permission is granted to copy,
+redistribute, sublicense, or use them in a production service without a
+separate written license from the copyright owner.
+
+Third-party dependencies and future dictionary data sources remain subject
+to their own licenses. See docs/licensing.md for the data provenance policy.
+
