@@ -204,7 +204,7 @@ UI component contract 包含 semantics label、keyboard focus、200% text scale�
 
 ## 10. CI/CD Gate
 
-PR 必跑：format、lint/static analysis、unit、schema、data fixtures、normalization/search golden、Flutter widget、editor tests、license metadata gate、至少一種代表平台 build。主分支／release 額外跑 deterministic full build、100k/300k benchmark、四平台 build、update fault injection、artifact checksum、資料統計及 license report。
+PR 必跑：format、lint/static analysis、unit、schema、data fixtures、normalization/search golden、Flutter widget、editor tests、license metadata gate、至少一種代表平台 build。主分支／release 額外跑 deterministic full build、100k/300k benchmark、三平台 build、update fault injection、artifact checksum、資料統計及 license report。
 
 任何外部 fixture 必須鎖定版本與 checksum；CI 不在執行時抓取 mutable upstream 資料。生成 artifact 若不進 Git，CI／release job 必須能從鎖定輸入重建。
 

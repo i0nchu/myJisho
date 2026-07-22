@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "normalizer_version": 1,
+  "cases": [
+    {"input": " ガッコウ ", "normalized": "ガッコウ", "kana": "がっこう", "romaji": []},
+    {"input": "ｶﾞｯｺｳ", "normalized": "ガッコウ", "kana": "がっこう", "romaji": []},
+    {"input": "コーヒー", "normalized": "コーヒー", "kana": "こおひい", "romaji": []},
+    {"input": "taberu", "normalized": "taberu", "kana": "taberu", "romaji": ["たべる"]},
+    {"input": "hirou", "normalized": "hirou", "kana": "hirou", "romaji": ["ひろう"]},
+    {"input": "hirowu", "normalized": "hirowu", "kana": "hirowu", "romaji": ["ひろう"]},
+    {"input": "gakkou", "normalized": "gakkou", "kana": "gakkou", "romaji": ["がっこう"]},
+    {"input": "shimbun", "normalized": "shimbun", "kana": "shimbun", "romaji": ["しんぶん"]},
+    {"input": "shinbun", "normalized": "shinbun", "kana": "shinbun", "romaji": ["しんぶん"]},
+    {"input": "Ｔａｂｅｒｕ。", "normalized": "taberu", "kana": "taberu", "romaji": []}
+  ]
+}

@@ -7,7 +7,7 @@
 - 每週：PM／Tech Lead 檢視 scope、風險、依賴、P0 burn-up 與 defect aging。
 - 每個 PR：小型、單一責任、附 acceptance/test evidence；跨界面先更新 contract/ADR。
 - 每個 milestone：內部 demo + QA gate + accessibility/license/security checklist。
-- MVP 候選：四平台 build、至少 1 行動＋1 桌面實機離線測試、客戶驗收會議。
+- MVP 候選：三平台 build、至少 1 行動＋1 桌面實機離線測試、客戶驗收會議。
 - 缺陷級別：Blocker（資料遺失／無法查詞／發布不合法）、Critical（P0 主要流程不可用）、Major、Minor。MVP 不得有已知 Blocker/Critical。
 
 ## M0 — Walking Skeleton
@@ -104,14 +104,14 @@
 
 - release/assets manifests、checksums、版本相容性檢查。
 - staged download、大小/SHA-256/SQLite health check、同 volume 原子替換、rollback／startup recovery。
-- 更新 UI 狀態、四平台 build pipeline、release runbook、完整測試／資料／授權報告。
+- 更新 UI 狀態、三平台 build pipeline、release runbook、完整測試／資料／授權報告。
 - 隱私、安全、依賴、授權與 accessibility release review。
 
 ### Exit criteria
 
 - fault injection 覆蓋中斷、錯 hash、不相容、磁碟不足、替換／reopen 失敗，舊版均可用。
 - 更新成功／失敗後收藏與歷史完全保留。
-- iOS、Android、Windows、macOS build 全綠；至少 1 行動＋1 桌面實機全流程通過。
+- iOS、Windows、macOS build 全綠；至少 1 行動＋1 桌面實機全流程通過。
 - 所有 P0 AC 有 traceability evidence，無 Blocker/Critical，客戶可進行 MVP 驗收會議。
 
 ## M5 — MVP 後擴充（不屬 MVP Gate）

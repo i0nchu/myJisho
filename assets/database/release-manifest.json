@@ -1,0 +1,12 @@
+{
+  "channel": "development",
+  "content_status": "contains_unreviewed",
+  "database_file": "dictionary.sqlite",
+  "database_sha256": "0e71b6c5c9c5c28dee26d42701ffc7b0cb81908bf44f05a32374615c8c5f4228",
+  "database_size": 245760,
+  "dictionary_version": "0.1.0-fixture.1",
+  "license_status": "cleared",
+  "minimum_app_version": "0.1.0",
+  "released_at": "2026-07-22T00:00:00Z",
+  "schema_version": 1
+}

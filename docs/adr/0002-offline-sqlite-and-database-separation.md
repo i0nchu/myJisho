@@ -18,7 +18,7 @@ Flutter infrastructure 以 Drift 提供 typed adapter，但 domain/application �
 
 ## Consequences
 
-更新失敗不影響個人資料，dictionary query 與 user migration 可獨立測試。代價是無法用跨檔案 foreign key 強制 favorite 引用存在；需在 application 層處理 orphan，保留而不靜默刪除。Drift/platform SQLite 相容性需納入四平台 spike 與 CI。
+更新失敗不影響個人資料，dictionary query 與 user migration 可獨立測試。代價是無法用跨檔案 foreign key 強制 favorite 引用存在；需在 application 層處理 orphan，保留而不靜默刪除。Drift/platform SQLite 相容性需納入三平台 spike 與 CI。
 
 ## Rejected alternatives
 

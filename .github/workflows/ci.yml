@@ -1,0 +1,78 @@
+name: Kotoba CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Data and search tests
+        run: python -m unittest discover -s tests -v
+      - name: Content editor tests
+        run: python -m unittest discover -s services/editor_api/tests -v
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.7"
+          channel: stable
+          cache: true
+      - name: Flutter quality gates
+        working-directory: apps/dictionary_app
+        run: |
+          flutter pub get
+          dart format --output=none --set-exit-if-changed lib test
+          flutter analyze
+          flutter test
+          flutter build web --release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kotoba-web
+          path: apps/dictionary_app/build/web
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.7"
+          channel: stable
+          cache: true
+      - name: Build Windows debug app
+        working-directory: apps/dictionary_app
+        run: flutter build windows --debug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kotoba-windows-debug
+          path: apps/dictionary_app/build/windows/x64/runner/Debug
+
+  apple:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.7"
+          channel: stable
+          cache: true
+      - name: Build macOS debug app
+        working-directory: apps/dictionary_app
+        run: flutter build macos --debug
+      - name: Build iOS simulator app
+        working-directory: apps/dictionary_app
+        run: flutter build ios --simulator --no-codesign
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kotoba-apple-debug
+          path: |
+            apps/dictionary_app/build/macos/Build/Products/Debug
+            apps/dictionary_app/build/ios/iphonesimulator

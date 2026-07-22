@@ -1,0 +1,143 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kotoba.invalid/schema/dictionary-v1.json",
+  "title": "Kotoba canonical dictionary",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "dictionary_version", "sources", "entries"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "dictionary_version": {"type": "string", "minLength": 1},
+    "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
+    "entries": {"type": "array", "items": {"$ref": "#/$defs/entry"}}
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "title", "source_type", "author", "license_spdx", "ai_assisted"],
+      "properties": {
+        "source_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "source_type": {"enum": ["original", "open_data", "image", "audio"]},
+        "author": {"type": "string", "minLength": 1},
+        "license_spdx": {"type": "string", "minLength": 1},
+        "license_url": {"type": ["string", "null"]},
+        "original_url": {"type": ["string", "null"]},
+        "retrieved_at": {"type": ["string", "null"], "format": "date-time"},
+        "redistribution_allowed": {"type": "boolean"},
+        "modification_allowed": {"type": "boolean"},
+        "commercial_use_allowed": {"type": "boolean"},
+        "attribution_required": {"type": "boolean"},
+        "ai_assisted": {"type": "boolean"},
+        "notes": {"type": "string"}
+      }
+    },
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "type", "common"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "type": {"enum": ["primary", "alternate", "kana", "variant", "rare"]},
+        "common": {"type": "boolean"}
+      }
+    },
+    "reading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kana", "primary"],
+      "properties": {
+        "kana": {"type": "string", "minLength": 1},
+        "primary": {"type": "boolean"}
+      }
+    },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["example_id", "sentence", "source_id"],
+      "properties": {
+        "example_id": {"type": "string", "minLength": 1},
+        "sentence": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "audio_asset_id": {"type": ["string", "null"]}
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_id", "relation_type", "note_ja"],
+      "properties": {
+        "entry_id": {"type": "string", "minLength": 1},
+        "relation_type": {"enum": ["synonym", "near_synonym", "antonym", "hypernym", "hyponym", "easily_confused", "related", "orthographic_variant"]},
+        "note_ja": {"type": "string"}
+      }
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["asset_id", "source_id", "license_spdx", "redistribution_allowed", "sha256", "path", "kind"],
+      "properties": {
+        "asset_id": {"type": "string", "minLength": 1},
+        "source_id": {"type": "string", "minLength": 1},
+        "license_spdx": {"type": "string", "minLength": 1},
+        "redistribution_allowed": {"type": "boolean"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "path": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["image", "audio"]},
+        "audio_type": {"enum": ["system_tts", "synthetic", "human"]}
+      }
+    },
+    "sense": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sense_id", "order", "definition_ja_simple", "usage_note_ja", "register", "importance", "examples", "relations", "image_assets", "audio_assets", "source_ids", "review_status"],
+      "properties": {
+        "sense_id": {"type": "string", "minLength": 1},
+        "order": {"type": "integer", "minimum": 1},
+        "definition_ja_simple": {"type": "string", "minLength": 1},
+        "usage_note_ja": {"type": "string"},
+        "register": {"type": "string", "minLength": 1},
+        "importance": {"enum": ["primary", "secondary", "rare"]},
+        "examples": {"type": "array", "items": {"$ref": "#/$defs/example"}},
+        "relations": {"type": "array", "items": {"$ref": "#/$defs/relation"}},
+        "image_assets": {"type": "array", "items": {"$ref": "#/$defs/asset"}},
+        "audio_assets": {"type": "array", "items": {"$ref": "#/$defs/asset"}},
+        "source_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "review_status": {"type": "string", "minLength": 1}
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewed_by", "reviewed_at", "notes"],
+      "properties": {
+        "status": {"type": "string"},
+        "reviewed_by": {"type": ["string", "null"]},
+        "reviewed_at": {"type": ["string", "null"], "format": "date-time"},
+        "notes": {"type": "string"}
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_id", "headword", "forms", "readings", "parts_of_speech", "frequency_rank", "editorial_level", "edit_status", "senses", "source_ids", "review", "created_at", "updated_at", "data_version"],
+      "properties": {
+        "entry_id": {"type": "string", "minLength": 1},
+        "headword": {"type": "string", "minLength": 1},
+        "forms": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/form"}},
+        "readings": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/reading"}},
+        "parts_of_speech": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "frequency_rank": {"type": ["integer", "null"], "minimum": 1},
+        "editorial_level": {"enum": ["imported", "curated", "featured"]},
+        "edit_status": {"enum": ["imported", "draft", "ai_draft", "needs_review", "reviewed", "approved", "published", "rejected", "deprecated"]},
+        "senses": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/sense"}},
+        "source_ids": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "review": {"$ref": "#/$defs/review"},
+        "created_at": {"type": "string", "format": "date-time"},
+        "updated_at": {"type": "string", "format": "date-time"},
+        "data_version": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

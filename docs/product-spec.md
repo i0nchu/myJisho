@@ -3,7 +3,8 @@
 - 文件狀態：Baseline for MVP
 - 專案代號：Kotoba
 - 適用里程碑：M0–M4
-- 主要平台：iOS、Android、Windows、macOS
+- 主要平台：iOS、Windows、macOS
+- 範圍決策：Android 已依客戶指示移除（見 ADR-0005）
 - 產品承諾：離線優先、無廣告、免帳號，以簡單日文協助學習者在數秒內理解詞義與用法
 
 ## 1. 問題、受眾與成功定義
@@ -38,7 +39,7 @@ MVP 驗收以可重現測試為準，不以下載量或主觀「看起來完成�
 | 內容完整性 | 20 個精選詞條皆有主要義項、例句、來源／授權 | 發布 validator |
 | 更新安全 | 下載中斷、雜湊錯誤、替換失敗均保留舊版 | fault-injection 整合測試 |
 | 個人資料保留 | 重啟與辭典更新後收藏／歷史不遺失 | 跨啟動與更新 E2E |
-| 平台 | 4 個主要平台皆可建置；至少 1 行動＋1 桌面實機 smoke test | CI artifact + 測試紀錄 |
+| 平台 | 3 個主要平台皆可建置；至少 1 行動＋1 桌面實機 smoke test | CI artifact + 測試紀錄 |
 
 MVP 不宣稱已驗證市場契合；公開試用後另量測首查成功率、無結果率、首次正確結果點擊率與任務完成時間。
 
@@ -148,7 +149,7 @@ manifest 不相容、大小錯誤、SHA-256 錯誤、下載中斷、磁碟不足
 
 ### AC-12 平台發布候選
 
-iOS、Android、Windows、macOS CI build 均成功；至少各一個行動及桌面平台完成離線 smoke test。未實機驗證的平台不可標示「已驗收」。
+iOS、Windows、macOS CI build 均成功；至少各一個行動及桌面平台完成離線 smoke test。未實機驗證的平台不可標示「已驗收」。
 
 ## 5. UX 狀態矩陣
 
@@ -176,4 +177,4 @@ iOS、Android、Windows、macOS CI build 均成功；至少各一個行動及桌
 
 ## 7. MVP Gate
 
-只有在所有 P0 acceptance criteria 有證據、核心 CI 全綠、無已知 Blocker／Critical 缺陷、20 個詞條發布檢查通過、四平台可建置且離線實機 smoke test 完成後，才可稱為 MVP。未完成的 P1 或內容擴充不影響此 Gate。
+只有在所有 P0 acceptance criteria 有證據、核心 CI 全綠、無已知 Blocker／Critical 缺陷、20 個詞條發布檢查通過、三平台可建置且離線實機 smoke test 完成後，才可稱為 MVP。未完成的 P1 或內容擴充不影響此 Gate。

@@ -103,21 +103,21 @@ search_rules_version
 
 ### 5.4 Accessibility
 
-自動 semantics／contrast 檢查加人工 screen reader（VoiceOver/TalkBack/Windows Narrator 或對應平台）與全鍵盤巡覽。文字 200%、系統 dark/high contrast、reduced motion 分別驗證。狀態不得只依顏色，音訊按鈕 label 包含內容與音聲類型。
+自動 semantics／contrast 檢查加人工 screen reader（VoiceOver、Windows Narrator 或對應平台）與全鍵盤巡覽。文字 200%、系統 dark/high contrast、reduced motion 分別驗證。狀態不得只依顏色，音訊按鈕 label 包含內容與音聲類型。
 
 ## 6. 平台矩陣
 
-| 測試 | iOS | Android | Windows | macOS |
-|---|---|---|---|---|
-| CI build | 每次 release | PR 代表＋release | PR 代表＋release | 每次 release |
-| Unit/widget | 共享 | 主要 runner | 主要 desktop runner | 共享 |
-| SQLite open/search/update | 實機 smoke | 實機完整 | 實機完整 | 實機 smoke |
-| TTS/audio | 實機 | 實機 | 實機 | 實機 |
-| IME | 日文 IME | 日文 IME | Microsoft IME | Japanese IME |
-| Keyboard/adaptive | 外接抽查 | 外接抽查 | 完整 | 完整 |
-| Screen reader | VoiceOver | TalkBack | Narrator | VoiceOver |
+| 測試 | iOS | Windows | macOS |
+|---|---|---|---|
+| CI build | 每次 release | PR 代表＋release | 每次 release |
+| Unit/widget | 共享 | 主要 desktop runner | 共享 |
+| SQLite open/search/update | 實機完整 | 實機完整 | 實機 smoke |
+| TTS/audio | 實機 | 實機 | 實機 |
+| IME | 日文 IME | Microsoft IME | Japanese IME |
+| Keyboard/adaptive | 外接抽查 | 完整 | 完整 |
+| Screen reader | VoiceOver | Narrator | VoiceOver |
 
-CI runner 限制不能取代實機驗收。至少 1 行動＋1 桌面每個 release candidate 執行完整 E2E，其餘平台執行 smoke + platform adapters；正式 MVP 前四平台均需一次紀錄。
+CI runner 限制不能取代實機驗收。至少 1 行動（iOS）＋1 桌面每個 release candidate 執行完整 E2E，其餘平台執行 smoke + platform adapters；正式 MVP 前三平台均需一次紀錄。
 
 ## 7. 關鍵 E2E 場景
 
@@ -147,7 +147,7 @@ MVP release 必須滿足：
 
 - 所有 P0 unit/schema/golden/widget/integration/E2E 綠燈。
 - 100k 搜尋與 cold-start/first-render 效能達標；無 UI thread blocking 證據。
-- 四平台 build 成功，平台 smoke／完整 E2E 紀錄齊全。
+- 三平台 build 成功，平台 smoke／完整 E2E 紀錄齊全。
 - 資料品質與 licensing zero blocker；20 精選詞條通過人工審核。
 - 更新 fault suite 全通過；無個人資料遺失。
 - 無已知 Blocker/Critical；Major 必須有 owner、風險接受與修復版本，且不得違反任何 P0 AC。

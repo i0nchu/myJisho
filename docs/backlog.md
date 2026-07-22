@@ -55,7 +55,7 @@
 | KTB-305 | P0 | 結果列與空／錯／載入狀態 | Flutter+UX | 規定欄位、活用提示、retry/clear flow |
 | KTB-306 | P0 | 手機詞條頁與資訊層級 | Flutter+UX | 主要首屏、次要收合、長文/200% text 無截斷 |
 | KTB-307 | P0 | 桌面雙欄與 keyboard shortcuts | Flutter+UX | 全快捷鍵、focus、Space guard、可停用 |
-| KTB-308 | P0 | TTS abstraction 與合成音聲標示 | Flutter | 四平台 adapter smoke；offline；a11y label |
+| KTB-308 | P0 | TTS abstraction 與合成音聲標示 | Flutter | 三平台 adapter smoke；offline；a11y label |
 | KTB-309 | P0 | 圖片與音訊呈現／播放 | Flutter | downloaded asset、missing/corrupt fallback、真人／合成區分 |
 | KTB-310 | P0 | 收藏與歷史 UI／持久化 | Flutter | dedupe/order/clear/restart/update preservation |
 | KTB-311 | P0 | theme、字體、reduced motion、semantics | Flutter+Accessibility | WCAG AA target、200%、screen reader/focus checklist |
@@ -82,7 +82,7 @@
 | KTB-504 | P0 | Connection quiesce + atomic activation | Flutter | update lock、same-volume replace、成功 reopen |
 | KTB-505 | P0 | Rollback 與啟動 recovery | Flutter+QA | 每個 transaction stage kill 後恢復 known-good |
 | KTB-506 | P0 | 更新 UI 狀態 | Flutter+UX | offline/current/downloading/verifying/success/error，查詞不被破壞 |
-| KTB-507 | P0 | 四平台 release builds/artifacts | DevEx+QA | iOS/Android/Windows/macOS build、checksum/report |
+| KTB-507 | P0 | 三平台 release builds/artifacts | DevEx+QA | iOS/Windows/macOS build、checksum/report |
 | KTB-508 | P0 | Release runbook 與 go/no-go checklist | QA/Release | rollback、artifact/version/notices/store steps 可操作 |
 | KTB-509 | P1 | Manifest signing threat model/ADR | Security | 比較 key rotation/revocation/store constraints |
 | KTB-510 | P1 | 差分／分區更新 spike | Architecture+Data | 不影響完整包 fallback、可量測收益 |
@@ -94,7 +94,7 @@
 | KTB-601 | P0 | App 關鍵 widget tests | Flutter+QA | search/result/empty/error/entry/collapse/favorite/history/theme/layout |
 | KTB-602 | P0 | 離線 E2E 與 network spy | QA | 核心流程零 network、重啟持久化 |
 | KTB-603 | P0 | 更新 fault-injection suite | QA+Security | 全 fault fixture 保舊 DB/user data |
-| KTB-604 | P0 | 四平台 smoke matrix | QA | SQLite/TTS/audio/IME/keyboard/screen reader 紀錄 |
+| KTB-604 | P0 | 三平台 smoke matrix | QA | SQLite/TTS/audio/IME/keyboard/screen reader 紀錄 |
 | KTB-605 | P0 | Accessibility audit | Accessibility+QA | semantics、focus、contrast、200%、reduced motion |
 | KTB-606 | P0 | Privacy/log/network audit | Security | 無未同意上傳；logs/clipboard/device ID policy 通過 |
 | KTB-607 | P0 | Data/license release audit | Licensing+QA | zero missing provenance/license；notices 正確 |

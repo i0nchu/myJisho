@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kotoba 內容編輯器</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">KOTOBA · EDITORIAL WORKBENCH</p>
+      <h1>內容編輯器</h1>
+    </div>
+    <div id="connection" class="connection">正在連線…</div>
+  </header>
+
+  <main class="workspace">
+    <aside class="entry-browser" aria-label="詞條清單">
+      <label for="search">搜尋詞條</label>
+      <input id="search" type="search" placeholder="表記、讀音或 ID" autocomplete="off">
+      <p id="result-count" class="muted"></p>
+      <div id="entry-list" class="entry-list"></div>
+    </aside>
+
+    <section class="editor-pane" aria-label="詞條編輯區">
+      <div id="empty-state" class="empty-state">
+        <span>ことば</span>
+        <h2>選擇一筆詞條開始編輯</h2>
+        <p>此工具只寫入本機 working copy；正式發佈仍須通過人工審核與資料 gate。</p>
+      </div>
+      <form id="entry-form" class="hidden">
+        <div class="editor-heading">
+          <div>
+            <p id="entry-id" class="eyebrow"></p>
+            <h2 id="entry-title"></h2>
+          </div>
+          <span id="status-badge" class="status-badge"></span>
+        </div>
+
+        <div id="ai-warning" class="notice hidden">AI 草稿不得直接核准或發佈，必須依序經 needs_review 與 reviewed。</div>
+        <section class="panel">
+          <h3>基本資料</h3>
+          <div id="basic-fields" class="field-grid"></div>
+        </section>
+        <section id="forms-section" class="panel"></section>
+        <section id="readings-section" class="panel"></section>
+        <section class="panel">
+          <div class="section-heading"><h3>義項、例句、關係與媒體</h3><button id="add-sense" type="button" class="secondary">＋ 新增義項</button></div>
+          <div id="senses"></div>
+        </section>
+        <section class="panel workflow-panel">
+          <h3>人工審核流程</h3>
+          <div class="field-grid">
+            <label>審核者姓名<input id="reviewer" autocomplete="name" placeholder="轉為 reviewed/approved/published 時必填"></label>
+            <label>審核備註<input id="review-notes" placeholder="審核依據或待辦事項"></label>
+          </div>
+          <div id="transition-buttons" class="button-row"></div>
+        </section>
+        <section id="issues-panel" class="panel issues hidden" aria-live="polite">
+          <h3>驗證結果</h3>
+          <ul id="issues"></ul>
+        </section>
+        <div class="sticky-actions">
+          <span id="save-state" class="muted" aria-live="polite"></span>
+          <button id="validate" type="button" class="secondary">驗證草稿</button>
+          <button id="save" type="submit">儲存 working copy</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="preview-pane" aria-label="App 預覽">
+      <p class="eyebrow">APP-LIKE PREVIEW</p>
+      <div id="preview" class="phone-card">
+        <p class="muted">選取詞條後顯示即時預覽</p>
+      </div>
+    </aside>
+  </main>
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
