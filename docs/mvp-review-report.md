@@ -1,7 +1,7 @@
 # Kotoba MVP 客戶評審報告
 
 - 評審版本：Engineering MVP 0.1
-- 評審日期：2026-07-22
+- 評審日期：2026-07-22（搜尋驗收證據補充：2026-07-23）
 - 產品平台：iOS、Windows、macOS
 - Android：依客戶決策移除，見 ADR-0005
 - 整體判定：**Engineering MVP 可進行客戶評審；正式發布 NO-GO**
@@ -23,7 +23,8 @@
 
 | 檢查 | 結果 | 證據摘要 |
 |---|---|---|
-| 資料／搜尋單元與整合 | PASS | 23/23 |
+| 資料／搜尋單元與整合 | PASS | 原有 23 項加 6 項 corpus contract tests |
+| AC-02/03/04 固定搜尋 corpus | PASS | 250/250 可重現；100 常見詞、50 動詞、20 形容詞、20 片假名、20 羅馬字、20 歧義、20 負例 |
 | 編輯器 schema、workflow、storage、HTTP security | PASS | 25/25 |
 | Flutter format | PASS | 47 files，0 changes |
 | Flutter analyze | PASS | No issues found |
@@ -43,7 +44,7 @@
 |---|---|---|
 | Engineering vertical slice | PASS | 已從 canonical data 建置並由 App 查詢 |
 | 內容／授權發布 | BLOCKED | 合格日文審核者完成人工審核，至少 20 筆達 approved/published |
-| 完整搜尋黃金集 | PARTIAL | 擴增至規格要求的 100 常見詞、50 動詞、20 形容詞等固定 corpus |
+| 完整搜尋黃金集 | PASS | 固定 corpus 經 canonical builder、Python runtime 與 Dart conformance 驗證；checksum 與防灌水規則由 CI 鎖定 |
 | 遠端完整資料包更新 | PARTIAL | 目前只有安全本機 sideload；補上下載、進度／取消與網路 fault injection |
 | 原生三平台 build | PENDING | GitHub CI 實際跑通 iOS simulator、Windows、macOS artifacts |
 | 實機／實體桌面驗收 | PENDING | iOS 及至少一個桌面完成離線、IME、TTS、音訊、a11y smoke |

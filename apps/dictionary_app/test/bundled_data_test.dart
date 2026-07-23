@@ -87,22 +87,92 @@ void main() {
 
   test('Dart normalizer follows the canonical golden contract', () {
     const normalizer = JapaneseQueryNormalizer();
-    final cases = [
-      (' ガッコウ ', 'ガッコウ', 'がっこう', <String>[]),
-      ('ｶﾞｯｺｳ', 'ガッコウ', 'がっこう', <String>[]),
-      ('コーヒー', 'コーヒー', 'こおひい', <String>[]),
-      ('taberu', 'taberu', 'taberu', ['たべる']),
-      ('hirou', 'hirou', 'hirou', ['ひろう']),
-      ('hirowu', 'hirowu', 'hirowu', ['ひろう']),
-      ('gakkou', 'gakkou', 'gakkou', ['がっこう']),
-      ('shimbun', 'shimbun', 'shimbun', ['しんぶん']),
-      ('shinbun', 'shinbun', 'shinbun', ['しんぶん']),
-      ('Ｔａｂｅｒｕ。', 'taberu', 'taberu', <String>[]),
-    ];
-    for (final (input, normalized, kana, romaji) in cases) {
-      expect(normalizer.normalizeText(input), normalized, reason: input);
-      expect(normalizer.normalizeKana(input), kana, reason: input);
-      expect(normalizer.romajiToHiragana(input), romaji, reason: input);
+    final fixture =
+        jsonDecode(
+              File(
+                '../../data/fixtures/normalization_golden.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, Object?>;
+    final cases = fixture['cases']! as List<Object?>;
+    for (final value in cases) {
+      final entry = value! as Map<String, Object?>;
+      final input = entry['input']! as String;
+      expect(
+        normalizer.normalizeText(input),
+        entry['normalized'],
+        reason: input,
+      );
+      expect(normalizer.normalizeKana(input), entry['kana'], reason: input);
+      expect(
+        normalizer.romajiToHiragana(input),
+        (entry['romaji']! as List<Object?>).cast<String>(),
+        reason: input,
+      );
+    }
+  });
+
+  test('Dart normalizer consumes the fixed search acceptance corpus', () {
+    const normalizer = JapaneseQueryNormalizer();
+    final fixture =
+        jsonDecode(
+              File(
+                '../../data/fixtures/search_acceptance_v1.json',
+              ).readAsStringSync(),
+            )
+            as Map<String, Object?>;
+    final lexicon = {
+      for (final value in fixture['lexicon']! as List<Object?>)
+        (value! as Map<String, Object?>)['entry_id']! as String: value,
+    };
+    final categories = fixture['categories']! as Map<String, Object?>;
+
+    for (final category in [
+      'common_words',
+      'verb_inflections',
+      'adjective_inflections',
+      'katakana',
+      'romaji',
+    ]) {
+      for (final value in categories[category]! as List<Object?>) {
+        final searchCase = value! as Map<String, Object?>;
+        final query = searchCase['raw_query']! as String;
+        final expectedId =
+            (searchCase['expected_entry_ids']! as List<Object?>).first!
+                as String;
+        final expected = lexicon[expectedId]! as Map<String, Object?>;
+        final candidateKeys = normalizer
+            .queryCandidates(query)
+            .map((candidate) => candidate.key)
+            .toSet();
+        final expectedKeys = {
+          normalizer.normalizeText(expected['headword']! as String),
+          normalizer.normalizeKana(expected['reading']! as String),
+        };
+        expect(
+          candidateKeys.intersection(expectedKeys),
+          isNotEmpty,
+          reason: '${searchCase['case_id']}: $query',
+        );
+        if (category == 'verb_inflections' ||
+            category == 'adjective_inflections') {
+          expect(
+            normalizer
+                .deinflect(query)
+                .map((candidate) => candidate.lemma)
+                .toSet(),
+            contains(searchCase['expected_analysis_lemma']),
+            reason: '${searchCase['case_id']}: $query',
+          );
+        }
+        if (category == 'romaji') {
+          expect(
+            normalizer.romajiToHiragana(query),
+            contains(normalizer.normalizeKana(expected['reading']! as String)),
+            reason: '${searchCase['case_id']}: $query',
+          );
+        }
+      }
     }
   });
 

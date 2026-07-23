@@ -1,0 +1,4424 @@
+{
+  "categories": {
+    "adjective_inflections": [
+      {
+        "case_id": "adjective-001",
+        "expected_analysis_lemma": "高い",
+        "expected_entry_ids": [
+          "golden_775979a197ea134f"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 高い from 高かった",
+        "raw_query": "高かった"
+      },
+      {
+        "case_id": "adjective-002",
+        "expected_analysis_lemma": "安い",
+        "expected_entry_ids": [
+          "golden_0513945a1ef519d4"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 安い from 安くない",
+        "raw_query": "安くない"
+      },
+      {
+        "case_id": "adjective-003",
+        "expected_analysis_lemma": "大きい",
+        "expected_entry_ids": [
+          "golden_f6377dcbb5644b66"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 大きい from 大きかった",
+        "raw_query": "大きかった"
+      },
+      {
+        "case_id": "adjective-004",
+        "expected_analysis_lemma": "小さい",
+        "expected_entry_ids": [
+          "golden_769a805249574c63"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 小さい from 小さくない",
+        "raw_query": "小さくない"
+      },
+      {
+        "case_id": "adjective-005",
+        "expected_analysis_lemma": "新しい",
+        "expected_entry_ids": [
+          "golden_288a95a40d95df2a"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 新しい from 新しくて",
+        "raw_query": "新しくて"
+      },
+      {
+        "case_id": "adjective-006",
+        "expected_analysis_lemma": "古い",
+        "expected_entry_ids": [
+          "golden_e5fd15d61360e08c"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 古い from 古かった",
+        "raw_query": "古かった"
+      },
+      {
+        "case_id": "adjective-007",
+        "expected_analysis_lemma": "良い",
+        "expected_entry_ids": [
+          "golden_b331c1fed177bb1f"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 良い from 良くない",
+        "raw_query": "良くない"
+      },
+      {
+        "case_id": "adjective-008",
+        "expected_analysis_lemma": "悪い",
+        "expected_entry_ids": [
+          "golden_04d486e7201c9493"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 悪い from 悪かった",
+        "raw_query": "悪かった"
+      },
+      {
+        "case_id": "adjective-009",
+        "expected_analysis_lemma": "暑い",
+        "expected_entry_ids": [
+          "golden_19be7f7be76662b4"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 暑い from 暑くない",
+        "raw_query": "暑くない"
+      },
+      {
+        "case_id": "adjective-010",
+        "expected_analysis_lemma": "寒い",
+        "expected_entry_ids": [
+          "golden_ea75e321b7efa3c8"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 寒い from 寒かった",
+        "raw_query": "寒かった"
+      },
+      {
+        "case_id": "adjective-011",
+        "expected_analysis_lemma": "難しい",
+        "expected_entry_ids": [
+          "golden_6ed0b6d4c374ad7d"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 難しい from 難しくて",
+        "raw_query": "難しくて"
+      },
+      {
+        "case_id": "adjective-012",
+        "expected_analysis_lemma": "易しい",
+        "expected_entry_ids": [
+          "golden_6927fec1fef07f23"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 易しい from 易しかった",
+        "raw_query": "易しかった"
+      },
+      {
+        "case_id": "adjective-013",
+        "expected_analysis_lemma": "面白い",
+        "expected_entry_ids": [
+          "golden_9825648af79e6812"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 面白い from 面白くない",
+        "raw_query": "面白くない"
+      },
+      {
+        "case_id": "adjective-014",
+        "expected_analysis_lemma": "忙しい",
+        "expected_entry_ids": [
+          "golden_5ee54e973899a9c4"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 忙しい from 忙しかった",
+        "raw_query": "忙しかった"
+      },
+      {
+        "case_id": "adjective-015",
+        "expected_analysis_lemma": "楽しい",
+        "expected_entry_ids": [
+          "golden_9cc2d4a9bbe12a86"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 楽しい from 楽しくて",
+        "raw_query": "楽しくて"
+      },
+      {
+        "case_id": "adjective-016",
+        "expected_analysis_lemma": "長い",
+        "expected_entry_ids": [
+          "golden_11b5462fa3a4dc8e"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 長い from 長かった",
+        "raw_query": "長かった"
+      },
+      {
+        "case_id": "adjective-017",
+        "expected_analysis_lemma": "短い",
+        "expected_entry_ids": [
+          "golden_456eae34da34353d"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 短い from 短くない",
+        "raw_query": "短くない"
+      },
+      {
+        "case_id": "adjective-018",
+        "expected_analysis_lemma": "近い",
+        "expected_entry_ids": [
+          "golden_d72e08381953f410"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 近い from 近かった",
+        "raw_query": "近かった"
+      },
+      {
+        "case_id": "adjective-019",
+        "expected_analysis_lemma": "遠い",
+        "expected_entry_ids": [
+          "golden_8b4370afb039f7f0"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-i lemma 遠い from 遠くない",
+        "raw_query": "遠くない"
+      },
+      {
+        "case_id": "adjective-020",
+        "expected_analysis_lemma": "静か",
+        "expected_entry_ids": [
+          "golden_61b57e2d470229e7"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover adjective-na lemma 静か from 静かだった",
+        "raw_query": "静かだった"
+      }
+    ],
+    "ambiguity": [
+      {
+        "case_id": "ambiguity-001",
+        "expected_entry_ids": [
+          "golden_40179481fcf65fd2",
+          "golden_8324491a1369e43a",
+          "golden_52ee65a6539bf376"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: あう",
+        "raw_query": "あう"
+      },
+      {
+        "case_id": "ambiguity-002",
+        "expected_entry_ids": [
+          "golden_944f21154c785640",
+          "golden_dcfa870c8a53f38c",
+          "golden_56ac401dba9b05af"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: かえる",
+        "raw_query": "かえる"
+      },
+      {
+        "case_id": "ambiguity-003",
+        "expected_entry_ids": [
+          "golden_d8a0261581dcf64d",
+          "golden_8405ebd3bf29cd0f",
+          "golden_a739af20170fe6fc"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: きく",
+        "raw_query": "きく"
+      },
+      {
+        "case_id": "ambiguity-004",
+        "expected_entry_ids": [
+          "golden_9ed3b36956458152",
+          "golden_897d3a6421355195",
+          "golden_fa318c378368f390"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: とる",
+        "raw_query": "とる"
+      },
+      {
+        "case_id": "ambiguity-005",
+        "expected_entry_ids": [
+          "golden_873a33bd6c138682",
+          "golden_788a8843ced9439e",
+          "golden_fb9e91d6616d9423"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: はし",
+        "raw_query": "はし"
+      },
+      {
+        "case_id": "ambiguity-006",
+        "expected_entry_ids": [
+          "golden_d060cd928492d459",
+          "golden_c316760df288cbc6",
+          "golden_f7e6b8131ec89854"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: かみ",
+        "raw_query": "かみ"
+      },
+      {
+        "case_id": "ambiguity-007",
+        "expected_entry_ids": [
+          "golden_7e87850c448d2815",
+          "golden_406f88e7315a1a5c"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: あめ",
+        "raw_query": "あめ"
+      },
+      {
+        "case_id": "ambiguity-008",
+        "expected_entry_ids": [
+          "golden_19be7f7be76662b4",
+          "golden_dec4a6497500becf",
+          "golden_4e55e094a09d003a"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: あつい",
+        "raw_query": "あつい"
+      },
+      {
+        "case_id": "ambiguity-009",
+        "expected_entry_ids": [
+          "golden_72460e05df01b083",
+          "golden_42f608e946a62d90"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: はやい",
+        "raw_query": "はやい"
+      },
+      {
+        "case_id": "ambiguity-010",
+        "expected_entry_ids": [
+          "golden_a584cd8f139044de",
+          "golden_eeaa1a65015b8578"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: なおす",
+        "raw_query": "なおす"
+      },
+      {
+        "case_id": "ambiguity-011",
+        "expected_entry_ids": [
+          "golden_eef9d372f5df3abd",
+          "golden_86eca158d6a52acc"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: うつす",
+        "raw_query": "うつす"
+      },
+      {
+        "case_id": "ambiguity-012",
+        "expected_entry_ids": [
+          "golden_fe32ad0454490ee5",
+          "golden_c0ecee8c2c683708"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: なく",
+        "raw_query": "なく"
+      },
+      {
+        "case_id": "ambiguity-013",
+        "expected_entry_ids": [
+          "golden_658ff53bc11454b9",
+          "golden_b540d68fb81ad768"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: あける",
+        "raw_query": "あける"
+      },
+      {
+        "case_id": "ambiguity-014",
+        "expected_entry_ids": [
+          "golden_d34997e828cb5bf5",
+          "golden_802b867125085a84",
+          "golden_f60937eaa61b505c"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: かく",
+        "raw_query": "かく"
+      },
+      {
+        "case_id": "ambiguity-015",
+        "expected_entry_ids": [
+          "golden_aac2f82732e1d978",
+          "golden_7dd1831e3fa88aa6",
+          "golden_e01a26a1036c44ec"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: さす",
+        "raw_query": "さす"
+      },
+      {
+        "case_id": "ambiguity-016",
+        "expected_entry_ids": [
+          "golden_f024ec5e9eeadadc",
+          "golden_64f4ae4e66b0cb92",
+          "golden_3ab7a11d1e94f767"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: つく",
+        "raw_query": "つく"
+      },
+      {
+        "case_id": "ambiguity-017",
+        "expected_entry_ids": [
+          "golden_385cc0d9ee98fb54",
+          "golden_3bd0c1c724333bb6",
+          "golden_4eac64968d8e6ac7"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: みる",
+        "raw_query": "みる"
+      },
+      {
+        "case_id": "ambiguity-018",
+        "expected_entry_ids": [
+          "golden_9e0eeba39759de91",
+          "golden_a7d2df69375905ac"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: のる",
+        "raw_query": "のる"
+      },
+      {
+        "case_id": "ambiguity-019",
+        "expected_entry_ids": [
+          "golden_9c8c9f9a1cdeeed7",
+          "golden_9e794067bd86f490",
+          "golden_ee7ea6a2913f332a"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: はかる",
+        "raw_query": "はかる"
+      },
+      {
+        "case_id": "ambiguity-020",
+        "expected_entry_ids": [
+          "golden_86592fe77e48d513",
+          "golden_72ca4874af084ef0"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "same-reading alternatives remain visible in frequency order: あがる",
+        "raw_query": "あがる"
+      }
+    ],
+    "common_words": [
+      {
+        "case_id": "common-001",
+        "expected_entry_ids": [
+          "golden_b6944a5fe27104bc"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 私／わたし",
+        "raw_query": "私"
+      },
+      {
+        "case_id": "common-002",
+        "expected_entry_ids": [
+          "golden_6b9362de88a7a26b"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 今日／きょう",
+        "raw_query": "今日"
+      },
+      {
+        "case_id": "common-003",
+        "expected_entry_ids": [
+          "golden_bec9ce9d08c81020"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 明日／あした",
+        "raw_query": "明日"
+      },
+      {
+        "case_id": "common-004",
+        "expected_entry_ids": [
+          "golden_eb208b6436bbcb21"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 昨日／きのう",
+        "raw_query": "昨日"
+      },
+      {
+        "case_id": "common-005",
+        "expected_entry_ids": [
+          "golden_ad7167347a2ac285"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 人／ひと",
+        "raw_query": "人"
+      },
+      {
+        "case_id": "common-006",
+        "expected_entry_ids": [
+          "golden_f6a8c4a23b51033a"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 時間／じかん",
+        "raw_query": "時間"
+      },
+      {
+        "case_id": "common-007",
+        "expected_entry_ids": [
+          "golden_9752b818f9f88b6d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 日本／にほん",
+        "raw_query": "日本"
+      },
+      {
+        "case_id": "common-008",
+        "expected_entry_ids": [
+          "golden_42edc1b837791e0c"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 学校／がっこう",
+        "raw_query": "学校"
+      },
+      {
+        "case_id": "common-009",
+        "expected_entry_ids": [
+          "golden_497356cf064630b2"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 先生／せんせい",
+        "raw_query": "先生"
+      },
+      {
+        "case_id": "common-010",
+        "expected_entry_ids": [
+          "golden_9567eaf8fe9bef37"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 学生／がくせい",
+        "raw_query": "学生"
+      },
+      {
+        "case_id": "common-011",
+        "expected_entry_ids": [
+          "golden_d9898f8a95b6ed6d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 友達／ともだち",
+        "raw_query": "友達"
+      },
+      {
+        "case_id": "common-012",
+        "expected_entry_ids": [
+          "golden_8af58778f14e64b3"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 家／いえ",
+        "raw_query": "家"
+      },
+      {
+        "case_id": "common-013",
+        "expected_entry_ids": [
+          "golden_c506bd7fb201ea98"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 会社／かいしゃ",
+        "raw_query": "会社"
+      },
+      {
+        "case_id": "common-014",
+        "expected_entry_ids": [
+          "golden_d29031265cf4e338"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 駅／えき",
+        "raw_query": "駅"
+      },
+      {
+        "case_id": "common-015",
+        "expected_entry_ids": [
+          "golden_dc7f5fc156cf2d46"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 電車／でんしゃ",
+        "raw_query": "電車"
+      },
+      {
+        "case_id": "common-016",
+        "expected_entry_ids": [
+          "golden_f71f9de562232760"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 車／くるま",
+        "raw_query": "車"
+      },
+      {
+        "case_id": "common-017",
+        "expected_entry_ids": [
+          "golden_0ac038632611f11f"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 本／ほん",
+        "raw_query": "本"
+      },
+      {
+        "case_id": "common-018",
+        "expected_entry_ids": [
+          "golden_f906b238c9c2ae0d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 新聞／しんぶん",
+        "raw_query": "新聞"
+      },
+      {
+        "case_id": "common-019",
+        "expected_entry_ids": [
+          "golden_28ddfdc9290cd67d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 水／みず",
+        "raw_query": "水"
+      },
+      {
+        "case_id": "common-020",
+        "expected_entry_ids": [
+          "golden_d18ca13aa38627a5"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: お茶／おちゃ",
+        "raw_query": "お茶"
+      },
+      {
+        "case_id": "common-021",
+        "expected_entry_ids": [
+          "golden_86d0702471ee429f"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: ご飯／ごはん",
+        "raw_query": "ご飯"
+      },
+      {
+        "case_id": "common-022",
+        "expected_entry_ids": [
+          "golden_40ae6dddb10aa4bd"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 朝／あさ",
+        "raw_query": "朝"
+      },
+      {
+        "case_id": "common-023",
+        "expected_entry_ids": [
+          "golden_4a9566e87de1b2a4"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 昼／ひる",
+        "raw_query": "昼"
+      },
+      {
+        "case_id": "common-024",
+        "expected_entry_ids": [
+          "golden_ba0c8a160c3322c6"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 夜／よる",
+        "raw_query": "夜"
+      },
+      {
+        "case_id": "common-025",
+        "expected_entry_ids": [
+          "golden_09558b341dc00914"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 名前／なまえ",
+        "raw_query": "名前"
+      },
+      {
+        "case_id": "common-026",
+        "expected_entry_ids": [
+          "golden_cef4a2049ff3a5c0"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 言葉／ことば",
+        "raw_query": "言葉"
+      },
+      {
+        "case_id": "common-027",
+        "expected_entry_ids": [
+          "golden_2850b5703e8b21b2"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 天気／てんき",
+        "raw_query": "天気"
+      },
+      {
+        "case_id": "common-028",
+        "expected_entry_ids": [
+          "golden_7e87850c448d2815"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 雨／あめ",
+        "raw_query": "雨"
+      },
+      {
+        "case_id": "common-029",
+        "expected_entry_ids": [
+          "golden_79db1765ce267dbf"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 雪／ゆき",
+        "raw_query": "雪"
+      },
+      {
+        "case_id": "common-030",
+        "expected_entry_ids": [
+          "golden_ddd9dca106e21232"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 山／やま",
+        "raw_query": "山"
+      },
+      {
+        "case_id": "common-031",
+        "expected_entry_ids": [
+          "golden_46f8fe65f21893ff"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 川／かわ",
+        "raw_query": "川"
+      },
+      {
+        "case_id": "common-032",
+        "expected_entry_ids": [
+          "golden_47c1227c459bbdad"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 海／うみ",
+        "raw_query": "海"
+      },
+      {
+        "case_id": "common-033",
+        "expected_entry_ids": [
+          "golden_b4a022a9e7a6a460"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 道／みち",
+        "raw_query": "道"
+      },
+      {
+        "case_id": "common-034",
+        "expected_entry_ids": [
+          "golden_e70f9243d4c7bf9e"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 店／みせ",
+        "raw_query": "店"
+      },
+      {
+        "case_id": "common-035",
+        "expected_entry_ids": [
+          "golden_152ea0d72dc53601"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 病院／びょういん",
+        "raw_query": "病院"
+      },
+      {
+        "case_id": "common-036",
+        "expected_entry_ids": [
+          "golden_24df874727705e0d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 電話／でんわ",
+        "raw_query": "電話"
+      },
+      {
+        "case_id": "common-037",
+        "expected_entry_ids": [
+          "golden_cdf28ddaf8371c88"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 仕事／しごと",
+        "raw_query": "仕事"
+      },
+      {
+        "case_id": "common-038",
+        "expected_entry_ids": [
+          "golden_ebdaef0f21db9377"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 休み／やすみ",
+        "raw_query": "休み"
+      },
+      {
+        "case_id": "common-039",
+        "expected_entry_ids": [
+          "golden_23523bbf8d9c4bfb"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 部屋／へや",
+        "raw_query": "部屋"
+      },
+      {
+        "case_id": "common-040",
+        "expected_entry_ids": [
+          "golden_2c2d6564a0bccf60"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 窓／まど",
+        "raw_query": "窓"
+      },
+      {
+        "case_id": "common-041",
+        "expected_entry_ids": [
+          "golden_0cbee2d1028430b9"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 机／つくえ",
+        "raw_query": "机"
+      },
+      {
+        "case_id": "common-042",
+        "expected_entry_ids": [
+          "golden_7863488ec2b82798"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 椅子／いす",
+        "raw_query": "椅子"
+      },
+      {
+        "case_id": "common-043",
+        "expected_entry_ids": [
+          "golden_4cd1238bcb91e890"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 犬／いぬ",
+        "raw_query": "犬"
+      },
+      {
+        "case_id": "common-044",
+        "expected_entry_ids": [
+          "golden_123a10eb50b08101"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 猫／ねこ",
+        "raw_query": "猫"
+      },
+      {
+        "case_id": "common-045",
+        "expected_entry_ids": [
+          "golden_5c1c2120b516d6b6"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 魚／さかな",
+        "raw_query": "魚"
+      },
+      {
+        "case_id": "common-046",
+        "expected_entry_ids": [
+          "golden_683f3e7fb08574be"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 鳥／とり",
+        "raw_query": "鳥"
+      },
+      {
+        "case_id": "common-047",
+        "expected_entry_ids": [
+          "golden_fa6a4c8f27b44300"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 花／はな",
+        "raw_query": "花"
+      },
+      {
+        "case_id": "common-048",
+        "expected_entry_ids": [
+          "golden_a5d390dc48050f6a"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 木／き",
+        "raw_query": "木"
+      },
+      {
+        "case_id": "common-049",
+        "expected_entry_ids": [
+          "golden_19bd7db9d5d0ca67"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 空／そら",
+        "raw_query": "空"
+      },
+      {
+        "case_id": "common-050",
+        "expected_entry_ids": [
+          "golden_09d74d630a4550be"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 町／まち",
+        "raw_query": "町"
+      },
+      {
+        "case_id": "common-051",
+        "expected_entry_ids": [
+          "golden_ee158182835b4b5c"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 国／くに",
+        "raw_query": "国"
+      },
+      {
+        "case_id": "common-052",
+        "expected_entry_ids": [
+          "golden_42d6dbdfe036bf16"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 問題／もんだい",
+        "raw_query": "問題"
+      },
+      {
+        "case_id": "common-053",
+        "expected_entry_ids": [
+          "golden_f5d831590911ff1c"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 質問／しつもん",
+        "raw_query": "質問"
+      },
+      {
+        "case_id": "common-054",
+        "expected_entry_ids": [
+          "golden_da34afb3d61f55af"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 答え／こたえ",
+        "raw_query": "答え"
+      },
+      {
+        "case_id": "common-055",
+        "expected_entry_ids": [
+          "golden_83b219893ecaa958"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 音楽／おんがく",
+        "raw_query": "音楽"
+      },
+      {
+        "case_id": "common-056",
+        "expected_entry_ids": [
+          "golden_7b9d866e6dc2a601"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 映画／えいが",
+        "raw_query": "映画"
+      },
+      {
+        "case_id": "common-057",
+        "expected_entry_ids": [
+          "golden_d5901ecbf5fb051a"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 写真／しゃしん",
+        "raw_query": "写真"
+      },
+      {
+        "case_id": "common-058",
+        "expected_entry_ids": [
+          "golden_6ab8f730431c1934"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 料理／りょうり",
+        "raw_query": "料理"
+      },
+      {
+        "case_id": "common-059",
+        "expected_entry_ids": [
+          "golden_2e3ba98d2367811b"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 旅行／りょこう",
+        "raw_query": "旅行"
+      },
+      {
+        "case_id": "common-060",
+        "expected_entry_ids": [
+          "golden_0e853c977cf19f9e"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 生活／せいかつ",
+        "raw_query": "生活"
+      },
+      {
+        "case_id": "common-061",
+        "expected_entry_ids": [
+          "golden_ba5fab138253d333"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 文化／ぶんか",
+        "raw_query": "文化"
+      },
+      {
+        "case_id": "common-062",
+        "expected_entry_ids": [
+          "golden_b549323b238f2dea"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 意味／いみ",
+        "raw_query": "意味"
+      },
+      {
+        "case_id": "common-063",
+        "expected_entry_ids": [
+          "golden_576cf9f4885e63e6"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 例／れい",
+        "raw_query": "例"
+      },
+      {
+        "case_id": "common-064",
+        "expected_entry_ids": [
+          "golden_07f353ef981c0375"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 前／まえ",
+        "raw_query": "前"
+      },
+      {
+        "case_id": "common-065",
+        "expected_entry_ids": [
+          "golden_4125c1bacf52ffca"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 後ろ／うしろ",
+        "raw_query": "後ろ"
+      },
+      {
+        "case_id": "common-066",
+        "expected_entry_ids": [
+          "golden_c0f58bfab32460c7"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 上／うえ",
+        "raw_query": "上"
+      },
+      {
+        "case_id": "common-067",
+        "expected_entry_ids": [
+          "golden_520308b3c3b402d4"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 下／した",
+        "raw_query": "下"
+      },
+      {
+        "case_id": "common-068",
+        "expected_entry_ids": [
+          "golden_5849925b131d3c36"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 中／なか",
+        "raw_query": "中"
+      },
+      {
+        "case_id": "common-069",
+        "expected_entry_ids": [
+          "golden_6109638dac5350e2"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 外／そと",
+        "raw_query": "外"
+      },
+      {
+        "case_id": "common-070",
+        "expected_entry_ids": [
+          "golden_ed6bd4d73b76f032"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 右／みぎ",
+        "raw_query": "右"
+      },
+      {
+        "case_id": "common-071",
+        "expected_entry_ids": [
+          "golden_14be5202d5b3715c"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 左／ひだり",
+        "raw_query": "左"
+      },
+      {
+        "case_id": "common-072",
+        "expected_entry_ids": [
+          "golden_b89224decc1b0706"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 東／ひがし",
+        "raw_query": "東"
+      },
+      {
+        "case_id": "common-073",
+        "expected_entry_ids": [
+          "golden_6f2e359ff6c81f5d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 西／にし",
+        "raw_query": "西"
+      },
+      {
+        "case_id": "common-074",
+        "expected_entry_ids": [
+          "golden_e1461a487e422b57"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 南／みなみ",
+        "raw_query": "南"
+      },
+      {
+        "case_id": "common-075",
+        "expected_entry_ids": [
+          "golden_b0a03cee753b0626"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 北／きた",
+        "raw_query": "北"
+      },
+      {
+        "case_id": "common-076",
+        "expected_entry_ids": [
+          "golden_18597113ac94608b"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 春／はる",
+        "raw_query": "春"
+      },
+      {
+        "case_id": "common-077",
+        "expected_entry_ids": [
+          "golden_a4e52ef19d814551"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 夏／なつ",
+        "raw_query": "夏"
+      },
+      {
+        "case_id": "common-078",
+        "expected_entry_ids": [
+          "golden_85675bbfdbe64af4"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 秋／あき",
+        "raw_query": "秋"
+      },
+      {
+        "case_id": "common-079",
+        "expected_entry_ids": [
+          "golden_7c4d1abbdd617033"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 冬／ふゆ",
+        "raw_query": "冬"
+      },
+      {
+        "case_id": "common-080",
+        "expected_entry_ids": [
+          "golden_5d8047464c5db266"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 一／いち",
+        "raw_query": "一"
+      },
+      {
+        "case_id": "common-081",
+        "expected_entry_ids": [
+          "golden_7fc81b0ddd17b89f"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 二／に",
+        "raw_query": "二"
+      },
+      {
+        "case_id": "common-082",
+        "expected_entry_ids": [
+          "golden_1bedf722c04a58fa"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 三／さん",
+        "raw_query": "三"
+      },
+      {
+        "case_id": "common-083",
+        "expected_entry_ids": [
+          "golden_96a032e15dda9e17"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 百／ひゃく",
+        "raw_query": "百"
+      },
+      {
+        "case_id": "common-084",
+        "expected_entry_ids": [
+          "golden_86ef0852f80fa5ed"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 千／せん",
+        "raw_query": "千"
+      },
+      {
+        "case_id": "common-085",
+        "expected_entry_ids": [
+          "golden_30f18c7ebfd6a62b"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 円／えん",
+        "raw_query": "円"
+      },
+      {
+        "case_id": "common-086",
+        "expected_entry_ids": [
+          "golden_5fd1d37596998295"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 子供／こども",
+        "raw_query": "子供"
+      },
+      {
+        "case_id": "common-087",
+        "expected_entry_ids": [
+          "golden_2cc50c2d66a6706a"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 大人／おとな",
+        "raw_query": "大人"
+      },
+      {
+        "case_id": "common-088",
+        "expected_entry_ids": [
+          "golden_4b9dfeafcab4c54d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 男／おとこ",
+        "raw_query": "男"
+      },
+      {
+        "case_id": "common-089",
+        "expected_entry_ids": [
+          "golden_4d9423288cb270ec"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 女／おんな",
+        "raw_query": "女"
+      },
+      {
+        "case_id": "common-090",
+        "expected_entry_ids": [
+          "golden_d15ca6ea1179aeac"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 父／ちち",
+        "raw_query": "父"
+      },
+      {
+        "case_id": "common-091",
+        "expected_entry_ids": [
+          "golden_7fa86c660a00ef18"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 母／はは",
+        "raw_query": "母"
+      },
+      {
+        "case_id": "common-092",
+        "expected_entry_ids": [
+          "golden_cda9169e9fa2887b"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 兄／あに",
+        "raw_query": "兄"
+      },
+      {
+        "case_id": "common-093",
+        "expected_entry_ids": [
+          "golden_e3507900ad06843d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 姉／あね",
+        "raw_query": "姉"
+      },
+      {
+        "case_id": "common-094",
+        "expected_entry_ids": [
+          "golden_7e8dc4d63e82bcc6"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 弟／おとうと",
+        "raw_query": "弟"
+      },
+      {
+        "case_id": "common-095",
+        "expected_entry_ids": [
+          "golden_735d35e5b1be5f5e"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 妹／いもうと",
+        "raw_query": "妹"
+      },
+      {
+        "case_id": "common-096",
+        "expected_entry_ids": [
+          "golden_6e098e54aa638964"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 体／からだ",
+        "raw_query": "体"
+      },
+      {
+        "case_id": "common-097",
+        "expected_entry_ids": [
+          "golden_b1ff052549eddc45"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 手／て",
+        "raw_query": "手"
+      },
+      {
+        "case_id": "common-098",
+        "expected_entry_ids": [
+          "golden_64289653ec1df78f"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 足／あし",
+        "raw_query": "足"
+      },
+      {
+        "case_id": "common-099",
+        "expected_entry_ids": [
+          "golden_6c0b9f3278dcbf63"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 目／め",
+        "raw_query": "目"
+      },
+      {
+        "case_id": "common-100",
+        "expected_entry_ids": [
+          "golden_9e64feeea5ea4d4d"
+        ],
+        "expected_match_kind": "primary_exact",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "distinct common learner word: 口／くち",
+        "raw_query": "口"
+      }
+    ],
+    "katakana": [
+      {
+        "case_id": "katakana-001",
+        "expected_entry_ids": [
+          "golden_f5f2c2dca175f502"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for コーヒー",
+        "raw_query": "コーヒー"
+      },
+      {
+        "case_id": "katakana-002",
+        "expected_entry_ids": [
+          "golden_b4d66aa2f6f4763f"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for テレビ",
+        "raw_query": "ﾃﾚﾋﾞ"
+      },
+      {
+        "case_id": "katakana-003",
+        "expected_entry_ids": [
+          "golden_896d3ced1b419e94"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for ラジオ",
+        "raw_query": "ラジオ"
+      },
+      {
+        "case_id": "katakana-004",
+        "expected_entry_ids": [
+          "golden_a20f68bce3e18ddb"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for コンピューター",
+        "raw_query": "ｺﾝﾋﾟｭｰﾀｰ"
+      },
+      {
+        "case_id": "katakana-005",
+        "expected_entry_ids": [
+          "golden_29ebffd36857a087"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for スマートフォン",
+        "raw_query": "ｽﾏｰﾄﾌｫﾝ"
+      },
+      {
+        "case_id": "katakana-006",
+        "expected_entry_ids": [
+          "golden_f5f3de79f5510640"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for インターネット",
+        "raw_query": "ｲﾝﾀｰﾈｯﾄ"
+      },
+      {
+        "case_id": "katakana-007",
+        "expected_entry_ids": [
+          "golden_9d97ee4082e2303f"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for ホテル",
+        "raw_query": "ホテル"
+      },
+      {
+        "case_id": "katakana-008",
+        "expected_entry_ids": [
+          "golden_61c233ab6a5e70ab"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for レストラン",
+        "raw_query": "ﾚｽﾄﾗﾝ"
+      },
+      {
+        "case_id": "katakana-009",
+        "expected_entry_ids": [
+          "golden_0967db6c17f033c6"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for タクシー",
+        "raw_query": "ﾀｸｼｰ"
+      },
+      {
+        "case_id": "katakana-010",
+        "expected_entry_ids": [
+          "golden_826a124ad930bcbc"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for バス",
+        "raw_query": "バス"
+      },
+      {
+        "case_id": "katakana-011",
+        "expected_entry_ids": [
+          "golden_e830ed120870a0d7"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for スーパー",
+        "raw_query": "スーパー"
+      },
+      {
+        "case_id": "katakana-012",
+        "expected_entry_ids": [
+          "golden_09f36b13c028cfc7"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for コンビニ",
+        "raw_query": "ｺﾝﾋﾞﾆ"
+      },
+      {
+        "case_id": "katakana-013",
+        "expected_entry_ids": [
+          "golden_d7ac08a1ae47f610"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for カメラ",
+        "raw_query": "カメラ"
+      },
+      {
+        "case_id": "katakana-014",
+        "expected_entry_ids": [
+          "golden_6e163dda1636638b"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for ピアノ",
+        "raw_query": "ﾋﾟｱﾉ"
+      },
+      {
+        "case_id": "katakana-015",
+        "expected_entry_ids": [
+          "golden_e1ede1d758f02ca9"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for ギター",
+        "raw_query": "ｷﾞﾀｰ"
+      },
+      {
+        "case_id": "katakana-016",
+        "expected_entry_ids": [
+          "golden_3f59c469d8f61b8c"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for サッカー",
+        "raw_query": "ｻｯｶｰ"
+      },
+      {
+        "case_id": "katakana-017",
+        "expected_entry_ids": [
+          "golden_daf7565bf90ccd37"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for テニス",
+        "raw_query": "テニス"
+      },
+      {
+        "case_id": "katakana-018",
+        "expected_entry_ids": [
+          "golden_3ad79496437df6db"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for パン",
+        "raw_query": "パン"
+      },
+      {
+        "case_id": "katakana-019",
+        "expected_entry_ids": [
+          "golden_ffd91fe01a103e73"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for ジュース",
+        "raw_query": "ジュース"
+      },
+      {
+        "case_id": "katakana-020",
+        "expected_entry_ids": [
+          "golden_93fbee8b5477011f"
+        ],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "katakana/width normalization for アイスクリーム",
+        "raw_query": "アイスクリーム"
+      }
+    ],
+    "negative": [
+      {
+        "case_id": "negative-001",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "unregistered Japanese phrase",
+        "raw_query": "存在しない語"
+      },
+      {
+        "case_id": "negative-002",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "unregistered marker A",
+        "raw_query": "未登録語彙甲"
+      },
+      {
+        "case_id": "negative-003",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "unregistered marker B",
+        "raw_query": "未登録語彙乙"
+      },
+      {
+        "case_id": "negative-004",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "invented compound",
+        "raw_query": "架空辞書語"
+      },
+      {
+        "case_id": "negative-005",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "unregistered marker C",
+        "raw_query": "仮想単語丙"
+      },
+      {
+        "case_id": "negative-006",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "malformed doubled dictionary ending",
+        "raw_query": "食べるる"
+      },
+      {
+        "case_id": "negative-007",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "malformed polite attachment",
+        "raw_query": "行くました"
+      },
+      {
+        "case_id": "negative-008",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "malformed adjective past",
+        "raw_query": "高いかった"
+      },
+      {
+        "case_id": "negative-009",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "malformed adjective copula",
+        "raw_query": "静かいだった"
+      },
+      {
+        "case_id": "negative-010",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "duplicated final kanji",
+        "raw_query": "学校校"
+      },
+      {
+        "case_id": "negative-011",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "duplicated final kanji",
+        "raw_query": "新聞聞"
+      },
+      {
+        "case_id": "negative-012",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "misspelled katakana",
+        "raw_query": "コヒヒー"
+      },
+      {
+        "case_id": "negative-013",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "overlong kana",
+        "raw_query": "とうきょううう"
+      },
+      {
+        "case_id": "negative-014",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "repeated kana tail",
+        "raw_query": "かんじじじ"
+      },
+      {
+        "case_id": "negative-015",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "extra long-vowel marks",
+        "raw_query": "スーパーーー"
+      },
+      {
+        "case_id": "negative-016",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "non-convertible romaji",
+        "raw_query": "zzzznotword"
+      },
+      {
+        "case_id": "negative-017",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "non-convertible romaji",
+        "raw_query": "qqqq"
+      },
+      {
+        "case_id": "negative-018",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "non-convertible romaji",
+        "raw_query": "xyzabc"
+      },
+      {
+        "case_id": "negative-019",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "mixed digit negative",
+        "raw_query": "123不存在"
+      },
+      {
+        "case_id": "negative-020",
+        "expected_entry_ids": [],
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "repeated unattested form",
+        "raw_query": "無無無無"
+      }
+    ],
+    "romaji": [
+      {
+        "case_id": "romaji-001",
+        "expected_entry_ids": [
+          "golden_ec4fa43155421fc1"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input taberu → たべる",
+        "raw_query": "taberu"
+      },
+      {
+        "case_id": "romaji-002",
+        "expected_entry_ids": [
+          "golden_385cc0d9ee98fb54"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input miru → みる",
+        "raw_query": "miru"
+      },
+      {
+        "case_id": "romaji-003",
+        "expected_entry_ids": [
+          "golden_d34997e828cb5bf5"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input kaku → かく",
+        "raw_query": "kaku"
+      },
+      {
+        "case_id": "romaji-004",
+        "expected_entry_ids": [
+          "golden_24f188a06d2c59d1"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input yomu → よむ",
+        "raw_query": "yomu"
+      },
+      {
+        "case_id": "romaji-005",
+        "expected_entry_ids": [
+          "golden_dcd3acd6b659a205"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input nomu → のむ",
+        "raw_query": "nomu"
+      },
+      {
+        "case_id": "romaji-006",
+        "expected_entry_ids": [
+          "golden_4397422fc9fb1dc4"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input iku → いく",
+        "raw_query": "iku"
+      },
+      {
+        "case_id": "romaji-007",
+        "expected_entry_ids": [
+          "golden_bc01756b4d895bbb"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input kuru → くる",
+        "raw_query": "kuru"
+      },
+      {
+        "case_id": "romaji-008",
+        "expected_entry_ids": [
+          "golden_dfb6d8ba613bdf80"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input suru → する",
+        "raw_query": "suru"
+      },
+      {
+        "case_id": "romaji-009",
+        "expected_entry_ids": [
+          "golden_42edc1b837791e0c"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input gakkou → がっこう",
+        "raw_query": "gakkou"
+      },
+      {
+        "case_id": "romaji-010",
+        "expected_entry_ids": [
+          "golden_497356cf064630b2"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input sensei → せんせい",
+        "raw_query": "sensei"
+      },
+      {
+        "case_id": "romaji-011",
+        "expected_entry_ids": [
+          "golden_d9898f8a95b6ed6d"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input tomodachi → ともだち",
+        "raw_query": "tomodachi"
+      },
+      {
+        "case_id": "romaji-012",
+        "expected_entry_ids": [
+          "golden_f906b238c9c2ae0d"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input shimbun → しんぶん",
+        "raw_query": "shimbun"
+      },
+      {
+        "case_id": "romaji-013",
+        "expected_entry_ids": [
+          "golden_dc7f5fc156cf2d46"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input densha → でんしゃ",
+        "raw_query": "densha"
+      },
+      {
+        "case_id": "romaji-014",
+        "expected_entry_ids": [
+          "golden_152ea0d72dc53601"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input byouin → びょういん",
+        "raw_query": "byouin"
+      },
+      {
+        "case_id": "romaji-015",
+        "expected_entry_ids": [
+          "golden_2e3ba98d2367811b"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input ryokou → りょこう",
+        "raw_query": "ryokou"
+      },
+      {
+        "case_id": "romaji-016",
+        "expected_entry_ids": [
+          "golden_83b219893ecaa958"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input ongaku → おんがく",
+        "raw_query": "ongaku"
+      },
+      {
+        "case_id": "romaji-017",
+        "expected_entry_ids": [
+          "golden_a20f68bce3e18ddb"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input konpyuutaa → コンピューター",
+        "raw_query": "konpyuutaa"
+      },
+      {
+        "case_id": "romaji-018",
+        "expected_entry_ids": [
+          "golden_f5f2c2dca175f502"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input koohii → コーヒー",
+        "raw_query": "koohii"
+      },
+      {
+        "case_id": "romaji-019",
+        "expected_entry_ids": [
+          "golden_ffd91fe01a103e73"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input juusu → ジュース",
+        "raw_query": "juusu"
+      },
+      {
+        "case_id": "romaji-020",
+        "expected_entry_ids": [
+          "golden_3f59c469d8f61b8c"
+        ],
+        "expected_match_kind": "romaji",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "common Hepburn input sakkaa → サッカー",
+        "raw_query": "sakkaa"
+      }
+    ],
+    "verb_inflections": [
+      {
+        "case_id": "verb-001",
+        "expected_analysis_lemma": "食べる",
+        "expected_entry_ids": [
+          "golden_ec4fa43155421fc1"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 食べる from 食べました",
+        "raw_query": "食べました"
+      },
+      {
+        "case_id": "verb-002",
+        "expected_analysis_lemma": "見る",
+        "expected_entry_ids": [
+          "golden_385cc0d9ee98fb54"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 見る from 見ました",
+        "raw_query": "見ました"
+      },
+      {
+        "case_id": "verb-003",
+        "expected_analysis_lemma": "起きる",
+        "expected_entry_ids": [
+          "golden_72c5b362c4f2f37e"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 起きる from 起きました",
+        "raw_query": "起きました"
+      },
+      {
+        "case_id": "verb-004",
+        "expected_analysis_lemma": "寝る",
+        "expected_entry_ids": [
+          "golden_50eb0e80c367983f"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 寝る from 寝ました",
+        "raw_query": "寝ました"
+      },
+      {
+        "case_id": "verb-005",
+        "expected_analysis_lemma": "教える",
+        "expected_entry_ids": [
+          "golden_de83de37aff5e878"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 教える from 教えました",
+        "raw_query": "教えました"
+      },
+      {
+        "case_id": "verb-006",
+        "expected_analysis_lemma": "覚える",
+        "expected_entry_ids": [
+          "golden_0ec838cc07eaa6ca"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 覚える from 覚えました",
+        "raw_query": "覚えました"
+      },
+      {
+        "case_id": "verb-007",
+        "expected_analysis_lemma": "忘れる",
+        "expected_entry_ids": [
+          "golden_53c63c8d3e254771"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 忘れる from 忘れました",
+        "raw_query": "忘れました"
+      },
+      {
+        "case_id": "verb-008",
+        "expected_analysis_lemma": "開ける",
+        "expected_entry_ids": [
+          "golden_658ff53bc11454b9"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 開ける from 開けました",
+        "raw_query": "開けました"
+      },
+      {
+        "case_id": "verb-009",
+        "expected_analysis_lemma": "閉める",
+        "expected_entry_ids": [
+          "golden_98e990bf1d44ebbc"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 閉める from 閉めました",
+        "raw_query": "閉めました"
+      },
+      {
+        "case_id": "verb-010",
+        "expected_analysis_lemma": "借りる",
+        "expected_entry_ids": [
+          "golden_fcc4b149bcdb7e18"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 借りる from 借りました",
+        "raw_query": "借りました"
+      },
+      {
+        "case_id": "verb-011",
+        "expected_analysis_lemma": "いる",
+        "expected_entry_ids": [
+          "golden_b3624d02db128b95"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma いる from いました",
+        "raw_query": "いました"
+      },
+      {
+        "case_id": "verb-012",
+        "expected_analysis_lemma": "着る",
+        "expected_entry_ids": [
+          "golden_8298c6a732a720d2"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 着る from 着ました",
+        "raw_query": "着ました"
+      },
+      {
+        "case_id": "verb-013",
+        "expected_analysis_lemma": "出る",
+        "expected_entry_ids": [
+          "golden_b2a9df4d0301517a"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 出る from 出ました",
+        "raw_query": "出ました"
+      },
+      {
+        "case_id": "verb-014",
+        "expected_analysis_lemma": "降りる",
+        "expected_entry_ids": [
+          "golden_2438f15019e70b74"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 降りる from 降りました",
+        "raw_query": "降りました"
+      },
+      {
+        "case_id": "verb-015",
+        "expected_analysis_lemma": "始める",
+        "expected_entry_ids": [
+          "golden_79261a065ba555a5"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 始める from 始めました",
+        "raw_query": "始めました"
+      },
+      {
+        "case_id": "verb-016",
+        "expected_analysis_lemma": "考える",
+        "expected_entry_ids": [
+          "golden_4f9ae60eff62c41a"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 考える from 考えました",
+        "raw_query": "考えました"
+      },
+      {
+        "case_id": "verb-017",
+        "expected_analysis_lemma": "調べる",
+        "expected_entry_ids": [
+          "golden_6a131fc93d7b6588"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 調べる from 調べました",
+        "raw_query": "調べました"
+      },
+      {
+        "case_id": "verb-018",
+        "expected_analysis_lemma": "続ける",
+        "expected_entry_ids": [
+          "golden_536e42da8b8453a7"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 続ける from 続けました",
+        "raw_query": "続けました"
+      },
+      {
+        "case_id": "verb-019",
+        "expected_analysis_lemma": "止める",
+        "expected_entry_ids": [
+          "golden_8b215c59258849ce"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 止める from 止めました",
+        "raw_query": "止めました"
+      },
+      {
+        "case_id": "verb-020",
+        "expected_analysis_lemma": "生きる",
+        "expected_entry_ids": [
+          "golden_80b68bbbc8708d49"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-ichidan lemma 生きる from 生きました",
+        "raw_query": "生きました"
+      },
+      {
+        "case_id": "verb-021",
+        "expected_analysis_lemma": "書く",
+        "expected_entry_ids": [
+          "golden_d34997e828cb5bf5"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 書く from 書いて",
+        "raw_query": "書いて"
+      },
+      {
+        "case_id": "verb-022",
+        "expected_analysis_lemma": "聞く",
+        "expected_entry_ids": [
+          "golden_d8a0261581dcf64d"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 聞く from 聞いた",
+        "raw_query": "聞いた"
+      },
+      {
+        "case_id": "verb-023",
+        "expected_analysis_lemma": "歩く",
+        "expected_entry_ids": [
+          "golden_a76603aae6e4b82d"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 歩く from 歩きました",
+        "raw_query": "歩きました"
+      },
+      {
+        "case_id": "verb-024",
+        "expected_analysis_lemma": "泳ぐ",
+        "expected_entry_ids": [
+          "golden_76a7f713c3dbea3e"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 泳ぐ from 泳いで",
+        "raw_query": "泳いで"
+      },
+      {
+        "case_id": "verb-025",
+        "expected_analysis_lemma": "話す",
+        "expected_entry_ids": [
+          "golden_0b969a8c0944cc8e"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 話す from 話した",
+        "raw_query": "話した"
+      },
+      {
+        "case_id": "verb-026",
+        "expected_analysis_lemma": "待つ",
+        "expected_entry_ids": [
+          "golden_6f30c5c5938fbd0c"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 待つ from 待って",
+        "raw_query": "待って"
+      },
+      {
+        "case_id": "verb-027",
+        "expected_analysis_lemma": "持つ",
+        "expected_entry_ids": [
+          "golden_516ad1128c719a35"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 持つ from 持った",
+        "raw_query": "持った"
+      },
+      {
+        "case_id": "verb-028",
+        "expected_analysis_lemma": "立つ",
+        "expected_entry_ids": [
+          "golden_17e3177c62d509a9"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 立つ from 立たない",
+        "raw_query": "立たない"
+      },
+      {
+        "case_id": "verb-029",
+        "expected_analysis_lemma": "買う",
+        "expected_entry_ids": [
+          "golden_1b65a0cb82d2a88d"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 買う from 買って",
+        "raw_query": "買って"
+      },
+      {
+        "case_id": "verb-030",
+        "expected_analysis_lemma": "会う",
+        "expected_entry_ids": [
+          "golden_40179481fcf65fd2"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 会う from 会った",
+        "raw_query": "会った"
+      },
+      {
+        "case_id": "verb-031",
+        "expected_analysis_lemma": "使う",
+        "expected_entry_ids": [
+          "golden_9af9c5ffb30ef076"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 使う from 使いました",
+        "raw_query": "使いました"
+      },
+      {
+        "case_id": "verb-032",
+        "expected_analysis_lemma": "読む",
+        "expected_entry_ids": [
+          "golden_24f188a06d2c59d1"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 読む from 読んで",
+        "raw_query": "読んで"
+      },
+      {
+        "case_id": "verb-033",
+        "expected_analysis_lemma": "飲む",
+        "expected_entry_ids": [
+          "golden_dcd3acd6b659a205"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 飲む from 飲んだ",
+        "raw_query": "飲んだ"
+      },
+      {
+        "case_id": "verb-034",
+        "expected_analysis_lemma": "休む",
+        "expected_entry_ids": [
+          "golden_acc3dd26ba1e4a04"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 休む from 休みました",
+        "raw_query": "休みました"
+      },
+      {
+        "case_id": "verb-035",
+        "expected_analysis_lemma": "遊ぶ",
+        "expected_entry_ids": [
+          "golden_58a04652246fad1f"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 遊ぶ from 遊んで",
+        "raw_query": "遊んで"
+      },
+      {
+        "case_id": "verb-036",
+        "expected_analysis_lemma": "呼ぶ",
+        "expected_entry_ids": [
+          "golden_0adf764f931173ca"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 呼ぶ from 呼んだ",
+        "raw_query": "呼んだ"
+      },
+      {
+        "case_id": "verb-037",
+        "expected_analysis_lemma": "死ぬ",
+        "expected_entry_ids": [
+          "golden_dd5d31dbf7c9863d"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 死ぬ from 死んだ",
+        "raw_query": "死んだ"
+      },
+      {
+        "case_id": "verb-038",
+        "expected_analysis_lemma": "取る",
+        "expected_entry_ids": [
+          "golden_9ed3b36956458152"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 取る from 取って",
+        "raw_query": "取って"
+      },
+      {
+        "case_id": "verb-039",
+        "expected_analysis_lemma": "帰る",
+        "expected_entry_ids": [
+          "golden_944f21154c785640"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 帰る from 帰った",
+        "raw_query": "帰った"
+      },
+      {
+        "case_id": "verb-040",
+        "expected_analysis_lemma": "走る",
+        "expected_entry_ids": [
+          "golden_97526e11c7038722"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 走る from 走りました",
+        "raw_query": "走りました"
+      },
+      {
+        "case_id": "verb-041",
+        "expected_analysis_lemma": "入る",
+        "expected_entry_ids": [
+          "golden_82a114897d9c7148"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 入る from 入らない",
+        "raw_query": "入らない"
+      },
+      {
+        "case_id": "verb-042",
+        "expected_analysis_lemma": "作る",
+        "expected_entry_ids": [
+          "golden_a4ccf0b7bace8f9a"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 作る from 作って",
+        "raw_query": "作って"
+      },
+      {
+        "case_id": "verb-043",
+        "expected_analysis_lemma": "売る",
+        "expected_entry_ids": [
+          "golden_5e42ab61b84c94b7"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 売る from 売りました",
+        "raw_query": "売りました"
+      },
+      {
+        "case_id": "verb-044",
+        "expected_analysis_lemma": "送る",
+        "expected_entry_ids": [
+          "golden_33d9e537aeac8242"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 送る from 送った",
+        "raw_query": "送った"
+      },
+      {
+        "case_id": "verb-045",
+        "expected_analysis_lemma": "切る",
+        "expected_entry_ids": [
+          "golden_1ee90bf5d13a67b3"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 切る from 切って",
+        "raw_query": "切って"
+      },
+      {
+        "case_id": "verb-046",
+        "expected_analysis_lemma": "急ぐ",
+        "expected_entry_ids": [
+          "golden_c2674f41fc440a04"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 急ぐ from 急いだ",
+        "raw_query": "急いだ"
+      },
+      {
+        "case_id": "verb-047",
+        "expected_analysis_lemma": "消す",
+        "expected_entry_ids": [
+          "golden_fda6e04cdc9dd13f"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 消す from 消した",
+        "raw_query": "消した"
+      },
+      {
+        "case_id": "verb-048",
+        "expected_analysis_lemma": "行く",
+        "expected_entry_ids": [
+          "golden_4397422fc9fb1dc4"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 行く from 行かなかった",
+        "raw_query": "行かなかった"
+      },
+      {
+        "case_id": "verb-049",
+        "expected_analysis_lemma": "働く",
+        "expected_entry_ids": [
+          "golden_49f91d135f05fedd"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 働く from 働きません",
+        "raw_query": "働きません"
+      },
+      {
+        "case_id": "verb-050",
+        "expected_analysis_lemma": "習う",
+        "expected_entry_ids": [
+          "golden_0d114c78c7a19aac"
+        ],
+        "expected_match_kind": "deinflection",
+        "forbidden_entry_ids": [],
+        "input_context": "ja-JP offline dictionary search",
+        "note": "recover verb-godan lemma 習う from 習いませんでした",
+        "raw_query": "習いませんでした"
+      }
+    ]
+  },
+  "content_sha256": "f004b66861cc64ac6204dc85c317e502ed70099bc70bd6a52776bd2d6f07c281",
+  "corpus_id": "kotoba-search-acceptance-v1",
+  "fixture_license": "CC0-1.0",
+  "lexicon": [
+    {
+      "entry_id": "golden_04d486e7201c9493",
+      "frequency_rank": 708,
+      "headword": "悪い",
+      "part_of_speech": "adjective-i",
+      "reading": "わるい"
+    },
+    {
+      "entry_id": "golden_0513945a1ef519d4",
+      "frequency_rank": 702,
+      "headword": "安い",
+      "part_of_speech": "adjective-i",
+      "reading": "やすい"
+    },
+    {
+      "entry_id": "golden_07f353ef981c0375",
+      "frequency_rank": 64,
+      "headword": "前",
+      "part_of_speech": "noun",
+      "reading": "まえ"
+    },
+    {
+      "entry_id": "golden_09558b341dc00914",
+      "frequency_rank": 25,
+      "headword": "名前",
+      "part_of_speech": "noun",
+      "reading": "なまえ"
+    },
+    {
+      "entry_id": "golden_0967db6c17f033c6",
+      "frequency_rank": 1509,
+      "headword": "タクシー",
+      "part_of_speech": "noun",
+      "reading": "タクシー"
+    },
+    {
+      "entry_id": "golden_09d74d630a4550be",
+      "frequency_rank": 50,
+      "headword": "町",
+      "part_of_speech": "noun",
+      "reading": "まち"
+    },
+    {
+      "entry_id": "golden_09f36b13c028cfc7",
+      "frequency_rank": 1512,
+      "headword": "コンビニ",
+      "part_of_speech": "noun",
+      "reading": "コンビニ"
+    },
+    {
+      "entry_id": "golden_0ac038632611f11f",
+      "frequency_rank": 17,
+      "headword": "本",
+      "part_of_speech": "noun",
+      "reading": "ほん"
+    },
+    {
+      "entry_id": "golden_0adf764f931173ca",
+      "frequency_rank": 536,
+      "headword": "呼ぶ",
+      "part_of_speech": "verb-godan",
+      "reading": "よぶ"
+    },
+    {
+      "entry_id": "golden_0b969a8c0944cc8e",
+      "frequency_rank": 525,
+      "headword": "話す",
+      "part_of_speech": "verb-godan",
+      "reading": "はなす"
+    },
+    {
+      "entry_id": "golden_0cbee2d1028430b9",
+      "frequency_rank": 41,
+      "headword": "机",
+      "part_of_speech": "noun",
+      "reading": "つくえ"
+    },
+    {
+      "entry_id": "golden_0d114c78c7a19aac",
+      "frequency_rank": 550,
+      "headword": "習う",
+      "part_of_speech": "verb-godan",
+      "reading": "ならう"
+    },
+    {
+      "entry_id": "golden_0e853c977cf19f9e",
+      "frequency_rank": 60,
+      "headword": "生活",
+      "part_of_speech": "noun",
+      "reading": "せいかつ"
+    },
+    {
+      "entry_id": "golden_0ec838cc07eaa6ca",
+      "frequency_rank": 506,
+      "headword": "覚える",
+      "part_of_speech": "verb-ichidan",
+      "reading": "おぼえる"
+    },
+    {
+      "entry_id": "golden_11b5462fa3a4dc8e",
+      "frequency_rank": 716,
+      "headword": "長い",
+      "part_of_speech": "adjective-i",
+      "reading": "ながい"
+    },
+    {
+      "entry_id": "golden_123a10eb50b08101",
+      "frequency_rank": 44,
+      "headword": "猫",
+      "part_of_speech": "noun",
+      "reading": "ねこ"
+    },
+    {
+      "entry_id": "golden_14be5202d5b3715c",
+      "frequency_rank": 71,
+      "headword": "左",
+      "part_of_speech": "noun",
+      "reading": "ひだり"
+    },
+    {
+      "entry_id": "golden_152ea0d72dc53601",
+      "frequency_rank": 35,
+      "headword": "病院",
+      "part_of_speech": "noun",
+      "reading": "びょういん"
+    },
+    {
+      "entry_id": "golden_17e3177c62d509a9",
+      "frequency_rank": 528,
+      "headword": "立つ",
+      "part_of_speech": "verb-godan",
+      "reading": "たつ"
+    },
+    {
+      "entry_id": "golden_18597113ac94608b",
+      "frequency_rank": 76,
+      "headword": "春",
+      "part_of_speech": "noun",
+      "reading": "はる"
+    },
+    {
+      "entry_id": "golden_19bd7db9d5d0ca67",
+      "frequency_rank": 49,
+      "headword": "空",
+      "part_of_speech": "noun",
+      "reading": "そら"
+    },
+    {
+      "entry_id": "golden_19be7f7be76662b4",
+      "frequency_rank": 709,
+      "headword": "暑い",
+      "part_of_speech": "adjective-i",
+      "reading": "あつい"
+    },
+    {
+      "entry_id": "golden_1b65a0cb82d2a88d",
+      "frequency_rank": 529,
+      "headword": "買う",
+      "part_of_speech": "verb-godan",
+      "reading": "かう"
+    },
+    {
+      "entry_id": "golden_1bedf722c04a58fa",
+      "frequency_rank": 82,
+      "headword": "三",
+      "part_of_speech": "noun",
+      "reading": "さん"
+    },
+    {
+      "entry_id": "golden_1ee90bf5d13a67b3",
+      "frequency_rank": 545,
+      "headword": "切る",
+      "part_of_speech": "verb-godan",
+      "reading": "きる"
+    },
+    {
+      "entry_id": "golden_23523bbf8d9c4bfb",
+      "frequency_rank": 39,
+      "headword": "部屋",
+      "part_of_speech": "noun",
+      "reading": "へや"
+    },
+    {
+      "entry_id": "golden_2438f15019e70b74",
+      "frequency_rank": 514,
+      "headword": "降りる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "おりる"
+    },
+    {
+      "entry_id": "golden_24df874727705e0d",
+      "frequency_rank": 36,
+      "headword": "電話",
+      "part_of_speech": "noun",
+      "reading": "でんわ"
+    },
+    {
+      "entry_id": "golden_24f188a06d2c59d1",
+      "frequency_rank": 532,
+      "headword": "読む",
+      "part_of_speech": "verb-godan",
+      "reading": "よむ"
+    },
+    {
+      "entry_id": "golden_2850b5703e8b21b2",
+      "frequency_rank": 27,
+      "headword": "天気",
+      "part_of_speech": "noun",
+      "reading": "てんき"
+    },
+    {
+      "entry_id": "golden_288a95a40d95df2a",
+      "frequency_rank": 705,
+      "headword": "新しい",
+      "part_of_speech": "adjective-i",
+      "reading": "あたらしい"
+    },
+    {
+      "entry_id": "golden_28ddfdc9290cd67d",
+      "frequency_rank": 19,
+      "headword": "水",
+      "part_of_speech": "noun",
+      "reading": "みず"
+    },
+    {
+      "entry_id": "golden_29ebffd36857a087",
+      "frequency_rank": 1505,
+      "headword": "スマートフォン",
+      "part_of_speech": "noun",
+      "reading": "スマートフォン"
+    },
+    {
+      "entry_id": "golden_2c2d6564a0bccf60",
+      "frequency_rank": 40,
+      "headword": "窓",
+      "part_of_speech": "noun",
+      "reading": "まど"
+    },
+    {
+      "entry_id": "golden_2cc50c2d66a6706a",
+      "frequency_rank": 87,
+      "headword": "大人",
+      "part_of_speech": "noun",
+      "reading": "おとな"
+    },
+    {
+      "entry_id": "golden_2e3ba98d2367811b",
+      "frequency_rank": 59,
+      "headword": "旅行",
+      "part_of_speech": "noun",
+      "reading": "りょこう"
+    },
+    {
+      "entry_id": "golden_30f18c7ebfd6a62b",
+      "frequency_rank": 85,
+      "headword": "円",
+      "part_of_speech": "noun",
+      "reading": "えん"
+    },
+    {
+      "entry_id": "golden_33d9e537aeac8242",
+      "frequency_rank": 544,
+      "headword": "送る",
+      "part_of_speech": "verb-godan",
+      "reading": "おくる"
+    },
+    {
+      "entry_id": "golden_385cc0d9ee98fb54",
+      "frequency_rank": 502,
+      "headword": "見る",
+      "part_of_speech": "verb-ichidan",
+      "reading": "みる"
+    },
+    {
+      "entry_id": "golden_3ab7a11d1e94f767",
+      "frequency_rank": 3630,
+      "headword": "点く",
+      "part_of_speech": "verb-godan",
+      "reading": "つく"
+    },
+    {
+      "entry_id": "golden_3ad79496437df6db",
+      "frequency_rank": 1518,
+      "headword": "パン",
+      "part_of_speech": "noun",
+      "reading": "パン"
+    },
+    {
+      "entry_id": "golden_3bd0c1c724333bb6",
+      "frequency_rank": 3720,
+      "headword": "観る",
+      "part_of_speech": "verb-ichidan",
+      "reading": "みる"
+    },
+    {
+      "entry_id": "golden_3f59c469d8f61b8c",
+      "frequency_rank": 1516,
+      "headword": "サッカー",
+      "part_of_speech": "noun",
+      "reading": "サッカー"
+    },
+    {
+      "entry_id": "golden_40179481fcf65fd2",
+      "frequency_rank": 530,
+      "headword": "会う",
+      "part_of_speech": "verb-godan",
+      "reading": "あう"
+    },
+    {
+      "entry_id": "golden_406f88e7315a1a5c",
+      "frequency_rank": 2720,
+      "headword": "飴",
+      "part_of_speech": "noun",
+      "reading": "あめ"
+    },
+    {
+      "entry_id": "golden_40ae6dddb10aa4bd",
+      "frequency_rank": 22,
+      "headword": "朝",
+      "part_of_speech": "noun",
+      "reading": "あさ"
+    },
+    {
+      "entry_id": "golden_4125c1bacf52ffca",
+      "frequency_rank": 65,
+      "headword": "後ろ",
+      "part_of_speech": "noun",
+      "reading": "うしろ"
+    },
+    {
+      "entry_id": "golden_42d6dbdfe036bf16",
+      "frequency_rank": 52,
+      "headword": "問題",
+      "part_of_speech": "noun",
+      "reading": "もんだい"
+    },
+    {
+      "entry_id": "golden_42edc1b837791e0c",
+      "frequency_rank": 8,
+      "headword": "学校",
+      "part_of_speech": "noun",
+      "reading": "がっこう"
+    },
+    {
+      "entry_id": "golden_42f608e946a62d90",
+      "frequency_rank": 2920,
+      "headword": "速い",
+      "part_of_speech": "adjective-i",
+      "reading": "はやい"
+    },
+    {
+      "entry_id": "golden_4397422fc9fb1dc4",
+      "frequency_rank": 548,
+      "headword": "行く",
+      "part_of_speech": "verb-godan",
+      "reading": "いく"
+    },
+    {
+      "entry_id": "golden_456eae34da34353d",
+      "frequency_rank": 717,
+      "headword": "短い",
+      "part_of_speech": "adjective-i",
+      "reading": "みじかい"
+    },
+    {
+      "entry_id": "golden_46f8fe65f21893ff",
+      "frequency_rank": 31,
+      "headword": "川",
+      "part_of_speech": "noun",
+      "reading": "かわ"
+    },
+    {
+      "entry_id": "golden_47c1227c459bbdad",
+      "frequency_rank": 32,
+      "headword": "海",
+      "part_of_speech": "noun",
+      "reading": "うみ"
+    },
+    {
+      "entry_id": "golden_497356cf064630b2",
+      "frequency_rank": 9,
+      "headword": "先生",
+      "part_of_speech": "noun",
+      "reading": "せんせい"
+    },
+    {
+      "entry_id": "golden_49f91d135f05fedd",
+      "frequency_rank": 549,
+      "headword": "働く",
+      "part_of_speech": "verb-godan",
+      "reading": "はたらく"
+    },
+    {
+      "entry_id": "golden_4a9566e87de1b2a4",
+      "frequency_rank": 23,
+      "headword": "昼",
+      "part_of_speech": "noun",
+      "reading": "ひる"
+    },
+    {
+      "entry_id": "golden_4b9dfeafcab4c54d",
+      "frequency_rank": 88,
+      "headword": "男",
+      "part_of_speech": "noun",
+      "reading": "おとこ"
+    },
+    {
+      "entry_id": "golden_4cd1238bcb91e890",
+      "frequency_rank": 43,
+      "headword": "犬",
+      "part_of_speech": "noun",
+      "reading": "いぬ"
+    },
+    {
+      "entry_id": "golden_4d9423288cb270ec",
+      "frequency_rank": 89,
+      "headword": "女",
+      "part_of_speech": "noun",
+      "reading": "おんな"
+    },
+    {
+      "entry_id": "golden_4e55e094a09d003a",
+      "frequency_rank": 2830,
+      "headword": "厚い",
+      "part_of_speech": "adjective-i",
+      "reading": "あつい"
+    },
+    {
+      "entry_id": "golden_4eac64968d8e6ac7",
+      "frequency_rank": 3730,
+      "headword": "診る",
+      "part_of_speech": "verb-ichidan",
+      "reading": "みる"
+    },
+    {
+      "entry_id": "golden_4f9ae60eff62c41a",
+      "frequency_rank": 516,
+      "headword": "考える",
+      "part_of_speech": "verb-ichidan",
+      "reading": "かんがえる"
+    },
+    {
+      "entry_id": "golden_50eb0e80c367983f",
+      "frequency_rank": 504,
+      "headword": "寝る",
+      "part_of_speech": "verb-ichidan",
+      "reading": "ねる"
+    },
+    {
+      "entry_id": "golden_516ad1128c719a35",
+      "frequency_rank": 527,
+      "headword": "持つ",
+      "part_of_speech": "verb-godan",
+      "reading": "もつ"
+    },
+    {
+      "entry_id": "golden_520308b3c3b402d4",
+      "frequency_rank": 67,
+      "headword": "下",
+      "part_of_speech": "noun",
+      "reading": "した"
+    },
+    {
+      "entry_id": "golden_52ee65a6539bf376",
+      "frequency_rank": 2130,
+      "headword": "遭う",
+      "part_of_speech": "verb-godan",
+      "reading": "あう"
+    },
+    {
+      "entry_id": "golden_536e42da8b8453a7",
+      "frequency_rank": 518,
+      "headword": "続ける",
+      "part_of_speech": "verb-ichidan",
+      "reading": "つづける"
+    },
+    {
+      "entry_id": "golden_53c63c8d3e254771",
+      "frequency_rank": 507,
+      "headword": "忘れる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "わすれる"
+    },
+    {
+      "entry_id": "golden_56ac401dba9b05af",
+      "frequency_rank": 2230,
+      "headword": "替える",
+      "part_of_speech": "verb-ichidan",
+      "reading": "かえる"
+    },
+    {
+      "entry_id": "golden_576cf9f4885e63e6",
+      "frequency_rank": 63,
+      "headword": "例",
+      "part_of_speech": "noun",
+      "reading": "れい"
+    },
+    {
+      "entry_id": "golden_5849925b131d3c36",
+      "frequency_rank": 68,
+      "headword": "中",
+      "part_of_speech": "noun",
+      "reading": "なか"
+    },
+    {
+      "entry_id": "golden_58a04652246fad1f",
+      "frequency_rank": 535,
+      "headword": "遊ぶ",
+      "part_of_speech": "verb-godan",
+      "reading": "あそぶ"
+    },
+    {
+      "entry_id": "golden_5c1c2120b516d6b6",
+      "frequency_rank": 45,
+      "headword": "魚",
+      "part_of_speech": "noun",
+      "reading": "さかな"
+    },
+    {
+      "entry_id": "golden_5d8047464c5db266",
+      "frequency_rank": 80,
+      "headword": "一",
+      "part_of_speech": "noun",
+      "reading": "いち"
+    },
+    {
+      "entry_id": "golden_5e42ab61b84c94b7",
+      "frequency_rank": 543,
+      "headword": "売る",
+      "part_of_speech": "verb-godan",
+      "reading": "うる"
+    },
+    {
+      "entry_id": "golden_5ee54e973899a9c4",
+      "frequency_rank": 714,
+      "headword": "忙しい",
+      "part_of_speech": "adjective-i",
+      "reading": "いそがしい"
+    },
+    {
+      "entry_id": "golden_5fd1d37596998295",
+      "frequency_rank": 86,
+      "headword": "子供",
+      "part_of_speech": "noun",
+      "reading": "こども"
+    },
+    {
+      "entry_id": "golden_6109638dac5350e2",
+      "frequency_rank": 69,
+      "headword": "外",
+      "part_of_speech": "noun",
+      "reading": "そと"
+    },
+    {
+      "entry_id": "golden_61b57e2d470229e7",
+      "frequency_rank": 720,
+      "headword": "静か",
+      "part_of_speech": "adjective-na",
+      "reading": "しずか"
+    },
+    {
+      "entry_id": "golden_61c233ab6a5e70ab",
+      "frequency_rank": 1508,
+      "headword": "レストラン",
+      "part_of_speech": "noun",
+      "reading": "レストラン"
+    },
+    {
+      "entry_id": "golden_64289653ec1df78f",
+      "frequency_rank": 98,
+      "headword": "足",
+      "part_of_speech": "noun",
+      "reading": "あし"
+    },
+    {
+      "entry_id": "golden_64f4ae4e66b0cb92",
+      "frequency_rank": 3620,
+      "headword": "付く",
+      "part_of_speech": "verb-godan",
+      "reading": "つく"
+    },
+    {
+      "entry_id": "golden_658ff53bc11454b9",
+      "frequency_rank": 508,
+      "headword": "開ける",
+      "part_of_speech": "verb-ichidan",
+      "reading": "あける"
+    },
+    {
+      "entry_id": "golden_683f3e7fb08574be",
+      "frequency_rank": 46,
+      "headword": "鳥",
+      "part_of_speech": "noun",
+      "reading": "とり"
+    },
+    {
+      "entry_id": "golden_6927fec1fef07f23",
+      "frequency_rank": 712,
+      "headword": "易しい",
+      "part_of_speech": "adjective-i",
+      "reading": "やさしい"
+    },
+    {
+      "entry_id": "golden_6a131fc93d7b6588",
+      "frequency_rank": 517,
+      "headword": "調べる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "しらべる"
+    },
+    {
+      "entry_id": "golden_6ab8f730431c1934",
+      "frequency_rank": 58,
+      "headword": "料理",
+      "part_of_speech": "noun",
+      "reading": "りょうり"
+    },
+    {
+      "entry_id": "golden_6b9362de88a7a26b",
+      "frequency_rank": 2,
+      "headword": "今日",
+      "part_of_speech": "noun",
+      "reading": "きょう"
+    },
+    {
+      "entry_id": "golden_6c0b9f3278dcbf63",
+      "frequency_rank": 99,
+      "headword": "目",
+      "part_of_speech": "noun",
+      "reading": "め"
+    },
+    {
+      "entry_id": "golden_6e098e54aa638964",
+      "frequency_rank": 96,
+      "headword": "体",
+      "part_of_speech": "noun",
+      "reading": "からだ"
+    },
+    {
+      "entry_id": "golden_6e163dda1636638b",
+      "frequency_rank": 1514,
+      "headword": "ピアノ",
+      "part_of_speech": "noun",
+      "reading": "ピアノ"
+    },
+    {
+      "entry_id": "golden_6ed0b6d4c374ad7d",
+      "frequency_rank": 711,
+      "headword": "難しい",
+      "part_of_speech": "adjective-i",
+      "reading": "むずかしい"
+    },
+    {
+      "entry_id": "golden_6f2e359ff6c81f5d",
+      "frequency_rank": 73,
+      "headword": "西",
+      "part_of_speech": "noun",
+      "reading": "にし"
+    },
+    {
+      "entry_id": "golden_6f30c5c5938fbd0c",
+      "frequency_rank": 526,
+      "headword": "待つ",
+      "part_of_speech": "verb-godan",
+      "reading": "まつ"
+    },
+    {
+      "entry_id": "golden_72460e05df01b083",
+      "frequency_rank": 2910,
+      "headword": "早い",
+      "part_of_speech": "adjective-i",
+      "reading": "はやい"
+    },
+    {
+      "entry_id": "golden_72c5b362c4f2f37e",
+      "frequency_rank": 503,
+      "headword": "起きる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "おきる"
+    },
+    {
+      "entry_id": "golden_72ca4874af084ef0",
+      "frequency_rank": 4020,
+      "headword": "挙がる",
+      "part_of_speech": "verb-godan",
+      "reading": "あがる"
+    },
+    {
+      "entry_id": "golden_735d35e5b1be5f5e",
+      "frequency_rank": 95,
+      "headword": "妹",
+      "part_of_speech": "noun",
+      "reading": "いもうと"
+    },
+    {
+      "entry_id": "golden_769a805249574c63",
+      "frequency_rank": 704,
+      "headword": "小さい",
+      "part_of_speech": "adjective-i",
+      "reading": "ちいさい"
+    },
+    {
+      "entry_id": "golden_76a7f713c3dbea3e",
+      "frequency_rank": 524,
+      "headword": "泳ぐ",
+      "part_of_speech": "verb-godan",
+      "reading": "およぐ"
+    },
+    {
+      "entry_id": "golden_775979a197ea134f",
+      "frequency_rank": 701,
+      "headword": "高い",
+      "part_of_speech": "adjective-i",
+      "reading": "たかい"
+    },
+    {
+      "entry_id": "golden_7863488ec2b82798",
+      "frequency_rank": 42,
+      "headword": "椅子",
+      "part_of_speech": "noun",
+      "reading": "いす"
+    },
+    {
+      "entry_id": "golden_788a8843ced9439e",
+      "frequency_rank": 2520,
+      "headword": "箸",
+      "part_of_speech": "noun",
+      "reading": "はし"
+    },
+    {
+      "entry_id": "golden_79261a065ba555a5",
+      "frequency_rank": 515,
+      "headword": "始める",
+      "part_of_speech": "verb-ichidan",
+      "reading": "はじめる"
+    },
+    {
+      "entry_id": "golden_79db1765ce267dbf",
+      "frequency_rank": 29,
+      "headword": "雪",
+      "part_of_speech": "noun",
+      "reading": "ゆき"
+    },
+    {
+      "entry_id": "golden_7b9d866e6dc2a601",
+      "frequency_rank": 56,
+      "headword": "映画",
+      "part_of_speech": "noun",
+      "reading": "えいが"
+    },
+    {
+      "entry_id": "golden_7c4d1abbdd617033",
+      "frequency_rank": 79,
+      "headword": "冬",
+      "part_of_speech": "noun",
+      "reading": "ふゆ"
+    },
+    {
+      "entry_id": "golden_7dd1831e3fa88aa6",
+      "frequency_rank": 3520,
+      "headword": "刺す",
+      "part_of_speech": "verb-godan",
+      "reading": "さす"
+    },
+    {
+      "entry_id": "golden_7e87850c448d2815",
+      "frequency_rank": 28,
+      "headword": "雨",
+      "part_of_speech": "noun",
+      "reading": "あめ"
+    },
+    {
+      "entry_id": "golden_7e8dc4d63e82bcc6",
+      "frequency_rank": 94,
+      "headword": "弟",
+      "part_of_speech": "noun",
+      "reading": "おとうと"
+    },
+    {
+      "entry_id": "golden_7fa86c660a00ef18",
+      "frequency_rank": 91,
+      "headword": "母",
+      "part_of_speech": "noun",
+      "reading": "はは"
+    },
+    {
+      "entry_id": "golden_7fc81b0ddd17b89f",
+      "frequency_rank": 81,
+      "headword": "二",
+      "part_of_speech": "noun",
+      "reading": "に"
+    },
+    {
+      "entry_id": "golden_802b867125085a84",
+      "frequency_rank": 3420,
+      "headword": "描く",
+      "part_of_speech": "verb-godan",
+      "reading": "かく"
+    },
+    {
+      "entry_id": "golden_80b68bbbc8708d49",
+      "frequency_rank": 520,
+      "headword": "生きる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "いきる"
+    },
+    {
+      "entry_id": "golden_826a124ad930bcbc",
+      "frequency_rank": 1510,
+      "headword": "バス",
+      "part_of_speech": "noun",
+      "reading": "バス"
+    },
+    {
+      "entry_id": "golden_8298c6a732a720d2",
+      "frequency_rank": 512,
+      "headword": "着る",
+      "part_of_speech": "verb-ichidan",
+      "reading": "きる"
+    },
+    {
+      "entry_id": "golden_82a114897d9c7148",
+      "frequency_rank": 541,
+      "headword": "入る",
+      "part_of_speech": "verb-godan",
+      "reading": "はいる"
+    },
+    {
+      "entry_id": "golden_8324491a1369e43a",
+      "frequency_rank": 2120,
+      "headword": "合う",
+      "part_of_speech": "verb-godan",
+      "reading": "あう"
+    },
+    {
+      "entry_id": "golden_83b219893ecaa958",
+      "frequency_rank": 55,
+      "headword": "音楽",
+      "part_of_speech": "noun",
+      "reading": "おんがく"
+    },
+    {
+      "entry_id": "golden_8405ebd3bf29cd0f",
+      "frequency_rank": 2320,
+      "headword": "聴く",
+      "part_of_speech": "verb-godan",
+      "reading": "きく"
+    },
+    {
+      "entry_id": "golden_85675bbfdbe64af4",
+      "frequency_rank": 78,
+      "headword": "秋",
+      "part_of_speech": "noun",
+      "reading": "あき"
+    },
+    {
+      "entry_id": "golden_86592fe77e48d513",
+      "frequency_rank": 4010,
+      "headword": "上がる",
+      "part_of_speech": "verb-godan",
+      "reading": "あがる"
+    },
+    {
+      "entry_id": "golden_86d0702471ee429f",
+      "frequency_rank": 21,
+      "headword": "ご飯",
+      "part_of_speech": "noun",
+      "reading": "ごはん"
+    },
+    {
+      "entry_id": "golden_86eca158d6a52acc",
+      "frequency_rank": 3120,
+      "headword": "移す",
+      "part_of_speech": "verb-godan",
+      "reading": "うつす"
+    },
+    {
+      "entry_id": "golden_86ef0852f80fa5ed",
+      "frequency_rank": 84,
+      "headword": "千",
+      "part_of_speech": "noun",
+      "reading": "せん"
+    },
+    {
+      "entry_id": "golden_873a33bd6c138682",
+      "frequency_rank": 2510,
+      "headword": "橋",
+      "part_of_speech": "noun",
+      "reading": "はし"
+    },
+    {
+      "entry_id": "golden_896d3ced1b419e94",
+      "frequency_rank": 1503,
+      "headword": "ラジオ",
+      "part_of_speech": "noun",
+      "reading": "ラジオ"
+    },
+    {
+      "entry_id": "golden_897d3a6421355195",
+      "frequency_rank": 2420,
+      "headword": "撮る",
+      "part_of_speech": "verb-godan",
+      "reading": "とる"
+    },
+    {
+      "entry_id": "golden_8af58778f14e64b3",
+      "frequency_rank": 12,
+      "headword": "家",
+      "part_of_speech": "noun",
+      "reading": "いえ"
+    },
+    {
+      "entry_id": "golden_8b215c59258849ce",
+      "frequency_rank": 519,
+      "headword": "止める",
+      "part_of_speech": "verb-ichidan",
+      "reading": "とめる"
+    },
+    {
+      "entry_id": "golden_8b4370afb039f7f0",
+      "frequency_rank": 719,
+      "headword": "遠い",
+      "part_of_speech": "adjective-i",
+      "reading": "とおい"
+    },
+    {
+      "entry_id": "golden_93fbee8b5477011f",
+      "frequency_rank": 1520,
+      "headword": "アイスクリーム",
+      "part_of_speech": "noun",
+      "reading": "アイスクリーム"
+    },
+    {
+      "entry_id": "golden_944f21154c785640",
+      "frequency_rank": 539,
+      "headword": "帰る",
+      "part_of_speech": "verb-godan",
+      "reading": "かえる"
+    },
+    {
+      "entry_id": "golden_9567eaf8fe9bef37",
+      "frequency_rank": 10,
+      "headword": "学生",
+      "part_of_speech": "noun",
+      "reading": "がくせい"
+    },
+    {
+      "entry_id": "golden_96a032e15dda9e17",
+      "frequency_rank": 83,
+      "headword": "百",
+      "part_of_speech": "noun",
+      "reading": "ひゃく"
+    },
+    {
+      "entry_id": "golden_97526e11c7038722",
+      "frequency_rank": 540,
+      "headword": "走る",
+      "part_of_speech": "verb-godan",
+      "reading": "はしる"
+    },
+    {
+      "entry_id": "golden_9752b818f9f88b6d",
+      "frequency_rank": 7,
+      "headword": "日本",
+      "part_of_speech": "noun",
+      "reading": "にほん"
+    },
+    {
+      "entry_id": "golden_9825648af79e6812",
+      "frequency_rank": 713,
+      "headword": "面白い",
+      "part_of_speech": "adjective-i",
+      "reading": "おもしろい"
+    },
+    {
+      "entry_id": "golden_98e990bf1d44ebbc",
+      "frequency_rank": 509,
+      "headword": "閉める",
+      "part_of_speech": "verb-ichidan",
+      "reading": "しめる"
+    },
+    {
+      "entry_id": "golden_9af9c5ffb30ef076",
+      "frequency_rank": 531,
+      "headword": "使う",
+      "part_of_speech": "verb-godan",
+      "reading": "つかう"
+    },
+    {
+      "entry_id": "golden_9c8c9f9a1cdeeed7",
+      "frequency_rank": 3910,
+      "headword": "測る",
+      "part_of_speech": "verb-godan",
+      "reading": "はかる"
+    },
+    {
+      "entry_id": "golden_9cc2d4a9bbe12a86",
+      "frequency_rank": 715,
+      "headword": "楽しい",
+      "part_of_speech": "adjective-i",
+      "reading": "たのしい"
+    },
+    {
+      "entry_id": "golden_9d97ee4082e2303f",
+      "frequency_rank": 1507,
+      "headword": "ホテル",
+      "part_of_speech": "noun",
+      "reading": "ホテル"
+    },
+    {
+      "entry_id": "golden_9e0eeba39759de91",
+      "frequency_rank": 3810,
+      "headword": "乗る",
+      "part_of_speech": "verb-godan",
+      "reading": "のる"
+    },
+    {
+      "entry_id": "golden_9e64feeea5ea4d4d",
+      "frequency_rank": 100,
+      "headword": "口",
+      "part_of_speech": "noun",
+      "reading": "くち"
+    },
+    {
+      "entry_id": "golden_9e794067bd86f490",
+      "frequency_rank": 3920,
+      "headword": "計る",
+      "part_of_speech": "verb-godan",
+      "reading": "はかる"
+    },
+    {
+      "entry_id": "golden_9ed3b36956458152",
+      "frequency_rank": 538,
+      "headword": "取る",
+      "part_of_speech": "verb-godan",
+      "reading": "とる"
+    },
+    {
+      "entry_id": "golden_a20f68bce3e18ddb",
+      "frequency_rank": 1504,
+      "headword": "コンピューター",
+      "part_of_speech": "noun",
+      "reading": "コンピューター"
+    },
+    {
+      "entry_id": "golden_a4ccf0b7bace8f9a",
+      "frequency_rank": 542,
+      "headword": "作る",
+      "part_of_speech": "verb-godan",
+      "reading": "つくる"
+    },
+    {
+      "entry_id": "golden_a4e52ef19d814551",
+      "frequency_rank": 77,
+      "headword": "夏",
+      "part_of_speech": "noun",
+      "reading": "なつ"
+    },
+    {
+      "entry_id": "golden_a584cd8f139044de",
+      "frequency_rank": 3010,
+      "headword": "直す",
+      "part_of_speech": "verb-godan",
+      "reading": "なおす"
+    },
+    {
+      "entry_id": "golden_a5d390dc48050f6a",
+      "frequency_rank": 48,
+      "headword": "木",
+      "part_of_speech": "noun",
+      "reading": "き"
+    },
+    {
+      "entry_id": "golden_a739af20170fe6fc",
+      "frequency_rank": 2330,
+      "headword": "効く",
+      "part_of_speech": "verb-godan",
+      "reading": "きく"
+    },
+    {
+      "entry_id": "golden_a76603aae6e4b82d",
+      "frequency_rank": 523,
+      "headword": "歩く",
+      "part_of_speech": "verb-godan",
+      "reading": "あるく"
+    },
+    {
+      "entry_id": "golden_a7d2df69375905ac",
+      "frequency_rank": 3820,
+      "headword": "載る",
+      "part_of_speech": "verb-godan",
+      "reading": "のる"
+    },
+    {
+      "entry_id": "golden_aac2f82732e1d978",
+      "frequency_rank": 3510,
+      "headword": "指す",
+      "part_of_speech": "verb-godan",
+      "reading": "さす"
+    },
+    {
+      "entry_id": "golden_acc3dd26ba1e4a04",
+      "frequency_rank": 534,
+      "headword": "休む",
+      "part_of_speech": "verb-godan",
+      "reading": "やすむ"
+    },
+    {
+      "entry_id": "golden_ad7167347a2ac285",
+      "frequency_rank": 5,
+      "headword": "人",
+      "part_of_speech": "noun",
+      "reading": "ひと"
+    },
+    {
+      "entry_id": "golden_b0a03cee753b0626",
+      "frequency_rank": 75,
+      "headword": "北",
+      "part_of_speech": "noun",
+      "reading": "きた"
+    },
+    {
+      "entry_id": "golden_b1ff052549eddc45",
+      "frequency_rank": 97,
+      "headword": "手",
+      "part_of_speech": "noun",
+      "reading": "て"
+    },
+    {
+      "entry_id": "golden_b2a9df4d0301517a",
+      "frequency_rank": 513,
+      "headword": "出る",
+      "part_of_speech": "verb-ichidan",
+      "reading": "でる"
+    },
+    {
+      "entry_id": "golden_b331c1fed177bb1f",
+      "frequency_rank": 707,
+      "headword": "良い",
+      "part_of_speech": "adjective-i",
+      "reading": "よい"
+    },
+    {
+      "entry_id": "golden_b3624d02db128b95",
+      "frequency_rank": 511,
+      "headword": "いる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "いる"
+    },
+    {
+      "entry_id": "golden_b4a022a9e7a6a460",
+      "frequency_rank": 33,
+      "headword": "道",
+      "part_of_speech": "noun",
+      "reading": "みち"
+    },
+    {
+      "entry_id": "golden_b4d66aa2f6f4763f",
+      "frequency_rank": 1502,
+      "headword": "テレビ",
+      "part_of_speech": "noun",
+      "reading": "テレビ"
+    },
+    {
+      "entry_id": "golden_b540d68fb81ad768",
+      "frequency_rank": 3320,
+      "headword": "明ける",
+      "part_of_speech": "verb-ichidan",
+      "reading": "あける"
+    },
+    {
+      "entry_id": "golden_b549323b238f2dea",
+      "frequency_rank": 62,
+      "headword": "意味",
+      "part_of_speech": "noun",
+      "reading": "いみ"
+    },
+    {
+      "entry_id": "golden_b6944a5fe27104bc",
+      "frequency_rank": 1,
+      "headword": "私",
+      "part_of_speech": "noun",
+      "reading": "わたし"
+    },
+    {
+      "entry_id": "golden_b89224decc1b0706",
+      "frequency_rank": 72,
+      "headword": "東",
+      "part_of_speech": "noun",
+      "reading": "ひがし"
+    },
+    {
+      "entry_id": "golden_ba0c8a160c3322c6",
+      "frequency_rank": 24,
+      "headword": "夜",
+      "part_of_speech": "noun",
+      "reading": "よる"
+    },
+    {
+      "entry_id": "golden_ba5fab138253d333",
+      "frequency_rank": 61,
+      "headword": "文化",
+      "part_of_speech": "noun",
+      "reading": "ぶんか"
+    },
+    {
+      "entry_id": "golden_bc01756b4d895bbb",
+      "frequency_rank": 1807,
+      "headword": "来る",
+      "part_of_speech": "verb-irregular",
+      "reading": "くる"
+    },
+    {
+      "entry_id": "golden_bec9ce9d08c81020",
+      "frequency_rank": 3,
+      "headword": "明日",
+      "part_of_speech": "noun",
+      "reading": "あした"
+    },
+    {
+      "entry_id": "golden_c0ecee8c2c683708",
+      "frequency_rank": 3220,
+      "headword": "鳴く",
+      "part_of_speech": "verb-godan",
+      "reading": "なく"
+    },
+    {
+      "entry_id": "golden_c0f58bfab32460c7",
+      "frequency_rank": 66,
+      "headword": "上",
+      "part_of_speech": "noun",
+      "reading": "うえ"
+    },
+    {
+      "entry_id": "golden_c2674f41fc440a04",
+      "frequency_rank": 546,
+      "headword": "急ぐ",
+      "part_of_speech": "verb-godan",
+      "reading": "いそぐ"
+    },
+    {
+      "entry_id": "golden_c316760df288cbc6",
+      "frequency_rank": 2620,
+      "headword": "髪",
+      "part_of_speech": "noun",
+      "reading": "かみ"
+    },
+    {
+      "entry_id": "golden_c506bd7fb201ea98",
+      "frequency_rank": 13,
+      "headword": "会社",
+      "part_of_speech": "noun",
+      "reading": "かいしゃ"
+    },
+    {
+      "entry_id": "golden_cda9169e9fa2887b",
+      "frequency_rank": 92,
+      "headword": "兄",
+      "part_of_speech": "noun",
+      "reading": "あに"
+    },
+    {
+      "entry_id": "golden_cdf28ddaf8371c88",
+      "frequency_rank": 37,
+      "headword": "仕事",
+      "part_of_speech": "noun",
+      "reading": "しごと"
+    },
+    {
+      "entry_id": "golden_cef4a2049ff3a5c0",
+      "frequency_rank": 26,
+      "headword": "言葉",
+      "part_of_speech": "noun",
+      "reading": "ことば"
+    },
+    {
+      "entry_id": "golden_d060cd928492d459",
+      "frequency_rank": 2610,
+      "headword": "紙",
+      "part_of_speech": "noun",
+      "reading": "かみ"
+    },
+    {
+      "entry_id": "golden_d15ca6ea1179aeac",
+      "frequency_rank": 90,
+      "headword": "父",
+      "part_of_speech": "noun",
+      "reading": "ちち"
+    },
+    {
+      "entry_id": "golden_d18ca13aa38627a5",
+      "frequency_rank": 20,
+      "headword": "お茶",
+      "part_of_speech": "noun",
+      "reading": "おちゃ"
+    },
+    {
+      "entry_id": "golden_d29031265cf4e338",
+      "frequency_rank": 14,
+      "headword": "駅",
+      "part_of_speech": "noun",
+      "reading": "えき"
+    },
+    {
+      "entry_id": "golden_d34997e828cb5bf5",
+      "frequency_rank": 521,
+      "headword": "書く",
+      "part_of_speech": "verb-godan",
+      "reading": "かく"
+    },
+    {
+      "entry_id": "golden_d5901ecbf5fb051a",
+      "frequency_rank": 57,
+      "headword": "写真",
+      "part_of_speech": "noun",
+      "reading": "しゃしん"
+    },
+    {
+      "entry_id": "golden_d72e08381953f410",
+      "frequency_rank": 718,
+      "headword": "近い",
+      "part_of_speech": "adjective-i",
+      "reading": "ちかい"
+    },
+    {
+      "entry_id": "golden_d7ac08a1ae47f610",
+      "frequency_rank": 1513,
+      "headword": "カメラ",
+      "part_of_speech": "noun",
+      "reading": "カメラ"
+    },
+    {
+      "entry_id": "golden_d8a0261581dcf64d",
+      "frequency_rank": 522,
+      "headword": "聞く",
+      "part_of_speech": "verb-godan",
+      "reading": "きく"
+    },
+    {
+      "entry_id": "golden_d9898f8a95b6ed6d",
+      "frequency_rank": 11,
+      "headword": "友達",
+      "part_of_speech": "noun",
+      "reading": "ともだち"
+    },
+    {
+      "entry_id": "golden_da34afb3d61f55af",
+      "frequency_rank": 54,
+      "headword": "答え",
+      "part_of_speech": "noun",
+      "reading": "こたえ"
+    },
+    {
+      "entry_id": "golden_daf7565bf90ccd37",
+      "frequency_rank": 1517,
+      "headword": "テニス",
+      "part_of_speech": "noun",
+      "reading": "テニス"
+    },
+    {
+      "entry_id": "golden_dc7f5fc156cf2d46",
+      "frequency_rank": 15,
+      "headword": "電車",
+      "part_of_speech": "noun",
+      "reading": "でんしゃ"
+    },
+    {
+      "entry_id": "golden_dcd3acd6b659a205",
+      "frequency_rank": 533,
+      "headword": "飲む",
+      "part_of_speech": "verb-godan",
+      "reading": "のむ"
+    },
+    {
+      "entry_id": "golden_dcfa870c8a53f38c",
+      "frequency_rank": 2220,
+      "headword": "変える",
+      "part_of_speech": "verb-ichidan",
+      "reading": "かえる"
+    },
+    {
+      "entry_id": "golden_dd5d31dbf7c9863d",
+      "frequency_rank": 537,
+      "headword": "死ぬ",
+      "part_of_speech": "verb-godan",
+      "reading": "しぬ"
+    },
+    {
+      "entry_id": "golden_ddd9dca106e21232",
+      "frequency_rank": 30,
+      "headword": "山",
+      "part_of_speech": "noun",
+      "reading": "やま"
+    },
+    {
+      "entry_id": "golden_de83de37aff5e878",
+      "frequency_rank": 505,
+      "headword": "教える",
+      "part_of_speech": "verb-ichidan",
+      "reading": "おしえる"
+    },
+    {
+      "entry_id": "golden_dec4a6497500becf",
+      "frequency_rank": 2820,
+      "headword": "熱い",
+      "part_of_speech": "adjective-i",
+      "reading": "あつい"
+    },
+    {
+      "entry_id": "golden_dfb6d8ba613bdf80",
+      "frequency_rank": 1808,
+      "headword": "する",
+      "part_of_speech": "verb-irregular",
+      "reading": "する"
+    },
+    {
+      "entry_id": "golden_e01a26a1036c44ec",
+      "frequency_rank": 3530,
+      "headword": "差す",
+      "part_of_speech": "verb-godan",
+      "reading": "さす"
+    },
+    {
+      "entry_id": "golden_e1461a487e422b57",
+      "frequency_rank": 74,
+      "headword": "南",
+      "part_of_speech": "noun",
+      "reading": "みなみ"
+    },
+    {
+      "entry_id": "golden_e1ede1d758f02ca9",
+      "frequency_rank": 1515,
+      "headword": "ギター",
+      "part_of_speech": "noun",
+      "reading": "ギター"
+    },
+    {
+      "entry_id": "golden_e3507900ad06843d",
+      "frequency_rank": 93,
+      "headword": "姉",
+      "part_of_speech": "noun",
+      "reading": "あね"
+    },
+    {
+      "entry_id": "golden_e5fd15d61360e08c",
+      "frequency_rank": 706,
+      "headword": "古い",
+      "part_of_speech": "adjective-i",
+      "reading": "ふるい"
+    },
+    {
+      "entry_id": "golden_e70f9243d4c7bf9e",
+      "frequency_rank": 34,
+      "headword": "店",
+      "part_of_speech": "noun",
+      "reading": "みせ"
+    },
+    {
+      "entry_id": "golden_e830ed120870a0d7",
+      "frequency_rank": 1511,
+      "headword": "スーパー",
+      "part_of_speech": "noun",
+      "reading": "スーパー"
+    },
+    {
+      "entry_id": "golden_ea75e321b7efa3c8",
+      "frequency_rank": 710,
+      "headword": "寒い",
+      "part_of_speech": "adjective-i",
+      "reading": "さむい"
+    },
+    {
+      "entry_id": "golden_eb208b6436bbcb21",
+      "frequency_rank": 4,
+      "headword": "昨日",
+      "part_of_speech": "noun",
+      "reading": "きのう"
+    },
+    {
+      "entry_id": "golden_ebdaef0f21db9377",
+      "frequency_rank": 38,
+      "headword": "休み",
+      "part_of_speech": "noun",
+      "reading": "やすみ"
+    },
+    {
+      "entry_id": "golden_ec4fa43155421fc1",
+      "frequency_rank": 501,
+      "headword": "食べる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "たべる"
+    },
+    {
+      "entry_id": "golden_ed6bd4d73b76f032",
+      "frequency_rank": 70,
+      "headword": "右",
+      "part_of_speech": "noun",
+      "reading": "みぎ"
+    },
+    {
+      "entry_id": "golden_ee158182835b4b5c",
+      "frequency_rank": 51,
+      "headword": "国",
+      "part_of_speech": "noun",
+      "reading": "くに"
+    },
+    {
+      "entry_id": "golden_ee7ea6a2913f332a",
+      "frequency_rank": 3930,
+      "headword": "量る",
+      "part_of_speech": "verb-godan",
+      "reading": "はかる"
+    },
+    {
+      "entry_id": "golden_eeaa1a65015b8578",
+      "frequency_rank": 3020,
+      "headword": "治す",
+      "part_of_speech": "verb-godan",
+      "reading": "なおす"
+    },
+    {
+      "entry_id": "golden_eef9d372f5df3abd",
+      "frequency_rank": 3110,
+      "headword": "写す",
+      "part_of_speech": "verb-godan",
+      "reading": "うつす"
+    },
+    {
+      "entry_id": "golden_f024ec5e9eeadadc",
+      "frequency_rank": 3610,
+      "headword": "着く",
+      "part_of_speech": "verb-godan",
+      "reading": "つく"
+    },
+    {
+      "entry_id": "golden_f5d831590911ff1c",
+      "frequency_rank": 53,
+      "headword": "質問",
+      "part_of_speech": "noun",
+      "reading": "しつもん"
+    },
+    {
+      "entry_id": "golden_f5f2c2dca175f502",
+      "frequency_rank": 1501,
+      "headword": "コーヒー",
+      "part_of_speech": "noun",
+      "reading": "コーヒー"
+    },
+    {
+      "entry_id": "golden_f5f3de79f5510640",
+      "frequency_rank": 1506,
+      "headword": "インターネット",
+      "part_of_speech": "noun",
+      "reading": "インターネット"
+    },
+    {
+      "entry_id": "golden_f60937eaa61b505c",
+      "frequency_rank": 3430,
+      "headword": "掻く",
+      "part_of_speech": "verb-godan",
+      "reading": "かく"
+    },
+    {
+      "entry_id": "golden_f6377dcbb5644b66",
+      "frequency_rank": 703,
+      "headword": "大きい",
+      "part_of_speech": "adjective-i",
+      "reading": "おおきい"
+    },
+    {
+      "entry_id": "golden_f6a8c4a23b51033a",
+      "frequency_rank": 6,
+      "headword": "時間",
+      "part_of_speech": "noun",
+      "reading": "じかん"
+    },
+    {
+      "entry_id": "golden_f71f9de562232760",
+      "frequency_rank": 16,
+      "headword": "車",
+      "part_of_speech": "noun",
+      "reading": "くるま"
+    },
+    {
+      "entry_id": "golden_f7e6b8131ec89854",
+      "frequency_rank": 2630,
+      "headword": "神",
+      "part_of_speech": "noun",
+      "reading": "かみ"
+    },
+    {
+      "entry_id": "golden_f906b238c9c2ae0d",
+      "frequency_rank": 18,
+      "headword": "新聞",
+      "part_of_speech": "noun",
+      "reading": "しんぶん"
+    },
+    {
+      "entry_id": "golden_fa318c378368f390",
+      "frequency_rank": 2430,
+      "headword": "採る",
+      "part_of_speech": "verb-godan",
+      "reading": "とる"
+    },
+    {
+      "entry_id": "golden_fa6a4c8f27b44300",
+      "frequency_rank": 47,
+      "headword": "花",
+      "part_of_speech": "noun",
+      "reading": "はな"
+    },
+    {
+      "entry_id": "golden_fb9e91d6616d9423",
+      "frequency_rank": 2530,
+      "headword": "端",
+      "part_of_speech": "noun",
+      "reading": "はし"
+    },
+    {
+      "entry_id": "golden_fcc4b149bcdb7e18",
+      "frequency_rank": 510,
+      "headword": "借りる",
+      "part_of_speech": "verb-ichidan",
+      "reading": "かりる"
+    },
+    {
+      "entry_id": "golden_fda6e04cdc9dd13f",
+      "frequency_rank": 547,
+      "headword": "消す",
+      "part_of_speech": "verb-godan",
+      "reading": "けす"
+    },
+    {
+      "entry_id": "golden_fe32ad0454490ee5",
+      "frequency_rank": 3210,
+      "headword": "泣く",
+      "part_of_speech": "verb-godan",
+      "reading": "なく"
+    },
+    {
+      "entry_id": "golden_ffd91fe01a103e73",
+      "frequency_rank": 1519,
+      "headword": "ジュース",
+      "part_of_speech": "noun",
+      "reading": "ジュース"
+    }
+  ],
+  "normalizer_version": 1,
+  "purpose": "Machine-verifiable search contract; examples are QA probes and are not release dictionary content or a frequency authority.",
+  "schema_version": 1,
+  "search_rules_version": 1
+}

@@ -28,19 +28,30 @@
 
 ### 3.1 搜尋黃金集
 
-至少包含：100 常見詞、50 動詞活用、20 形容詞活用、20 片假名、20 羅馬字、20 歧義、20 不應錯誤命中。每筆 fixture 包含：
+至少包含：100 常見詞、50 動詞活用、20 形容詞活用、20 片假名、20 羅馬字、20 歧義、20 不應錯誤命中。Normalization conformance row 記錄原始輸入與預期 normalized/kana/romaji variants；search acceptance row 記錄：
 
 ```text
 case_id, raw_query, locale/input context,
-expected normalized variants,
 expected entry IDs and allowable order,
 expected match kind,
 expected conjugation analysis,
 forbidden entry IDs,
-search_rules_version
+case rationale, search_rules_version
 ```
 
 歧義案例以「允許集合＋排序約束」表達，不假設自然語言只有一個答案。負例檢查 false-positive；任何 golden 變更必須附產品／語言理由，不可只為讓測試變綠。
+
+目前固定檔案為
+`data/fixtures/search_acceptance_v1.json`（corpus
+`kotoba-search-acceptance-v1`，SHA-256
+`f004b66861cc64ac6204dc85c317e502ed70099bc70bd6a52776bd2d6f07c281`）。
+它包含 100／50／20／20／20／20／20，共 250 個不重複查詢、235 個不同
+lexicon entries，歧義組共 52 個 alternatives。CI 以
+`python -m tools.verify_search_acceptance` 驗證 checksum、數量、唯一性與防灌水
+條件，經 canonical schema v1 與正式 builder 建 SQLite 後，逐筆驗證
+Python SearchEngine 的結果、排序、match/explain、活用分析及兩次執行完全相同。
+Flutter test 直接讀同一 JSON，驗證 Dart normalizer/query candidates 對 210 個
+正向 normalization／inflection／katakana／romaji cases 的 conformance。
 
 ### 3.2 效能資料集
 

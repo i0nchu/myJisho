@@ -14,7 +14,9 @@ The implementation is split into pure normalization
 (`packages/japanese_normalizer`) and read-only SQLite ranking
 (`packages/search_engine`). The database builder uses the same normalizer to
 precompute keys. `data/fixtures/normalization_golden.json` is the cross-runtime
-contract that the Dart implementation must also pass.
+normalization contract. `data/fixtures/search_acceptance_v1.json` is the
+versioned query-to-result, deinflection, ambiguity, negative, and ranking
+contract consumed by both Python and Dart tests.
 
 ## Query pipeline
 
@@ -100,6 +102,53 @@ input, and non-matches. Fixture acceptance includes:
 - `高かった` → `高い`; `静かだった` → `静か`
 - `あう` ranks common `会う`, then `合う`, then less common `遭う`
 
+### Fixed acceptance corpus
+
+The committed `kotoba-search-acceptance-v1` corpus contains 250 distinct
+queries backed by 235 distinct lexical rows:
+
+| Category | Cases | Distinct expected entries |
+|---|---:|---:|
+| Common learner words | 100 | 100 |
+| Verb inflections | 50 | 50 |
+| Adjective inflections | 20 | 20 |
+| Katakana/width inputs | 20 | 20 |
+| Common Hepburn romaji | 20 | 20 |
+| Same-reading ambiguities | 20 | 52 alternatives |
+| Negative/non-match probes | 20 | n/a |
+
+This corpus cannot be padded with empty or duplicate queries: the verifier
+checks category minima, query and case-ID uniqueness, distinct-entry coverage,
+ambiguity reading/order consistency, references, and an embedded SHA-256 over
+the lexicon and cases. The initial checksum is
+`f004b66861cc64ac6204dc85c317e502ed70099bc70bd6a52776bd2d6f07c281`.
+Its generator is committed at `tools/generate_search_acceptance_fixture.py`;
+tests require the checked-in JSON to be byte-for-byte equal to a deterministic
+regeneration.
+
+Run the complete AC-02/03/04 machine contract with:
+
+```powershell
+python -m tools.verify_search_acceptance
+```
+
+The command validates the corpus, materializes its 235 rows through canonical
+schema v1 and the production SQLite builder, then executes every query twice
+through `SearchEngine(debug=True)`. It checks top result/order, match kind,
+forbidden results, deinflection lemma/reason/confidence, score-component
+arithmetic, and deterministic equality. The 2026-07-23 reference run passed
+250/250 deterministic checks, 230/230 positive explain checks, and 20/20
+negative checks with zero failures. Flutter tests load the same JSON and verify
+that Dart query candidates reach the expected lexical key for all 210
+normalization/inflection/katakana/romaji cases.
+
+The corpus is a CC0 QA behavior contract, not release dictionary content or an
+authoritative frequency list. Its generated canonical rows remain `ai_draft`;
+passing search acceptance does not bypass the separate human content-review
+gate.
+
+### Performance harness
+
 The fixed-seed performance harness is:
 
 ```powershell
@@ -113,17 +162,18 @@ The release target is P95 under 100 ms at 100k entries on the supported referenc
 environment. The 300k case is a manual capacity check, not a reason to weaken
 exact-result quality.
 
-Reference run on 2026-07-22 (Windows, CPython 3.14, fixed seed `20260722`):
+Reference run on 2026-07-23 (Windows, CPython 3.14, fixed seed `20260722`,
+500 queries per size, freshly built current schema):
 
-| Dataset | Queries | P50 | P95 | Max | Note |
-|---|---:|---:|---:|---:|---|
-| 10k | 500 | 1.235 ms | 2.635 ms | 4.451 ms | indexed current schema |
-| 100k | 500 | 31.278 ms | 57.946 ms | 544.554 ms | reused older compatible DB without new display-field indexes |
+| Dataset | Build | P50 | P95 | Max |
+|---|---:|---:|---:|---:|
+| 10k | 0.702 s | 0.592 ms | 2.722 ms | 7.181 ms |
+| 100k | 5.500 s | 1.272 ms | 6.671 ms | 94.385 ms |
+| 300k | 23.272 s | 1.623 ms | 7.977 ms | 299.176 ms |
 
-The 100k P95 passes the 100 ms target. Its maximum is a deliberate no-match
-substring fallback scan; this is tracked separately from the P95 acceptance
-gate and is a candidate for an optional n-gram/FTS index in P1. A freshly built
-100k database with current indexes measured P95 9.137 ms over 200 queries.
+The 100k P95 passes the 100 ms target. The larger maximums are deliberate
+no-match substring fallback scans; this is tracked separately from the P95
+acceptance gate and is a candidate for an optional n-gram/FTS index in P1.
 
 P1 fuzzy matching must be added below all exact/normalized/deinflection results,
 with golden non-match cases and script-aware edit costs before it is enabled.

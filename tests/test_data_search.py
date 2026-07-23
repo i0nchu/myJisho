@@ -371,6 +371,7 @@ class SearchGoldenTests(unittest.TestCase):
             "ガッコウ": ("学校", "normalized_exact"),
             "gakkou": ("学校", "romaji"),
             "shimbun": ("新聞", "romaji"),
+            "shinbun": ("新聞", "romaji"),
             "hirowu": ("拾う", "romaji"),
             "高かった": ("高い", "deinflection"),
             "静かだった": ("静か", "deinflection"),
