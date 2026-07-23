@@ -13,15 +13,15 @@ that local automation cannot replace.
 | AC | Automated / repository evidence | Manual / external evidence | Status |
 |---|---|---|---|
 | AC-01 First launch | Flutter App has offline fixture/SQLite repositories and widget smoke tests | Release cold-start P95, clean offline install and initial focus on target devices | PARTIAL |
-| AC-02 Normalization | `tests/test_data_search.py`; `bundled_data_test.dart`; `fixture_dictionary_repository_test.dart`; canonical normalization golden JSON | Japanese product review of golden changes | PASS for named examples; corpus audit pending |
-| AC-03 Deinflection | Python normalizer/search tests and Dart fixture search tests | Qualified Japanese review of 50 verb + 20 adjective corpus | PARTIAL |
-| AC-04 Explainable ranking | deterministic search score/debug tests; reproducible SQLite builder | Search owner reviews intentional ranking changes | PASS |
+| AC-02 Normalization | 250-case globally unique corpus; Python canonical runtime and 235-row temporary SQLite through deployed Drift; exact/prefix/last-resort contains and checksum/anti-padding tests | Japanese product review of golden language expectations | PASS automated / EXTERNAL REVIEW |
+| AC-03 Deinflection | 50 distinct verb lemmas + 20 adjective cases pass Python and deployed Drift paths; Dart parity tests cover all P0 rule families, confidence and `食べられない → 食べる` | Qualified Japanese review of inflection expectations | PASS automated / EXTERNAL REVIEW |
+| AC-04 Explainable ranking | Python/Dart share featured +80, curated +40, imported +0 and deinflection uncertainty 0..-100; 20 ambiguity orders and SearchHit raw/modifier/final/deinflection evidence are deterministic | Search owner reviews intentional ranking changes | PASS |
 | AC-05 Entry experience | Flutter entry/media/widget tests; responsive browser smoke | 20 entries must pass qualified editorial review | PARTIAL / EXTERNAL GATE |
 | AC-06 Pronunciation | speech abstraction, synthesized-speech label and media widget tests | Offline TTS/audio and screen-reader test on all three platforms | PARTIAL / EXTERNAL GATE |
 | AC-07 Personal data | user-library persistence tests; update handoff test keeps user repository separate | Release-build restart/update smoke | PASS automated; device check pending |
-| AC-08 Desktop/mobile | desktop widget test; 390×844 and desktop browser smoke | Full keyboard/IME matrix on iOS, Windows and macOS | PARTIAL |
-| AC-09 Accessibility | semantic tooltips and current widget/browser checks | Contrast measurement, 200% text, VoiceOver/Narrator and reduced-motion matrix | PARTIAL / EXTERNAL GATE |
-| AC-10 Safe update | manifest/checksum/SQLite/rollback unit and integration tests | Published HTTPS package, interruption/disk-full tests and platform update smoke | PARTIAL |
+| AC-08 Desktop/mobile | 11-case AC-08/09 suite covers 390×844, 1200×800, keyboard selection, Space guard and shortcut disable; browser smoke confirms latest build | Full keyboard/IME matrix on iOS, Windows and macOS | PASS automated / EXTERNAL DEVICE |
+| AC-09 Accessibility | 200% text, semantic/focus labels, non-color status, 4.5:1 core contrast, reduced-motion routes and LicensePage tests | VoiceOver/Narrator, system high contrast and full platform focus order | PASS automated / EXTERNAL DEVICE |
+| AC-10 Safe update | 24 update tests cover HTTPS, fixed package contract, progress/cancel, interruption/disk-full, size/hash/assets/checksums, assets↔SQLite binding, pre-open recovery, real Drift readiness and rollback | Select/publish HTTPS host and run platform fault smoke; signing/key rotation decision | PASS automated / EXTERNAL CONFIG+DEVICE |
 | AC-11 Traceable release | schema/data/license/review validator tests; deterministic builder; editor audit workflow/security tests | Editorial/licensing sign-off for exact production input checksum | PASS mechanism; EXTERNAL GATE for content |
 | AC-12 Platform RC | committed iOS/Windows/macOS runners and CI jobs | Successful release artifacts, signing and recorded device smoke for all three platforms | EXTERNAL GATE |
 
@@ -44,5 +44,9 @@ or local Web build is not proof that Apple/Windows jobs ran.
 - Production release: NO-GO
 - External mandatory gates: qualified Japanese editorial approval, production
   signing/CI artifacts and iOS/Windows/macOS device acceptance
-- Engineering gaps still being closed: full search corpus, remote full-package
-  update fault suite, accessibility automation and app performance evidence
+- Remaining product evidence: release-device cold start and real SQLite UI P95
+- Remaining external decisions: HTTPS package host, manifest-signing policy and
+  exact build-time endpoints
+- Current supply-chain audit: 106 locked / 102 hosted packages, OSV 0
+  vulnerabilities, 0 missing license files, 0 high-signal tracked secrets;
+  exact-release CI report and CycloneDX SBOM review remain required

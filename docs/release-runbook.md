@@ -58,13 +58,15 @@ From repository root:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/verify.ps1
+python tools/security_audit.py
 git diff --check
 git status --short
 ```
 
-Record command output, test counts, benchmark dataset checksum, P50/P95/max and
-Web build warnings. Any P0 failure is NO-GO. A rerun may confirm a suspected
-environment issue, but must not hide a flaky gate; record owner and defect.
+Record command output, test counts, benchmark dataset checksum, P50/P95/max,
+security audit/SBOM and Web build warnings. Any P0 failure is NO-GO. A rerun
+may confirm a suspected environment issue, but must not hide a flaky gate;
+record owner and defect.
 
 ## 4. Platform artifacts
 

@@ -44,7 +44,7 @@ case rationale, search_rules_version
 目前固定檔案為
 `data/fixtures/search_acceptance_v1.json`（corpus
 `kotoba-search-acceptance-v1`，SHA-256
-`9d48b0429694121f73988f1bd6c806203023b2393c60018d43a95f91ccd8e097`）。
+`e7c6113aa7aae1dfbdf97ca81a059443ae07ceb520c1f77418c08b06da8089c0`）。
 它包含 100／50／20／20／20／20／20，共 250 個不重複查詢、235 個不同
 lexicon entries，歧義組共 52 個 alternatives。CI 以
 `python -m tools.verify_search_acceptance` 驗證 checksum、數量、全 corpus

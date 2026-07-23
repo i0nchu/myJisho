@@ -121,7 +121,7 @@ This corpus cannot be padded with empty or duplicate queries: the verifier
 checks category minima, global query and case-ID uniqueness, distinct-entry
 coverage, ambiguity reading/order consistency, references, and an embedded
 SHA-256 over the lexicon and cases. The current checksum is
-`9d48b0429694121f73988f1bd6c806203023b2393c60018d43a95f91ccd8e097`.
+`e7c6113aa7aae1dfbdf97ca81a059443ae07ceb520c1f77418c08b06da8089c0`.
 Its generator is committed at `tools/generate_search_acceptance_fixture.py`;
 tests require the checked-in JSON to be byte-for-byte equal to a deterministic
 regeneration.
