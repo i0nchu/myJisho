@@ -87,6 +87,8 @@ Start with [the MVP product baseline](docs/product-spec.md),
 [MVP customer review report](docs/mvp-review-report.md) records passed checks
 and the remaining production gates. Release owners use the
 [traceability matrix](docs/traceability-matrix.md) and
-[release runbook](docs/release-runbook.md). The project does not
+[release runbook](docs/release-runbook.md). Dependency, license, secret and
+SBOM evidence is documented in
+[the supply-chain review](docs/security-supply-chain.md). The project does not
 include Chinese definitions, accounts, advertising, analytics, OCR, flashcards,
 or AI tutoring in MVP scope.
