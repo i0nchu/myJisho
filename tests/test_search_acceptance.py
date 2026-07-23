@@ -53,6 +53,16 @@ class SearchAcceptanceCorpusTests(unittest.TestCase):
                 len(cases),
                 f"{category} must not repeat one entry to pad its count",
             )
+        all_queries = [
+            case["raw_query"]
+            for cases in self.corpus["categories"].values()
+            for case in cases
+        ]
+        self.assertEqual(len(all_queries), len(set(all_queries)))
+        self.assertEqual(
+            {row["editorial_level"] for row in self.corpus["lexicon"]},
+            {"featured", "curated", "imported"},
+        )
 
     def test_checksum_detects_unreviewed_fixture_edits(self) -> None:
         modified = copy.deepcopy(self.corpus)
@@ -66,6 +76,17 @@ class SearchAcceptanceCorpusTests(unittest.TestCase):
         cases[1]["raw_query"] = cases[0]["raw_query"]
         modified["content_sha256"] = acceptance._content_checksum(modified)
         with self.assertRaisesRegex(acceptance.CorpusError, "duplicate query"):
+            acceptance.validate_corpus(modified)
+
+    def test_cross_category_duplicate_is_rejected(self) -> None:
+        modified = copy.deepcopy(self.corpus)
+        modified["categories"]["negative"][0]["raw_query"] = modified[
+            "categories"
+        ]["common_words"][0]["raw_query"]
+        modified["content_sha256"] = acceptance._content_checksum(modified)
+        with self.assertRaisesRegex(
+            acceptance.CorpusError, "duplicate query across categories"
+        ):
             acceptance.validate_corpus(modified)
 
     def test_acceptance_lexicon_uses_canonical_builder_contract(self) -> None:

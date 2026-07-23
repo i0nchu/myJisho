@@ -2767,11 +2767,12 @@
       }
     ]
   },
-  "content_sha256": "f004b66861cc64ac6204dc85c317e502ed70099bc70bd6a52776bd2d6f07c281",
+  "content_sha256": "9d48b0429694121f73988f1bd6c806203023b2393c60018d43a95f91ccd8e097",
   "corpus_id": "kotoba-search-acceptance-v1",
   "fixture_license": "CC0-1.0",
   "lexicon": [
     {
+      "editorial_level": "curated",
       "entry_id": "golden_04d486e7201c9493",
       "frequency_rank": 708,
       "headword": "悪い",
@@ -2779,6 +2780,7 @@
       "reading": "わるい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_0513945a1ef519d4",
       "frequency_rank": 702,
       "headword": "安い",
@@ -2786,6 +2788,7 @@
       "reading": "やすい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_07f353ef981c0375",
       "frequency_rank": 64,
       "headword": "前",
@@ -2793,6 +2796,7 @@
       "reading": "まえ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_09558b341dc00914",
       "frequency_rank": 25,
       "headword": "名前",
@@ -2800,6 +2804,7 @@
       "reading": "なまえ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_0967db6c17f033c6",
       "frequency_rank": 1509,
       "headword": "タクシー",
@@ -2807,6 +2812,7 @@
       "reading": "タクシー"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_09d74d630a4550be",
       "frequency_rank": 50,
       "headword": "町",
@@ -2814,6 +2820,7 @@
       "reading": "まち"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_09f36b13c028cfc7",
       "frequency_rank": 1512,
       "headword": "コンビニ",
@@ -2821,6 +2828,7 @@
       "reading": "コンビニ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_0ac038632611f11f",
       "frequency_rank": 17,
       "headword": "本",
@@ -2828,6 +2836,7 @@
       "reading": "ほん"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_0adf764f931173ca",
       "frequency_rank": 536,
       "headword": "呼ぶ",
@@ -2835,6 +2844,7 @@
       "reading": "よぶ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_0b969a8c0944cc8e",
       "frequency_rank": 525,
       "headword": "話す",
@@ -2842,6 +2852,7 @@
       "reading": "はなす"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_0cbee2d1028430b9",
       "frequency_rank": 41,
       "headword": "机",
@@ -2849,6 +2860,7 @@
       "reading": "つくえ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_0d114c78c7a19aac",
       "frequency_rank": 550,
       "headword": "習う",
@@ -2856,6 +2868,7 @@
       "reading": "ならう"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_0e853c977cf19f9e",
       "frequency_rank": 60,
       "headword": "生活",
@@ -2863,6 +2876,7 @@
       "reading": "せいかつ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_0ec838cc07eaa6ca",
       "frequency_rank": 506,
       "headword": "覚える",
@@ -2870,6 +2884,7 @@
       "reading": "おぼえる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_11b5462fa3a4dc8e",
       "frequency_rank": 716,
       "headword": "長い",
@@ -2877,6 +2892,7 @@
       "reading": "ながい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_123a10eb50b08101",
       "frequency_rank": 44,
       "headword": "猫",
@@ -2884,6 +2900,7 @@
       "reading": "ねこ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_14be5202d5b3715c",
       "frequency_rank": 71,
       "headword": "左",
@@ -2891,6 +2908,7 @@
       "reading": "ひだり"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_152ea0d72dc53601",
       "frequency_rank": 35,
       "headword": "病院",
@@ -2898,6 +2916,7 @@
       "reading": "びょういん"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_17e3177c62d509a9",
       "frequency_rank": 528,
       "headword": "立つ",
@@ -2905,6 +2924,7 @@
       "reading": "たつ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_18597113ac94608b",
       "frequency_rank": 76,
       "headword": "春",
@@ -2912,6 +2932,7 @@
       "reading": "はる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_19bd7db9d5d0ca67",
       "frequency_rank": 49,
       "headword": "空",
@@ -2919,13 +2940,15 @@
       "reading": "そら"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_19be7f7be76662b4",
-      "frequency_rank": 709,
+      "frequency_rank": 2800,
       "headword": "暑い",
       "part_of_speech": "adjective-i",
       "reading": "あつい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_1b65a0cb82d2a88d",
       "frequency_rank": 529,
       "headword": "買う",
@@ -2933,6 +2956,7 @@
       "reading": "かう"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_1bedf722c04a58fa",
       "frequency_rank": 82,
       "headword": "三",
@@ -2940,6 +2964,7 @@
       "reading": "さん"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_1ee90bf5d13a67b3",
       "frequency_rank": 545,
       "headword": "切る",
@@ -2947,6 +2972,7 @@
       "reading": "きる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_23523bbf8d9c4bfb",
       "frequency_rank": 39,
       "headword": "部屋",
@@ -2954,6 +2980,7 @@
       "reading": "へや"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_2438f15019e70b74",
       "frequency_rank": 514,
       "headword": "降りる",
@@ -2961,6 +2988,7 @@
       "reading": "おりる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_24df874727705e0d",
       "frequency_rank": 36,
       "headword": "電話",
@@ -2968,6 +2996,7 @@
       "reading": "でんわ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_24f188a06d2c59d1",
       "frequency_rank": 532,
       "headword": "読む",
@@ -2975,6 +3004,7 @@
       "reading": "よむ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_2850b5703e8b21b2",
       "frequency_rank": 27,
       "headword": "天気",
@@ -2982,6 +3012,7 @@
       "reading": "てんき"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_288a95a40d95df2a",
       "frequency_rank": 705,
       "headword": "新しい",
@@ -2989,6 +3020,7 @@
       "reading": "あたらしい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_28ddfdc9290cd67d",
       "frequency_rank": 19,
       "headword": "水",
@@ -2996,6 +3028,7 @@
       "reading": "みず"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_29ebffd36857a087",
       "frequency_rank": 1505,
       "headword": "スマートフォン",
@@ -3003,6 +3036,7 @@
       "reading": "スマートフォン"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_2c2d6564a0bccf60",
       "frequency_rank": 40,
       "headword": "窓",
@@ -3010,6 +3044,7 @@
       "reading": "まど"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_2cc50c2d66a6706a",
       "frequency_rank": 87,
       "headword": "大人",
@@ -3017,6 +3052,7 @@
       "reading": "おとな"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_2e3ba98d2367811b",
       "frequency_rank": 59,
       "headword": "旅行",
@@ -3024,6 +3060,7 @@
       "reading": "りょこう"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_30f18c7ebfd6a62b",
       "frequency_rank": 85,
       "headword": "円",
@@ -3031,6 +3068,7 @@
       "reading": "えん"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_33d9e537aeac8242",
       "frequency_rank": 544,
       "headword": "送る",
@@ -3038,20 +3076,23 @@
       "reading": "おくる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_385cc0d9ee98fb54",
-      "frequency_rank": 502,
+      "frequency_rank": 3700,
       "headword": "見る",
       "part_of_speech": "verb-ichidan",
       "reading": "みる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_3ab7a11d1e94f767",
-      "frequency_rank": 3630,
+      "frequency_rank": 3600,
       "headword": "点く",
       "part_of_speech": "verb-godan",
       "reading": "つく"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_3ad79496437df6db",
       "frequency_rank": 1518,
       "headword": "パン",
@@ -3059,13 +3100,15 @@
       "reading": "パン"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_3bd0c1c724333bb6",
-      "frequency_rank": 3720,
+      "frequency_rank": 3700,
       "headword": "観る",
       "part_of_speech": "verb-ichidan",
       "reading": "みる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_3f59c469d8f61b8c",
       "frequency_rank": 1516,
       "headword": "サッカー",
@@ -3073,20 +3116,23 @@
       "reading": "サッカー"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_40179481fcf65fd2",
-      "frequency_rank": 530,
+      "frequency_rank": 2100,
       "headword": "会う",
       "part_of_speech": "verb-godan",
       "reading": "あう"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_406f88e7315a1a5c",
-      "frequency_rank": 2720,
+      "frequency_rank": 2700,
       "headword": "飴",
       "part_of_speech": "noun",
       "reading": "あめ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_40ae6dddb10aa4bd",
       "frequency_rank": 22,
       "headword": "朝",
@@ -3094,6 +3140,7 @@
       "reading": "あさ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_4125c1bacf52ffca",
       "frequency_rank": 65,
       "headword": "後ろ",
@@ -3101,6 +3148,7 @@
       "reading": "うしろ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_42d6dbdfe036bf16",
       "frequency_rank": 52,
       "headword": "問題",
@@ -3108,6 +3156,7 @@
       "reading": "もんだい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_42edc1b837791e0c",
       "frequency_rank": 8,
       "headword": "学校",
@@ -3115,13 +3164,15 @@
       "reading": "がっこう"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_42f608e946a62d90",
-      "frequency_rank": 2920,
+      "frequency_rank": 2900,
       "headword": "速い",
       "part_of_speech": "adjective-i",
       "reading": "はやい"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_4397422fc9fb1dc4",
       "frequency_rank": 548,
       "headword": "行く",
@@ -3129,6 +3180,7 @@
       "reading": "いく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_456eae34da34353d",
       "frequency_rank": 717,
       "headword": "短い",
@@ -3136,6 +3188,7 @@
       "reading": "みじかい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_46f8fe65f21893ff",
       "frequency_rank": 31,
       "headword": "川",
@@ -3143,6 +3196,7 @@
       "reading": "かわ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_47c1227c459bbdad",
       "frequency_rank": 32,
       "headword": "海",
@@ -3150,6 +3204,7 @@
       "reading": "うみ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_497356cf064630b2",
       "frequency_rank": 9,
       "headword": "先生",
@@ -3157,6 +3212,7 @@
       "reading": "せんせい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_49f91d135f05fedd",
       "frequency_rank": 549,
       "headword": "働く",
@@ -3164,6 +3220,7 @@
       "reading": "はたらく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_4a9566e87de1b2a4",
       "frequency_rank": 23,
       "headword": "昼",
@@ -3171,6 +3228,7 @@
       "reading": "ひる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_4b9dfeafcab4c54d",
       "frequency_rank": 88,
       "headword": "男",
@@ -3178,6 +3236,7 @@
       "reading": "おとこ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_4cd1238bcb91e890",
       "frequency_rank": 43,
       "headword": "犬",
@@ -3185,6 +3244,7 @@
       "reading": "いぬ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_4d9423288cb270ec",
       "frequency_rank": 89,
       "headword": "女",
@@ -3192,20 +3252,23 @@
       "reading": "おんな"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_4e55e094a09d003a",
-      "frequency_rank": 2830,
+      "frequency_rank": 2800,
       "headword": "厚い",
       "part_of_speech": "adjective-i",
       "reading": "あつい"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_4eac64968d8e6ac7",
-      "frequency_rank": 3730,
+      "frequency_rank": 3700,
       "headword": "診る",
       "part_of_speech": "verb-ichidan",
       "reading": "みる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_4f9ae60eff62c41a",
       "frequency_rank": 516,
       "headword": "考える",
@@ -3213,6 +3276,7 @@
       "reading": "かんがえる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_50eb0e80c367983f",
       "frequency_rank": 504,
       "headword": "寝る",
@@ -3220,6 +3284,7 @@
       "reading": "ねる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_516ad1128c719a35",
       "frequency_rank": 527,
       "headword": "持つ",
@@ -3227,6 +3292,7 @@
       "reading": "もつ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_520308b3c3b402d4",
       "frequency_rank": 67,
       "headword": "下",
@@ -3234,13 +3300,15 @@
       "reading": "した"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_52ee65a6539bf376",
-      "frequency_rank": 2130,
+      "frequency_rank": 2100,
       "headword": "遭う",
       "part_of_speech": "verb-godan",
       "reading": "あう"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_536e42da8b8453a7",
       "frequency_rank": 518,
       "headword": "続ける",
@@ -3248,6 +3316,7 @@
       "reading": "つづける"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_53c63c8d3e254771",
       "frequency_rank": 507,
       "headword": "忘れる",
@@ -3255,13 +3324,15 @@
       "reading": "わすれる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_56ac401dba9b05af",
-      "frequency_rank": 2230,
+      "frequency_rank": 2200,
       "headword": "替える",
       "part_of_speech": "verb-ichidan",
       "reading": "かえる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_576cf9f4885e63e6",
       "frequency_rank": 63,
       "headword": "例",
@@ -3269,6 +3340,7 @@
       "reading": "れい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_5849925b131d3c36",
       "frequency_rank": 68,
       "headword": "中",
@@ -3276,6 +3348,7 @@
       "reading": "なか"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_58a04652246fad1f",
       "frequency_rank": 535,
       "headword": "遊ぶ",
@@ -3283,6 +3356,7 @@
       "reading": "あそぶ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_5c1c2120b516d6b6",
       "frequency_rank": 45,
       "headword": "魚",
@@ -3290,6 +3364,7 @@
       "reading": "さかな"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_5d8047464c5db266",
       "frequency_rank": 80,
       "headword": "一",
@@ -3297,6 +3372,7 @@
       "reading": "いち"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_5e42ab61b84c94b7",
       "frequency_rank": 543,
       "headword": "売る",
@@ -3304,6 +3380,7 @@
       "reading": "うる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_5ee54e973899a9c4",
       "frequency_rank": 714,
       "headword": "忙しい",
@@ -3311,6 +3388,7 @@
       "reading": "いそがしい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_5fd1d37596998295",
       "frequency_rank": 86,
       "headword": "子供",
@@ -3318,6 +3396,7 @@
       "reading": "こども"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_6109638dac5350e2",
       "frequency_rank": 69,
       "headword": "外",
@@ -3325,6 +3404,7 @@
       "reading": "そと"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_61b57e2d470229e7",
       "frequency_rank": 720,
       "headword": "静か",
@@ -3332,6 +3412,7 @@
       "reading": "しずか"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_61c233ab6a5e70ab",
       "frequency_rank": 1508,
       "headword": "レストラン",
@@ -3339,6 +3420,7 @@
       "reading": "レストラン"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_64289653ec1df78f",
       "frequency_rank": 98,
       "headword": "足",
@@ -3346,20 +3428,23 @@
       "reading": "あし"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_64f4ae4e66b0cb92",
-      "frequency_rank": 3620,
+      "frequency_rank": 3600,
       "headword": "付く",
       "part_of_speech": "verb-godan",
       "reading": "つく"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_658ff53bc11454b9",
-      "frequency_rank": 508,
+      "frequency_rank": 3300,
       "headword": "開ける",
       "part_of_speech": "verb-ichidan",
       "reading": "あける"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_683f3e7fb08574be",
       "frequency_rank": 46,
       "headword": "鳥",
@@ -3367,6 +3452,7 @@
       "reading": "とり"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_6927fec1fef07f23",
       "frequency_rank": 712,
       "headword": "易しい",
@@ -3374,6 +3460,7 @@
       "reading": "やさしい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_6a131fc93d7b6588",
       "frequency_rank": 517,
       "headword": "調べる",
@@ -3381,6 +3468,7 @@
       "reading": "しらべる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_6ab8f730431c1934",
       "frequency_rank": 58,
       "headword": "料理",
@@ -3388,6 +3476,7 @@
       "reading": "りょうり"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_6b9362de88a7a26b",
       "frequency_rank": 2,
       "headword": "今日",
@@ -3395,6 +3484,7 @@
       "reading": "きょう"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_6c0b9f3278dcbf63",
       "frequency_rank": 99,
       "headword": "目",
@@ -3402,6 +3492,7 @@
       "reading": "め"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_6e098e54aa638964",
       "frequency_rank": 96,
       "headword": "体",
@@ -3409,6 +3500,7 @@
       "reading": "からだ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_6e163dda1636638b",
       "frequency_rank": 1514,
       "headword": "ピアノ",
@@ -3416,6 +3508,7 @@
       "reading": "ピアノ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_6ed0b6d4c374ad7d",
       "frequency_rank": 711,
       "headword": "難しい",
@@ -3423,6 +3516,7 @@
       "reading": "むずかしい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_6f2e359ff6c81f5d",
       "frequency_rank": 73,
       "headword": "西",
@@ -3430,6 +3524,7 @@
       "reading": "にし"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_6f30c5c5938fbd0c",
       "frequency_rank": 526,
       "headword": "待つ",
@@ -3437,13 +3532,15 @@
       "reading": "まつ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_72460e05df01b083",
-      "frequency_rank": 2910,
+      "frequency_rank": 2900,
       "headword": "早い",
       "part_of_speech": "adjective-i",
       "reading": "はやい"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_72c5b362c4f2f37e",
       "frequency_rank": 503,
       "headword": "起きる",
@@ -3451,13 +3548,15 @@
       "reading": "おきる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_72ca4874af084ef0",
-      "frequency_rank": 4020,
+      "frequency_rank": 4000,
       "headword": "挙がる",
       "part_of_speech": "verb-godan",
       "reading": "あがる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_735d35e5b1be5f5e",
       "frequency_rank": 95,
       "headword": "妹",
@@ -3465,6 +3564,7 @@
       "reading": "いもうと"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_769a805249574c63",
       "frequency_rank": 704,
       "headword": "小さい",
@@ -3472,6 +3572,7 @@
       "reading": "ちいさい"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_76a7f713c3dbea3e",
       "frequency_rank": 524,
       "headword": "泳ぐ",
@@ -3479,6 +3580,7 @@
       "reading": "およぐ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_775979a197ea134f",
       "frequency_rank": 701,
       "headword": "高い",
@@ -3486,6 +3588,7 @@
       "reading": "たかい"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_7863488ec2b82798",
       "frequency_rank": 42,
       "headword": "椅子",
@@ -3493,13 +3596,15 @@
       "reading": "いす"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_788a8843ced9439e",
-      "frequency_rank": 2520,
+      "frequency_rank": 2500,
       "headword": "箸",
       "part_of_speech": "noun",
       "reading": "はし"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_79261a065ba555a5",
       "frequency_rank": 515,
       "headword": "始める",
@@ -3507,6 +3612,7 @@
       "reading": "はじめる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_79db1765ce267dbf",
       "frequency_rank": 29,
       "headword": "雪",
@@ -3514,6 +3620,7 @@
       "reading": "ゆき"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_7b9d866e6dc2a601",
       "frequency_rank": 56,
       "headword": "映画",
@@ -3521,6 +3628,7 @@
       "reading": "えいが"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_7c4d1abbdd617033",
       "frequency_rank": 79,
       "headword": "冬",
@@ -3528,20 +3636,23 @@
       "reading": "ふゆ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_7dd1831e3fa88aa6",
-      "frequency_rank": 3520,
+      "frequency_rank": 3500,
       "headword": "刺す",
       "part_of_speech": "verb-godan",
       "reading": "さす"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_7e87850c448d2815",
-      "frequency_rank": 28,
+      "frequency_rank": 2700,
       "headword": "雨",
       "part_of_speech": "noun",
       "reading": "あめ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_7e8dc4d63e82bcc6",
       "frequency_rank": 94,
       "headword": "弟",
@@ -3549,6 +3660,7 @@
       "reading": "おとうと"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_7fa86c660a00ef18",
       "frequency_rank": 91,
       "headword": "母",
@@ -3556,6 +3668,7 @@
       "reading": "はは"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_7fc81b0ddd17b89f",
       "frequency_rank": 81,
       "headword": "二",
@@ -3563,13 +3676,15 @@
       "reading": "に"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_802b867125085a84",
-      "frequency_rank": 3420,
+      "frequency_rank": 3400,
       "headword": "描く",
       "part_of_speech": "verb-godan",
       "reading": "かく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_80b68bbbc8708d49",
       "frequency_rank": 520,
       "headword": "生きる",
@@ -3577,6 +3692,7 @@
       "reading": "いきる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_826a124ad930bcbc",
       "frequency_rank": 1510,
       "headword": "バス",
@@ -3584,6 +3700,7 @@
       "reading": "バス"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_8298c6a732a720d2",
       "frequency_rank": 512,
       "headword": "着る",
@@ -3591,6 +3708,7 @@
       "reading": "きる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_82a114897d9c7148",
       "frequency_rank": 541,
       "headword": "入る",
@@ -3598,13 +3716,15 @@
       "reading": "はいる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_8324491a1369e43a",
-      "frequency_rank": 2120,
+      "frequency_rank": 2100,
       "headword": "合う",
       "part_of_speech": "verb-godan",
       "reading": "あう"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_83b219893ecaa958",
       "frequency_rank": 55,
       "headword": "音楽",
@@ -3612,13 +3732,15 @@
       "reading": "おんがく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_8405ebd3bf29cd0f",
-      "frequency_rank": 2320,
+      "frequency_rank": 2300,
       "headword": "聴く",
       "part_of_speech": "verb-godan",
       "reading": "きく"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_85675bbfdbe64af4",
       "frequency_rank": 78,
       "headword": "秋",
@@ -3626,13 +3748,15 @@
       "reading": "あき"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_86592fe77e48d513",
-      "frequency_rank": 4010,
+      "frequency_rank": 4000,
       "headword": "上がる",
       "part_of_speech": "verb-godan",
       "reading": "あがる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_86d0702471ee429f",
       "frequency_rank": 21,
       "headword": "ご飯",
@@ -3640,13 +3764,15 @@
       "reading": "ごはん"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_86eca158d6a52acc",
-      "frequency_rank": 3120,
+      "frequency_rank": 3100,
       "headword": "移す",
       "part_of_speech": "verb-godan",
       "reading": "うつす"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_86ef0852f80fa5ed",
       "frequency_rank": 84,
       "headword": "千",
@@ -3654,13 +3780,15 @@
       "reading": "せん"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_873a33bd6c138682",
-      "frequency_rank": 2510,
+      "frequency_rank": 2500,
       "headword": "橋",
       "part_of_speech": "noun",
       "reading": "はし"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_896d3ced1b419e94",
       "frequency_rank": 1503,
       "headword": "ラジオ",
@@ -3668,13 +3796,15 @@
       "reading": "ラジオ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_897d3a6421355195",
-      "frequency_rank": 2420,
+      "frequency_rank": 2400,
       "headword": "撮る",
       "part_of_speech": "verb-godan",
       "reading": "とる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_8af58778f14e64b3",
       "frequency_rank": 12,
       "headword": "家",
@@ -3682,6 +3812,7 @@
       "reading": "いえ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_8b215c59258849ce",
       "frequency_rank": 519,
       "headword": "止める",
@@ -3689,6 +3820,7 @@
       "reading": "とめる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_8b4370afb039f7f0",
       "frequency_rank": 719,
       "headword": "遠い",
@@ -3696,6 +3828,7 @@
       "reading": "とおい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_93fbee8b5477011f",
       "frequency_rank": 1520,
       "headword": "アイスクリーム",
@@ -3703,13 +3836,15 @@
       "reading": "アイスクリーム"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_944f21154c785640",
-      "frequency_rank": 539,
+      "frequency_rank": 2200,
       "headword": "帰る",
       "part_of_speech": "verb-godan",
       "reading": "かえる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9567eaf8fe9bef37",
       "frequency_rank": 10,
       "headword": "学生",
@@ -3717,6 +3852,7 @@
       "reading": "がくせい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_96a032e15dda9e17",
       "frequency_rank": 83,
       "headword": "百",
@@ -3724,6 +3860,7 @@
       "reading": "ひゃく"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_97526e11c7038722",
       "frequency_rank": 540,
       "headword": "走る",
@@ -3731,6 +3868,7 @@
       "reading": "はしる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9752b818f9f88b6d",
       "frequency_rank": 7,
       "headword": "日本",
@@ -3738,6 +3876,7 @@
       "reading": "にほん"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9825648af79e6812",
       "frequency_rank": 713,
       "headword": "面白い",
@@ -3745,6 +3884,7 @@
       "reading": "おもしろい"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_98e990bf1d44ebbc",
       "frequency_rank": 509,
       "headword": "閉める",
@@ -3752,6 +3892,7 @@
       "reading": "しめる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9af9c5ffb30ef076",
       "frequency_rank": 531,
       "headword": "使う",
@@ -3759,13 +3900,15 @@
       "reading": "つかう"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9c8c9f9a1cdeeed7",
-      "frequency_rank": 3910,
+      "frequency_rank": 3900,
       "headword": "測る",
       "part_of_speech": "verb-godan",
       "reading": "はかる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_9cc2d4a9bbe12a86",
       "frequency_rank": 715,
       "headword": "楽しい",
@@ -3773,6 +3916,7 @@
       "reading": "たのしい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9d97ee4082e2303f",
       "frequency_rank": 1507,
       "headword": "ホテル",
@@ -3780,13 +3924,15 @@
       "reading": "ホテル"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9e0eeba39759de91",
-      "frequency_rank": 3810,
+      "frequency_rank": 3800,
       "headword": "乗る",
       "part_of_speech": "verb-godan",
       "reading": "のる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9e64feeea5ea4d4d",
       "frequency_rank": 100,
       "headword": "口",
@@ -3794,20 +3940,23 @@
       "reading": "くち"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_9e794067bd86f490",
-      "frequency_rank": 3920,
+      "frequency_rank": 3900,
       "headword": "計る",
       "part_of_speech": "verb-godan",
       "reading": "はかる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_9ed3b36956458152",
-      "frequency_rank": 538,
+      "frequency_rank": 2400,
       "headword": "取る",
       "part_of_speech": "verb-godan",
       "reading": "とる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_a20f68bce3e18ddb",
       "frequency_rank": 1504,
       "headword": "コンピューター",
@@ -3815,6 +3964,7 @@
       "reading": "コンピューター"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_a4ccf0b7bace8f9a",
       "frequency_rank": 542,
       "headword": "作る",
@@ -3822,6 +3972,7 @@
       "reading": "つくる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_a4e52ef19d814551",
       "frequency_rank": 77,
       "headword": "夏",
@@ -3829,13 +3980,15 @@
       "reading": "なつ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_a584cd8f139044de",
-      "frequency_rank": 3010,
+      "frequency_rank": 3000,
       "headword": "直す",
       "part_of_speech": "verb-godan",
       "reading": "なおす"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_a5d390dc48050f6a",
       "frequency_rank": 48,
       "headword": "木",
@@ -3843,13 +3996,15 @@
       "reading": "き"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_a739af20170fe6fc",
-      "frequency_rank": 2330,
+      "frequency_rank": 2300,
       "headword": "効く",
       "part_of_speech": "verb-godan",
       "reading": "きく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_a76603aae6e4b82d",
       "frequency_rank": 523,
       "headword": "歩く",
@@ -3857,20 +4012,23 @@
       "reading": "あるく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_a7d2df69375905ac",
-      "frequency_rank": 3820,
+      "frequency_rank": 3800,
       "headword": "載る",
       "part_of_speech": "verb-godan",
       "reading": "のる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_aac2f82732e1d978",
-      "frequency_rank": 3510,
+      "frequency_rank": 3500,
       "headword": "指す",
       "part_of_speech": "verb-godan",
       "reading": "さす"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_acc3dd26ba1e4a04",
       "frequency_rank": 534,
       "headword": "休む",
@@ -3878,6 +4036,7 @@
       "reading": "やすむ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_ad7167347a2ac285",
       "frequency_rank": 5,
       "headword": "人",
@@ -3885,6 +4044,7 @@
       "reading": "ひと"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_b0a03cee753b0626",
       "frequency_rank": 75,
       "headword": "北",
@@ -3892,6 +4052,7 @@
       "reading": "きた"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_b1ff052549eddc45",
       "frequency_rank": 97,
       "headword": "手",
@@ -3899,6 +4060,7 @@
       "reading": "て"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_b2a9df4d0301517a",
       "frequency_rank": 513,
       "headword": "出る",
@@ -3906,6 +4068,7 @@
       "reading": "でる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_b331c1fed177bb1f",
       "frequency_rank": 707,
       "headword": "良い",
@@ -3913,6 +4076,7 @@
       "reading": "よい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_b3624d02db128b95",
       "frequency_rank": 511,
       "headword": "いる",
@@ -3920,6 +4084,7 @@
       "reading": "いる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_b4a022a9e7a6a460",
       "frequency_rank": 33,
       "headword": "道",
@@ -3927,6 +4092,7 @@
       "reading": "みち"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_b4d66aa2f6f4763f",
       "frequency_rank": 1502,
       "headword": "テレビ",
@@ -3934,13 +4100,15 @@
       "reading": "テレビ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_b540d68fb81ad768",
-      "frequency_rank": 3320,
+      "frequency_rank": 3300,
       "headword": "明ける",
       "part_of_speech": "verb-ichidan",
       "reading": "あける"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_b549323b238f2dea",
       "frequency_rank": 62,
       "headword": "意味",
@@ -3948,6 +4116,7 @@
       "reading": "いみ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_b6944a5fe27104bc",
       "frequency_rank": 1,
       "headword": "私",
@@ -3955,6 +4124,7 @@
       "reading": "わたし"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_b89224decc1b0706",
       "frequency_rank": 72,
       "headword": "東",
@@ -3962,6 +4132,7 @@
       "reading": "ひがし"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_ba0c8a160c3322c6",
       "frequency_rank": 24,
       "headword": "夜",
@@ -3969,6 +4140,7 @@
       "reading": "よる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_ba5fab138253d333",
       "frequency_rank": 61,
       "headword": "文化",
@@ -3976,6 +4148,7 @@
       "reading": "ぶんか"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_bc01756b4d895bbb",
       "frequency_rank": 1807,
       "headword": "来る",
@@ -3983,6 +4156,7 @@
       "reading": "くる"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_bec9ce9d08c81020",
       "frequency_rank": 3,
       "headword": "明日",
@@ -3990,13 +4164,15 @@
       "reading": "あした"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_c0ecee8c2c683708",
-      "frequency_rank": 3220,
+      "frequency_rank": 3200,
       "headword": "鳴く",
       "part_of_speech": "verb-godan",
       "reading": "なく"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_c0f58bfab32460c7",
       "frequency_rank": 66,
       "headword": "上",
@@ -4004,6 +4180,7 @@
       "reading": "うえ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_c2674f41fc440a04",
       "frequency_rank": 546,
       "headword": "急ぐ",
@@ -4011,13 +4188,15 @@
       "reading": "いそぐ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_c316760df288cbc6",
-      "frequency_rank": 2620,
+      "frequency_rank": 2600,
       "headword": "髪",
       "part_of_speech": "noun",
       "reading": "かみ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_c506bd7fb201ea98",
       "frequency_rank": 13,
       "headword": "会社",
@@ -4025,6 +4204,7 @@
       "reading": "かいしゃ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_cda9169e9fa2887b",
       "frequency_rank": 92,
       "headword": "兄",
@@ -4032,6 +4212,7 @@
       "reading": "あに"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_cdf28ddaf8371c88",
       "frequency_rank": 37,
       "headword": "仕事",
@@ -4039,6 +4220,7 @@
       "reading": "しごと"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_cef4a2049ff3a5c0",
       "frequency_rank": 26,
       "headword": "言葉",
@@ -4046,13 +4228,15 @@
       "reading": "ことば"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_d060cd928492d459",
-      "frequency_rank": 2610,
+      "frequency_rank": 2600,
       "headword": "紙",
       "part_of_speech": "noun",
       "reading": "かみ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_d15ca6ea1179aeac",
       "frequency_rank": 90,
       "headword": "父",
@@ -4060,6 +4244,7 @@
       "reading": "ちち"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_d18ca13aa38627a5",
       "frequency_rank": 20,
       "headword": "お茶",
@@ -4067,6 +4252,7 @@
       "reading": "おちゃ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_d29031265cf4e338",
       "frequency_rank": 14,
       "headword": "駅",
@@ -4074,13 +4260,15 @@
       "reading": "えき"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_d34997e828cb5bf5",
-      "frequency_rank": 521,
+      "frequency_rank": 3400,
       "headword": "書く",
       "part_of_speech": "verb-godan",
       "reading": "かく"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_d5901ecbf5fb051a",
       "frequency_rank": 57,
       "headword": "写真",
@@ -4088,6 +4276,7 @@
       "reading": "しゃしん"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_d72e08381953f410",
       "frequency_rank": 718,
       "headword": "近い",
@@ -4095,6 +4284,7 @@
       "reading": "ちかい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_d7ac08a1ae47f610",
       "frequency_rank": 1513,
       "headword": "カメラ",
@@ -4102,13 +4292,15 @@
       "reading": "カメラ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_d8a0261581dcf64d",
-      "frequency_rank": 522,
+      "frequency_rank": 2300,
       "headword": "聞く",
       "part_of_speech": "verb-godan",
       "reading": "きく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_d9898f8a95b6ed6d",
       "frequency_rank": 11,
       "headword": "友達",
@@ -4116,6 +4308,7 @@
       "reading": "ともだち"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_da34afb3d61f55af",
       "frequency_rank": 54,
       "headword": "答え",
@@ -4123,6 +4316,7 @@
       "reading": "こたえ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_daf7565bf90ccd37",
       "frequency_rank": 1517,
       "headword": "テニス",
@@ -4130,6 +4324,7 @@
       "reading": "テニス"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_dc7f5fc156cf2d46",
       "frequency_rank": 15,
       "headword": "電車",
@@ -4137,6 +4332,7 @@
       "reading": "でんしゃ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_dcd3acd6b659a205",
       "frequency_rank": 533,
       "headword": "飲む",
@@ -4144,13 +4340,15 @@
       "reading": "のむ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_dcfa870c8a53f38c",
-      "frequency_rank": 2220,
+      "frequency_rank": 2200,
       "headword": "変える",
       "part_of_speech": "verb-ichidan",
       "reading": "かえる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_dd5d31dbf7c9863d",
       "frequency_rank": 537,
       "headword": "死ぬ",
@@ -4158,6 +4356,7 @@
       "reading": "しぬ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_ddd9dca106e21232",
       "frequency_rank": 30,
       "headword": "山",
@@ -4165,6 +4364,7 @@
       "reading": "やま"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_de83de37aff5e878",
       "frequency_rank": 505,
       "headword": "教える",
@@ -4172,13 +4372,15 @@
       "reading": "おしえる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_dec4a6497500becf",
-      "frequency_rank": 2820,
+      "frequency_rank": 2800,
       "headword": "熱い",
       "part_of_speech": "adjective-i",
       "reading": "あつい"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_dfb6d8ba613bdf80",
       "frequency_rank": 1808,
       "headword": "する",
@@ -4186,13 +4388,15 @@
       "reading": "する"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_e01a26a1036c44ec",
-      "frequency_rank": 3530,
+      "frequency_rank": 3500,
       "headword": "差す",
       "part_of_speech": "verb-godan",
       "reading": "さす"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_e1461a487e422b57",
       "frequency_rank": 74,
       "headword": "南",
@@ -4200,6 +4404,7 @@
       "reading": "みなみ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_e1ede1d758f02ca9",
       "frequency_rank": 1515,
       "headword": "ギター",
@@ -4207,6 +4412,7 @@
       "reading": "ギター"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_e3507900ad06843d",
       "frequency_rank": 93,
       "headword": "姉",
@@ -4214,6 +4420,7 @@
       "reading": "あね"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_e5fd15d61360e08c",
       "frequency_rank": 706,
       "headword": "古い",
@@ -4221,6 +4428,7 @@
       "reading": "ふるい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_e70f9243d4c7bf9e",
       "frequency_rank": 34,
       "headword": "店",
@@ -4228,6 +4436,7 @@
       "reading": "みせ"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_e830ed120870a0d7",
       "frequency_rank": 1511,
       "headword": "スーパー",
@@ -4235,6 +4444,7 @@
       "reading": "スーパー"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_ea75e321b7efa3c8",
       "frequency_rank": 710,
       "headword": "寒い",
@@ -4242,6 +4452,7 @@
       "reading": "さむい"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_eb208b6436bbcb21",
       "frequency_rank": 4,
       "headword": "昨日",
@@ -4249,6 +4460,7 @@
       "reading": "きのう"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_ebdaef0f21db9377",
       "frequency_rank": 38,
       "headword": "休み",
@@ -4256,6 +4468,7 @@
       "reading": "やすみ"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_ec4fa43155421fc1",
       "frequency_rank": 501,
       "headword": "食べる",
@@ -4263,6 +4476,7 @@
       "reading": "たべる"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_ed6bd4d73b76f032",
       "frequency_rank": 70,
       "headword": "右",
@@ -4270,6 +4484,7 @@
       "reading": "みぎ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_ee158182835b4b5c",
       "frequency_rank": 51,
       "headword": "国",
@@ -4277,34 +4492,39 @@
       "reading": "くに"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_ee7ea6a2913f332a",
-      "frequency_rank": 3930,
+      "frequency_rank": 3900,
       "headword": "量る",
       "part_of_speech": "verb-godan",
       "reading": "はかる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_eeaa1a65015b8578",
-      "frequency_rank": 3020,
+      "frequency_rank": 3000,
       "headword": "治す",
       "part_of_speech": "verb-godan",
       "reading": "なおす"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_eef9d372f5df3abd",
-      "frequency_rank": 3110,
+      "frequency_rank": 3100,
       "headword": "写す",
       "part_of_speech": "verb-godan",
       "reading": "うつす"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_f024ec5e9eeadadc",
-      "frequency_rank": 3610,
+      "frequency_rank": 3600,
       "headword": "着く",
       "part_of_speech": "verb-godan",
       "reading": "つく"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_f5d831590911ff1c",
       "frequency_rank": 53,
       "headword": "質問",
@@ -4312,6 +4532,7 @@
       "reading": "しつもん"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_f5f2c2dca175f502",
       "frequency_rank": 1501,
       "headword": "コーヒー",
@@ -4319,6 +4540,7 @@
       "reading": "コーヒー"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_f5f3de79f5510640",
       "frequency_rank": 1506,
       "headword": "インターネット",
@@ -4326,13 +4548,15 @@
       "reading": "インターネット"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_f60937eaa61b505c",
-      "frequency_rank": 3430,
+      "frequency_rank": 3400,
       "headword": "掻く",
       "part_of_speech": "verb-godan",
       "reading": "かく"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_f6377dcbb5644b66",
       "frequency_rank": 703,
       "headword": "大きい",
@@ -4340,6 +4564,7 @@
       "reading": "おおきい"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_f6a8c4a23b51033a",
       "frequency_rank": 6,
       "headword": "時間",
@@ -4347,6 +4572,7 @@
       "reading": "じかん"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_f71f9de562232760",
       "frequency_rank": 16,
       "headword": "車",
@@ -4354,13 +4580,15 @@
       "reading": "くるま"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_f7e6b8131ec89854",
-      "frequency_rank": 2630,
+      "frequency_rank": 2600,
       "headword": "神",
       "part_of_speech": "noun",
       "reading": "かみ"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_f906b238c9c2ae0d",
       "frequency_rank": 18,
       "headword": "新聞",
@@ -4368,13 +4596,15 @@
       "reading": "しんぶん"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_fa318c378368f390",
-      "frequency_rank": 2430,
+      "frequency_rank": 2400,
       "headword": "採る",
       "part_of_speech": "verb-godan",
       "reading": "とる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_fa6a4c8f27b44300",
       "frequency_rank": 47,
       "headword": "花",
@@ -4382,13 +4612,15 @@
       "reading": "はな"
     },
     {
+      "editorial_level": "imported",
       "entry_id": "golden_fb9e91d6616d9423",
-      "frequency_rank": 2530,
+      "frequency_rank": 2500,
       "headword": "端",
       "part_of_speech": "noun",
       "reading": "はし"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_fcc4b149bcdb7e18",
       "frequency_rank": 510,
       "headword": "借りる",
@@ -4396,6 +4628,7 @@
       "reading": "かりる"
     },
     {
+      "editorial_level": "curated",
       "entry_id": "golden_fda6e04cdc9dd13f",
       "frequency_rank": 547,
       "headword": "消す",
@@ -4403,13 +4636,15 @@
       "reading": "けす"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_fe32ad0454490ee5",
-      "frequency_rank": 3210,
+      "frequency_rank": 3200,
       "headword": "泣く",
       "part_of_speech": "verb-godan",
       "reading": "なく"
     },
     {
+      "editorial_level": "featured",
       "entry_id": "golden_ffd91fe01a103e73",
       "frequency_rank": 1519,
       "headword": "ジュース",

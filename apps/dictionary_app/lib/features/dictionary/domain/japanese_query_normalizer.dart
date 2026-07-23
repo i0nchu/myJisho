@@ -5,11 +5,13 @@ class QueryCandidate {
     required this.key,
     required this.kind,
     this.derivedFrom,
+    this.deinflectionReason,
   });
 
   final String key;
   final QueryCandidateKind kind;
   final String? derivedFrom;
+  final String? deinflectionReason;
 }
 
 class DeinflectionCandidate {
@@ -208,10 +210,20 @@ class JapaneseQueryNormalizer {
   List<QueryCandidate> queryCandidates(String rawQuery) {
     final candidates = <QueryCandidate>[];
     final seen = <String>{};
-    void add(String key, QueryCandidateKind kind, [String? derivedFrom]) {
+    void add(
+      String key,
+      QueryCandidateKind kind, [
+      String? derivedFrom,
+      String? deinflectionReason,
+    ]) {
       if (key.isNotEmpty && seen.add('$kind\u0000$key')) {
         candidates.add(
-          QueryCandidate(key: key, kind: kind, derivedFrom: derivedFrom),
+          QueryCandidate(
+            key: key,
+            kind: kind,
+            derivedFrom: derivedFrom,
+            deinflectionReason: deinflectionReason,
+          ),
         );
       }
     }
@@ -227,11 +239,13 @@ class JapaneseQueryNormalizer {
         normalizeText(candidate.lemma),
         QueryCandidateKind.inflection,
         rawQuery,
+        candidate.reason,
       );
       add(
         normalizeKana(candidate.lemma),
         QueryCandidateKind.inflection,
         rawQuery,
+        candidate.reason,
       );
     }
     return candidates;

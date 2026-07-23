@@ -1,3 +1,22 @@
+enum EditorialLevel {
+  imported,
+  curated,
+  featured;
+
+  static EditorialLevel parse(Object? value) => switch (value) {
+    'imported' => EditorialLevel.imported,
+    'curated' => EditorialLevel.curated,
+    'featured' => EditorialLevel.featured,
+    _ => throw FormatException('Unknown editorial level: $value'),
+  };
+
+  int get rankingBoost => switch (this) {
+    EditorialLevel.imported => 0,
+    EditorialLevel.curated => 40,
+    EditorialLevel.featured => 80,
+  };
+}
+
 class DictionaryEntry {
   const DictionaryEntry({
     required this.id,
@@ -5,7 +24,8 @@ class DictionaryEntry {
     required this.reading,
     required this.partsOfSpeech,
     required this.frequencyRank,
-    required this.curated,
+    EditorialLevel? editorialLevel,
+    bool curated = false,
     required this.forms,
     required this.senses,
     required this.relations,
@@ -14,7 +34,9 @@ class DictionaryEntry {
     required this.reviewStatus,
     this.imageAsset,
     this.audioAsset,
-  });
+  }) : editorialLevel =
+           editorialLevel ??
+           (curated ? EditorialLevel.curated : EditorialLevel.imported);
 
   factory DictionaryEntry.fromJson(Map<String, Object?> json) {
     final isCanonical = json.containsKey('entry_id');
@@ -63,9 +85,13 @@ class DictionaryEntry {
               .toList(growable: false),
       frequencyRank:
           json[isCanonical ? 'frequency_rank' : 'frequencyRank']! as int,
-      curated: isCanonical
-          ? json['editorial_level'] == 'curated'
-          : json['curated']! as bool,
+      editorialLevel: isCanonical
+          ? EditorialLevel.parse(json['editorial_level'])
+          : json['editorialLevel'] != null
+          ? EditorialLevel.parse(json['editorialLevel'])
+          : (json['curated'] == true
+                ? EditorialLevel.curated
+                : EditorialLevel.imported),
       forms: canonicalForms,
       senses: rawSenses.map(DictionarySense.fromJson).toList(growable: false),
       relations: rawRelations
@@ -101,7 +127,7 @@ class DictionaryEntry {
   final String reading;
   final List<String> partsOfSpeech;
   final int frequencyRank;
-  final bool curated;
+  final EditorialLevel editorialLevel;
   final List<String> forms;
   final List<DictionarySense> senses;
   final List<RelatedEntry> relations;
@@ -119,6 +145,8 @@ class DictionaryEntry {
       editStatus == 'needs_review' ||
       reviewStatus == 'ai_draft' ||
       reviewStatus == 'needs_review';
+  @Deprecated('Use editorialLevel so featured and curated remain distinct.')
+  bool get curated => editorialLevel != EditorialLevel.imported;
 
   DictionaryEntry copyWith({List<RelatedEntry>? relations}) => DictionaryEntry(
     id: id,
@@ -126,7 +154,7 @@ class DictionaryEntry {
     reading: reading,
     partsOfSpeech: partsOfSpeech,
     frequencyRank: frequencyRank,
-    curated: curated,
+    editorialLevel: editorialLevel,
     forms: forms,
     senses: senses,
     relations: relations ?? this.relations,

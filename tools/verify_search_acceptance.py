@@ -87,6 +87,7 @@ def validate_corpus(corpus: dict[str, Any]) -> dict[str, int]:
             "reading",
             "part_of_speech",
             "frequency_rank",
+            "editorial_level",
         }
         if not isinstance(row, dict) or required - row.keys():
             raise CorpusError(f"invalid lexicon row: {row!r}")
@@ -97,6 +98,7 @@ def validate_corpus(corpus: dict[str, Any]) -> dict[str, int]:
             )
             or not isinstance(row["frequency_rank"], int)
             or row["frequency_rank"] < 1
+            or row["editorial_level"] not in {"imported", "curated", "featured"}
         ):
             raise CorpusError(f"empty or invalid lexicon field: {row!r}")
         if row["entry_id"] in ids:
@@ -117,6 +119,7 @@ def validate_corpus(corpus: dict[str, Any]) -> dict[str, int]:
         raise CorpusError(f"category mismatch; missing={missing}, unknown={unknown}")
 
     all_case_ids: set[str] = set()
+    all_queries: set[str] = set()
     statistics: dict[str, int] = {}
     for category, minimum in MINIMUM_COUNTS.items():
         cases = categories[category]
@@ -154,6 +157,9 @@ def validate_corpus(corpus: dict[str, Any]) -> dict[str, int]:
             if query in queries:
                 raise CorpusError(f"duplicate query in {category}: {query}")
             queries.add(query)
+            if query in all_queries:
+                raise CorpusError(f"duplicate query across categories: {query}")
+            all_queries.add(query)
             expected = case["expected_entry_ids"]
             forbidden = case["forbidden_entry_ids"]
             if (
@@ -255,7 +261,7 @@ def corpus_to_canonical(corpus: dict[str, Any]) -> dict[str, Any]:
                 "readings": [{"kana": reading, "primary": True}],
                 "parts_of_speech": [row["part_of_speech"]],
                 "frequency_rank": row["frequency_rank"],
-                "editorial_level": "curated",
+                "editorial_level": row["editorial_level"],
                 "edit_status": "ai_draft",
                 "senses": [
                     {
@@ -337,6 +343,9 @@ def verify_runtime(
     document = corpus_to_canonical(corpus)
     report = build_database(document, database_path)
     categories = corpus["categories"]
+    lexicon_by_id = {
+        row["entry_id"]: row for row in corpus["lexicon"]
+    }
     failures: list[str] = []
     explanation_checks = 0
     deterministic_checks = 0
@@ -372,6 +381,22 @@ def verify_runtime(
                         f"got {actual_ids}"
                     )
                     continue
+                if category == "ambiguity":
+                    for expected_id, result in zip(expected_ids, first):
+                        level = lexicon_by_id[expected_id]["editorial_level"]
+                        editorial_name = f"editorial_{level}"
+                        expected_boost = {
+                            "featured": 80,
+                            "curated": 40,
+                            "imported": 0,
+                        }[level]
+                        result_modifiers = dict(result.evidence[0].modifiers)
+                        if result_modifiers.get(editorial_name, 0) != expected_boost:
+                            failures.append(
+                                f"{case['case_id']}: {level} modifier "
+                                f"expected {expected_boost}, got "
+                                f"{result_modifiers.get(editorial_name, 0)}"
+                            )
                 if any(
                     forbidden in actual_ids
                     for forbidden in case["forbidden_entry_ids"]

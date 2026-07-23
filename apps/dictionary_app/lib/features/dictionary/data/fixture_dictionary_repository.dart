@@ -98,8 +98,10 @@ class FixtureDictionaryRepository implements DictionaryRepository {
         .where((candidate) => candidate.kind == QueryCandidateKind.romaji)
         .map((candidate) => candidate.key)
         .toSet();
-    final inferredBases = candidates
+    final inferredCandidates = candidates
         .where((candidate) => candidate.kind == QueryCandidateKind.inflection)
+        .toList(growable: false);
+    final inferredBases = inferredCandidates
         .map((candidate) => candidate.key)
         .toSet();
     final hits = <SearchHit>[];
@@ -113,54 +115,99 @@ class FixtureDictionaryRepository implements DictionaryRepository {
       MatchKind? kind;
       int baseScore = 0;
       String? derivedFrom;
+      String? deinflectionReason;
+      String matchedKey = '';
 
       if (query == entry.headword) {
         kind = MatchKind.primaryExact;
         baseScore = 1000;
+        matchedKey = entry.headword;
       } else if (entry.forms.skip(1).contains(query)) {
         kind = MatchKind.alternativeExact;
         baseScore = 950;
+        matchedKey = query;
       } else if (query == entry.reading) {
         kind = MatchKind.readingExact;
         baseScore = 900;
+        matchedKey = entry.reading;
       } else if (normalizedQuery == normalizedHeadword ||
           normalizedForms.contains(normalizedQuery) ||
           kanaQuery == normalizedReading) {
         kind = MatchKind.normalizedExact;
         baseScore = 850;
+        matchedKey = normalizedQuery == normalizedHeadword
+            ? entry.headword
+            : entry.reading;
       } else if (inferredBases.contains(normalizedHeadword) ||
           inferredBases.contains(normalizedReading)) {
         kind = MatchKind.inflection;
         baseScore = 800;
+        matchedKey = inferredBases.contains(normalizedHeadword)
+            ? entry.headword
+            : entry.reading;
         derivedFrom = query;
+        for (final candidate in inferredCandidates) {
+          if (candidate.key == normalizedHeadword ||
+              candidate.key == normalizedReading) {
+            deinflectionReason = candidate.deinflectionReason;
+            break;
+          }
+        }
       } else if (normalizedHeadword.startsWith(normalizedQuery)) {
         kind = MatchKind.headwordPrefix;
         baseScore = 650;
+        matchedKey = entry.headword;
       } else if (normalizedReading.startsWith(kanaQuery)) {
         kind = MatchKind.readingPrefix;
         baseScore = 600;
+        matchedKey = entry.reading;
       } else if (romajiReadings.contains(normalizedReading)) {
         kind = MatchKind.romaji;
         baseScore = 550;
+        matchedKey = entry.reading;
       } else if (normalizedHeadword.contains(normalizedQuery) ||
           normalizedReading.contains(kanaQuery)) {
         kind = MatchKind.contains;
         baseScore = 450;
+        matchedKey = normalizedHeadword.contains(normalizedQuery)
+            ? entry.headword
+            : entry.reading;
       }
 
       if (kind != null) {
+        final modifiers = <SearchScoreModifier>[];
         final frequencyBoost = entry.frequencyRank <= 1000
             ? 120
             : entry.frequencyRank <= 5000
             ? 80
-            : 30;
+            : entry.frequencyRank <= 10000
+            ? 40
+            : 0;
+        if (frequencyBoost > 0) {
+          modifiers.add(SearchScoreModifier('frequency', frequencyBoost));
+        }
+        final editorialBoost = entry.editorialLevel.rankingBoost;
+        if (editorialBoost > 0) {
+          modifiers.add(
+            SearchScoreModifier(
+              'editorial_${entry.editorialLevel.name}',
+              editorialBoost,
+            ),
+          );
+        }
+        final score =
+            baseScore +
+            modifiers.fold<int>(0, (total, modifier) => total + modifier.value);
         hits.add(
           SearchHit(
             entry: entry,
             kind: kind,
             baseScore: baseScore,
-            score: baseScore + frequencyBoost + (entry.curated ? 80 : 0),
+            score: score,
+            matchedKey: matchedKey,
+            modifiers: List.unmodifiable(modifiers),
             derivedFrom: derivedFrom,
+            deinflectionReason: deinflectionReason,
           ),
         );
       }
@@ -169,7 +216,11 @@ class FixtureDictionaryRepository implements DictionaryRepository {
     hits.sort((a, b) {
       final scoreOrder = b.score.compareTo(a.score);
       if (scoreOrder != 0) return scoreOrder;
-      return a.entry.frequencyRank.compareTo(b.entry.frequencyRank);
+      final frequency = a.entry.frequencyRank.compareTo(b.entry.frequencyRank);
+      if (frequency != 0) return frequency;
+      final headword = a.entry.headword.compareTo(b.entry.headword);
+      if (headword != 0) return headword;
+      return a.entry.id.compareTo(b.entry.id);
     });
     return hits.take(limit).toList(growable: false);
   }

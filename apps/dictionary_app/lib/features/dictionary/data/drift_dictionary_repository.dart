@@ -16,18 +16,30 @@ import 'dictionary_repository.dart';
 /// The production data pipeline can replace the in-memory ranker with indexed
 /// `search_keys` queries while keeping this repository contract unchanged.
 class DriftDictionaryRepository
-    implements DictionaryRepository, DictionaryRepositoryLifecycle {
+    implements
+        DictionaryRepository,
+        DictionaryRepositoryLifecycle,
+        DictionaryRepositoryReadiness {
   DriftDictionaryRepository(this._executor);
 
   factory DriftDictionaryRepository.bundled(AssetBundle bundle) {
+    return DriftDictionaryRepository.withDatabasePath(
+      () => prepareBundledDictionaryDatabase(
+        bundle,
+        'assets/database/dictionary.sqlite',
+        recoverInterruptedUpdate: true,
+      ),
+    );
+  }
+
+  factory DriftDictionaryRepository.withDatabasePath(
+    Future<String> Function() databasePath,
+  ) {
     final executor = driftDatabase(
       name: 'kotoba_dictionary',
       native: DriftNativeOptions(
         shareAcrossIsolates: true,
-        databasePath: () => prepareBundledDictionaryDatabase(
-          bundle,
-          'assets/database/dictionary.sqlite',
-        ),
+        databasePath: databasePath,
       ),
     );
     return DriftDictionaryRepository(executor);
@@ -36,12 +48,28 @@ class DriftDictionaryRepository
   final QueryExecutor _executor;
   final QueryExecutorUser _user = _DictionaryExecutorUser();
   bool _opened = false;
+  bool _closed = false;
   static const _normalizer = JapaneseQueryNormalizer();
 
   Future<void> _ensureOpen() async {
+    if (_closed) {
+      throw StateError('Dictionary repository is closed.');
+    }
     if (_opened) return;
     await _executor.ensureOpen(_user);
     _opened = true;
+  }
+
+  @override
+  Future<void> verifyReady() async {
+    await _ensureOpen();
+    final rows = await _executor.runSelect(
+      'SELECT entry_id FROM entries ORDER BY entry_id LIMIT 1',
+      const [],
+    );
+    if (rows.isEmpty) {
+      throw StateError('Dictionary readiness query returned no entries.');
+    }
   }
 
   @override
@@ -148,7 +176,7 @@ class DriftDictionaryRepository
     final candidates = _normalizer.queryCandidates(query);
     if (candidates.isEmpty) return const [];
 
-    final values = List.filled(candidates.length, '(?, ?, ?, ?)').join(', ');
+    final values = List.filled(candidates.length, '(?, ?, ?, ?, ?)').join(', ');
     final arguments = <Object?>[];
     for (final candidate in candidates) {
       arguments.addAll([
@@ -156,24 +184,37 @@ class DriftDictionaryRepository
         '${candidate.key}\u{10ffff}',
         candidate.kind.name,
         candidate.derivedFrom,
+        candidate.deinflectionReason,
       ]);
     }
     arguments.add((limit * 4).clamp(20, 200));
     final rows = await _executor.runSelect('''
-WITH requested(search_key, upper_bound, source_kind, derived_from) AS (
+WITH requested(
+  search_key,
+  upper_bound,
+  source_kind,
+  derived_from,
+  deinflection_reason
+) AS (
   VALUES $values
 )
 SELECT e.payload_json,
        e.frequency_rank,
        sk.search_key,
+       sk.display_key,
        sk.key_type,
        sk.is_common,
        q.source_kind,
        q.derived_from,
+       q.deinflection_reason,
        CASE WHEN sk.search_key = q.search_key THEN 1 ELSE 0 END AS exact_match
 FROM requested AS q
 JOIN search_keys AS sk INDEXED BY idx_search_keys_key
   ON sk.search_key >= q.search_key AND sk.search_key < q.upper_bound
+ AND (
+   sk.search_key = q.search_key
+   OR q.source_kind IN ('normalized', 'kana', 'romaji')
+ )
 JOIN entries AS e ON e.entry_id = sk.entry_id
 ORDER BY exact_match DESC, e.frequency_rank ASC, e.entry_id ASC
 LIMIT ?
@@ -196,36 +237,73 @@ LIMIT ?
         keyType: keyType,
         exact: exact,
       );
+      final modifiers = <SearchScoreModifier>[];
       final frequencyBoost = entry.frequencyRank <= 1000
           ? 120
           : entry.frequencyRank <= 5000
           ? 80
-          : 30;
+          : entry.frequencyRank <= 10000
+          ? 40
+          : 0;
+      if (frequencyBoost > 0) {
+        modifiers.add(SearchScoreModifier('frequency', frequencyBoost));
+      }
+      final editorialBoost = entry.editorialLevel.rankingBoost;
+      if (editorialBoost > 0) {
+        modifiers.add(
+          SearchScoreModifier(
+            'editorial_${entry.editorialLevel.name}',
+            editorialBoost,
+          ),
+        );
+      }
+      if (row['is_common'] == 1) {
+        modifiers.add(const SearchScoreModifier('common_form', 40));
+      }
       final score =
           baseScore +
-          frequencyBoost +
-          (entry.curated ? 80 : 0) +
-          (row['is_common'] == 1 ? 40 : 0);
+          modifiers.fold<int>(0, (total, modifier) => total + modifier.value);
       final hit = SearchHit(
         entry: entry,
         kind: kind,
         baseScore: baseScore,
         score: score,
+        matchedKey: row['display_key']! as String,
+        modifiers: List.unmodifiable(modifiers),
         derivedFrom: row['derived_from'] as String?,
+        deinflectionReason: row['deinflection_reason'] as String?,
       );
       final existing = bestByEntry[entry.id];
-      if (existing == null || hit.score > existing.score) {
+      if (existing == null || _isBetterEvidence(hit, existing)) {
         bestByEntry[entry.id] = hit;
       }
     }
     final hits = bestByEntry.values.toList()
       ..sort((left, right) {
         final score = right.score.compareTo(left.score);
-        return score != 0
-            ? score
-            : left.entry.frequencyRank.compareTo(right.entry.frequencyRank);
+        return score != 0 ? score : _tieBreak(left, right);
       });
     return hits.take(limit).toList(growable: false);
+  }
+
+  bool _isBetterEvidence(SearchHit candidate, SearchHit existing) {
+    final score = candidate.score.compareTo(existing.score);
+    if (score != 0) return score > 0;
+    final raw = candidate.baseScore.compareTo(existing.baseScore);
+    if (raw != 0) return raw > 0;
+    final kind = candidate.kind.index.compareTo(existing.kind.index);
+    if (kind != 0) return kind < 0;
+    return candidate.matchedKey.compareTo(existing.matchedKey) < 0;
+  }
+
+  int _tieBreak(SearchHit left, SearchHit right) {
+    final frequency = left.entry.frequencyRank.compareTo(
+      right.entry.frequencyRank,
+    );
+    if (frequency != 0) return frequency;
+    final headword = left.entry.headword.compareTo(right.entry.headword);
+    if (headword != 0) return headword;
+    return left.entry.id.compareTo(right.entry.id);
   }
 
   (MatchKind, int) _classifyMatch({
@@ -239,7 +317,7 @@ LIMIT ?
       return (MatchKind.inflection, 800);
     }
     if (sourceKind == QueryCandidateKind.romaji) {
-      return (MatchKind.romaji, 550);
+      return exact ? (MatchKind.romaji, 550) : (MatchKind.romajiPrefix, 500);
     }
     if (!exact) {
       return keyType == 'primary'
@@ -251,13 +329,21 @@ LIMIT ?
           ? (MatchKind.primaryExact, 1000)
           : (MatchKind.normalizedExact, 850);
     }
+    if (keyType == 'alternate') {
+      return (MatchKind.alternativeExact, 950);
+    }
     return rawQuery == entry.reading
         ? (MatchKind.readingExact, 900)
         : (MatchKind.normalizedExact, 850);
   }
 
   @override
-  Future<void> close() => _executor.close();
+  Future<void> close() async {
+    if (_closed) return;
+    _closed = true;
+    await _executor.close();
+    _opened = false;
+  }
 }
 
 class _DictionaryExecutorUser extends QueryExecutorUser {
@@ -272,7 +358,10 @@ class _DictionaryExecutorUser extends QueryExecutorUser {
 }
 
 class FallbackDictionaryRepository
-    implements DictionaryRepository, DictionaryRepositoryLifecycle {
+    implements
+        DictionaryRepository,
+        DictionaryRepositoryLifecycle,
+        DictionaryRepositoryReadiness {
   const FallbackDictionaryRepository({
     required this.primary,
     required this.fallback,
@@ -312,6 +401,21 @@ class FallbackDictionaryRepository
     final repository = primary;
     if (repository is DictionaryRepositoryLifecycle) {
       await (repository as DictionaryRepositoryLifecycle).close();
+    }
+  }
+
+  @override
+  Future<void> verifyReady() async {
+    final repository = primary;
+    if (repository is DictionaryRepositoryReadiness) {
+      await (repository as DictionaryRepositoryReadiness).verifyReady();
+      return;
+    }
+    final entries = await repository.allEntries();
+    if (entries.isEmpty) {
+      throw StateError(
+        'Primary dictionary readiness query returned no entries.',
+      );
     }
   }
 }

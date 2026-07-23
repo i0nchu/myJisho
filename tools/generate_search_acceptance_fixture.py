@@ -244,6 +244,10 @@ def fixture_payload() -> dict[str, Any]:
         reading: str,
         part_of_speech: str,
         frequency_rank: int,
+        editorial_level: str,
+        *,
+        replace_editorial_level: bool = False,
+        replace_frequency_rank: bool = False,
     ) -> str:
         key = (headword, reading)
         entry = entries.get(key)
@@ -254,10 +258,17 @@ def fixture_payload() -> dict[str, Any]:
                 "reading": reading,
                 "part_of_speech": part_of_speech,
                 "frequency_rank": frequency_rank,
+                "editorial_level": editorial_level,
             }
             entries[key] = entry
         else:
-            entry["frequency_rank"] = min(entry["frequency_rank"], frequency_rank)
+            entry["frequency_rank"] = (
+                frequency_rank
+                if replace_frequency_rank
+                else min(entry["frequency_rank"], frequency_rank)
+            )
+            if replace_editorial_level:
+                entry["editorial_level"] = editorial_level
         return entry["entry_id"]
 
     categories: dict[str, list[dict[str, Any]]] = {
@@ -271,7 +282,10 @@ def fixture_payload() -> dict[str, Any]:
     }
 
     for index, (headword, reading) in enumerate(COMMON_WORDS, 1):
-        entry_id = add_entry(headword, reading, "noun", index)
+        editorial_level = ("featured", "curated", "imported")[(index - 1) % 3]
+        entry_id = add_entry(
+            headword, reading, "noun", index, editorial_level
+        )
         categories["common_words"].append(
             _case(
                 "common",
@@ -284,7 +298,14 @@ def fixture_payload() -> dict[str, Any]:
         )
 
     for index, (headword, reading, part_of_speech, surface) in enumerate(VERB_INFLECTIONS, 1):
-        entry_id = add_entry(headword, reading, part_of_speech, 500 + index)
+        editorial_level = ("featured", "curated", "imported")[(index - 1) % 3]
+        entry_id = add_entry(
+            headword,
+            reading,
+            part_of_speech,
+            500 + index,
+            editorial_level,
+        )
         categories["verb_inflections"].append(
             _case(
                 "verb",
@@ -298,7 +319,14 @@ def fixture_payload() -> dict[str, Any]:
         )
 
     for index, (headword, reading, part_of_speech, surface) in enumerate(ADJECTIVE_INFLECTIONS, 1):
-        entry_id = add_entry(headword, reading, part_of_speech, 700 + index)
+        editorial_level = ("featured", "curated", "imported")[(index - 1) % 3]
+        entry_id = add_entry(
+            headword,
+            reading,
+            part_of_speech,
+            700 + index,
+            editorial_level,
+        )
         categories["adjective_inflections"].append(
             _case(
                 "adjective",
@@ -312,7 +340,10 @@ def fixture_payload() -> dict[str, Any]:
         )
 
     for index, (headword, query) in enumerate(KATAKANA_CASES, 1):
-        entry_id = add_entry(headword, headword, "noun", 1_500 + index)
+        editorial_level = ("featured", "curated", "imported")[(index - 1) % 3]
+        entry_id = add_entry(
+            headword, headword, "noun", 1_500 + index, editorial_level
+        )
         categories["katakana"].append(
             _case(
                 "katakana",
@@ -325,7 +356,10 @@ def fixture_payload() -> dict[str, Any]:
 
     for index, (headword, reading, query) in enumerate(ROMAJI_CASES, 1):
         part = "verb-irregular" if headword in {"来る", "する"} else "noun"
-        entry_id = add_entry(headword, reading, part, 1_800 + index)
+        editorial_level = ("featured", "curated", "imported")[(index - 1) % 3]
+        entry_id = add_entry(
+            headword, reading, part, 1_800 + index, editorial_level
+        )
         categories["romaji"].append(
             _case(
                 "romaji",
@@ -340,8 +374,24 @@ def fixture_payload() -> dict[str, Any]:
     for index, (reading, alternatives) in enumerate(AMBIGUITY_GROUPS, 1):
         ordered_ids: list[str] = []
         for alternative_index, (headword, part_of_speech) in enumerate(alternatives, 1):
-            rank = 2_000 + index * 100 + alternative_index * 10
-            ordered_ids.append(add_entry(headword, reading, part_of_speech, rank))
+            # Every alternative has the same frequency rank so the expected
+            # featured → curated → imported order is caused by the canonical
+            # editorial modifier, not hidden by frequency.
+            rank = 2_000 + index * 100
+            editorial_level = ("featured", "curated", "imported")[
+                alternative_index - 1
+            ]
+            ordered_ids.append(
+                add_entry(
+                    headword,
+                    reading,
+                    part_of_speech,
+                    rank,
+                    editorial_level,
+                    replace_editorial_level=True,
+                    replace_frequency_rank=True,
+                )
+            )
         categories["ambiguity"].append(
             _case(
                 "ambiguity",

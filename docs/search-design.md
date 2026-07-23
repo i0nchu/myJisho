@@ -118,10 +118,10 @@ queries backed by 235 distinct lexical rows:
 | Negative/non-match probes | 20 | n/a |
 
 This corpus cannot be padded with empty or duplicate queries: the verifier
-checks category minima, query and case-ID uniqueness, distinct-entry coverage,
-ambiguity reading/order consistency, references, and an embedded SHA-256 over
-the lexicon and cases. The initial checksum is
-`f004b66861cc64ac6204dc85c317e502ed70099bc70bd6a52776bd2d6f07c281`.
+checks category minima, global query and case-ID uniqueness, distinct-entry
+coverage, ambiguity reading/order consistency, references, and an embedded
+SHA-256 over the lexicon and cases. The current checksum is
+`9d48b0429694121f73988f1bd6c806203023b2393c60018d43a95f91ccd8e097`.
 Its generator is committed at `tools/generate_search_acceptance_fixture.py`;
 tests require the checked-in JSON to be byte-for-byte equal to a deterministic
 regeneration.
@@ -138,9 +138,28 @@ through `SearchEngine(debug=True)`. It checks top result/order, match kind,
 forbidden results, deinflection lemma/reason/confidence, score-component
 arithmetic, and deterministic equality. The 2026-07-23 reference run passed
 250/250 deterministic checks, 230/230 positive explain checks, and 20/20
-negative checks with zero failures. Flutter tests load the same JSON and verify
-that Dart query candidates reach the expected lexical key for all 210
-normalization/inflection/katakana/romaji cases.
+negative checks with zero failures.
+
+Python and deployed Dart evidence are intentionally reported separately:
+
+- Python regenerates a canonical schema-v1 document, builds it with the
+  production database builder, and runs all 250 cases through `SearchEngine`.
+- Dart first checks normalizer/query-candidate conformance for the 210
+  common/inflection/katakana/romaji cases. A second test builds a temporary
+  SQLite database directly from the same 235 lexicon rows and runs all 250
+  cases through the production `DriftDictionaryRepository`, not the in-memory
+  fixture repository. It checks expected IDs and match kind, all 20 ambiguity
+  orders, all 20 no-match negatives, and byte-stable result snapshots across
+  two executions.
+- Every deployed `SearchHit` exposes a matched display key, match kind,
+  raw/base score, named modifiers, weighted/final score, original derived
+  query, and deinflection reason. Tests require raw plus modifiers to equal the
+  final score.
+
+The first ambiguity group assigns equal frequency ranks to a featured, curated,
+and imported entry. Both runtimes must therefore produce the canonical
+`featured +80`, `curated +40`, `imported +0` editorial modifiers and preserve
+that result order; a legacy boolean cannot collapse these levels.
 
 The corpus is a CC0 QA behavior contract, not release dictionary content or an
 authoritative frequency list. Its generated canonical rows remain `ai_draft`;

@@ -76,9 +76,9 @@ class SearchEngine:
                 modifiers.append(("frequency", 40))
         level = row["editorial_level"]
         if level == "featured":
-            modifiers.append(("featured", 80))
+            modifiers.append(("editorial_featured", 80))
         elif level == "curated":
-            modifiers.append(("curated", 40))
+            modifiers.append(("editorial_curated", 40))
         if is_common:
             modifiers.append(("common_form", 40))
         return tuple(modifiers)

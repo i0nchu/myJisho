@@ -44,14 +44,21 @@ case rationale, search_rules_version
 目前固定檔案為
 `data/fixtures/search_acceptance_v1.json`（corpus
 `kotoba-search-acceptance-v1`，SHA-256
-`f004b66861cc64ac6204dc85c317e502ed70099bc70bd6a52776bd2d6f07c281`）。
+`9d48b0429694121f73988f1bd6c806203023b2393c60018d43a95f91ccd8e097`）。
 它包含 100／50／20／20／20／20／20，共 250 個不重複查詢、235 個不同
 lexicon entries，歧義組共 52 個 alternatives。CI 以
-`python -m tools.verify_search_acceptance` 驗證 checksum、數量、唯一性與防灌水
+`python -m tools.verify_search_acceptance` 驗證 checksum、數量、全 corpus
+query 唯一性與防灌水
 條件，經 canonical schema v1 與正式 builder 建 SQLite 後，逐筆驗證
 Python SearchEngine 的結果、排序、match/explain、活用分析及兩次執行完全相同。
-Flutter test 直接讀同一 JSON，驗證 Dart normalizer/query candidates 對 210 個
-正向 normalization／inflection／katakana／romaji cases 的 conformance。
+Flutter test 先直接讀同一 JSON 驗證 Dart normalizer/query candidates 對 210 個
+正向 normalization／inflection／katakana／romaji cases 的 conformance；再從相同
+235-row lexicon 建 temporary SQLite，經 production
+`DriftDictionaryRepository` 執行全部 250 cases。後者逐筆驗 expected ID/match
+kind、20 組歧義排序、20 個負例無命中、兩次結果 deterministic，並對帳
+matched key、raw/base score、named modifiers、final score、derived query 與
+deinflection reason。featured／curated／imported 以相同 frequency 的歧義組鎖定
+`+80／+40／+0`，不得再以 boolean 合併語意。
 
 ### 3.2 效能資料集
 
