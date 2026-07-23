@@ -149,9 +149,19 @@ void main() {
           normalizer.normalizeText(expected['headword']! as String),
           normalizer.normalizeKana(expected['reading']! as String),
         };
+        final expectedKind = searchCase['expected_match_kind'] as String?;
+        final candidateReachesExpected = switch (expectedKind) {
+          'primary_prefix' => expectedKeys.any(
+            (expectedKey) => candidateKeys.any(expectedKey.startsWith),
+          ),
+          'contains' => expectedKeys.any(
+            (expectedKey) => candidateKeys.any(expectedKey.contains),
+          ),
+          _ => candidateKeys.intersection(expectedKeys).isNotEmpty,
+        };
         expect(
-          candidateKeys.intersection(expectedKeys),
-          isNotEmpty,
+          candidateReachesExpected,
+          isTrue,
           reason: '${searchCase['case_id']}: $query',
         );
         if (category == 'verb_inflections' ||

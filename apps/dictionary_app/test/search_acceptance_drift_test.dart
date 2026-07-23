@@ -118,6 +118,16 @@ void main() {
             final evidence = first.first.evidence;
             expect(evidence.derivedFrom, query, reason: caseId);
             expect(evidence.deinflectionReason, isNotEmpty, reason: caseId);
+            expect(
+              evidence.deinflectionConfidence,
+              inInclusiveRange(0, 1),
+              reason: caseId,
+            );
+            expect(
+              _modifier(first.first, 'deinflection_uncertainty'),
+              -((1 - evidence.deinflectionConfidence!) * 100).round(),
+              reason: caseId,
+            );
           }
         }
       }
@@ -161,6 +171,55 @@ void main() {
       }
     },
   );
+
+  test(
+    'deployed Drift covers every P0 deinflection family with confidence',
+    () async {
+      final cases = [
+        ('食べられない', '食べる', 0.96, 'ichidan:potential/passive-negative'),
+        ('書いている', '書く', 0.95 * 0.94, 'progressive/te/past:いて'),
+        ('書ける', '書く', 0.91, 'godan:potential'),
+        ('話される', '話す', 0.92, 'godan:passive'),
+        ('食べさせる', '食べる', 0.94, 'ichidan:causative'),
+        ('食べさせられる', '食べる', 0.90, 'ichidan:causative-passive'),
+        ('書こう', '書く', 0.91, 'godan:volitional'),
+        ('書け', '書く', 0.82, 'godan:imperative'),
+        ('書ければ', '書く', 0.91, 'godan:conditional'),
+      ];
+      for (final (query, headword, confidence, reason) in cases) {
+        final hits = await repository.search(query);
+        expect(hits, isNotEmpty, reason: query);
+        final hit = hits.first;
+        expect(hit.entry.headword, headword, reason: query);
+        expect(hit.kind, MatchKind.inflection, reason: query);
+        expect(hit.deinflectionReason, reason, reason: query);
+        expect(
+          hit.deinflectionConfidence,
+          closeTo(confidence, 0.0000001),
+          reason: query,
+        );
+        expect(
+          _modifier(hit, 'deinflection_uncertainty'),
+          -((1 - confidence) * 100).round(),
+          reason: query,
+        );
+        expect(hit.evidence.isScoreConsistent, isTrue, reason: query);
+      }
+    },
+  );
+
+  test('secondary reading is classified as reading exact', () async {
+    final hit = (await repository.search('にっぽん')).first;
+    expect(hit.entry.headword, '日本');
+    expect(hit.kind, MatchKind.readingExact);
+    expect(hit.baseScore, 900);
+    expect(hit.matchedKey, 'にっぽん');
+    expect(hit.evidence.isScoreConsistent, isTrue);
+  });
+
+  test('contains fallback escapes LIKE wildcards', () async {
+    expect(await repository.search(r'%_'), isEmpty);
+  });
 }
 
 MatchKind _matchKind(String wireValue) => switch (wireValue) {
@@ -256,6 +315,12 @@ CREATE INDEX idx_search_keys_key ON search_keys(search_key, key_type);
         'source_ids': ['kotoba_search_acceptance_cc0'],
         'review': {'status': 'ai_draft'},
       };
+      if (headword == '日本') {
+        (payload['readings']! as List<Object?>).add({
+          'kana': 'にっぽん',
+          'primary': false,
+        });
+      }
       database.execute('INSERT INTO entries VALUES (?, ?, ?, ?)', [
         entryId,
         headword,
@@ -278,6 +343,16 @@ CREATE INDEX idx_search_keys_key ON search_keys(search_key, key_type);
         displayKey: reading,
         keyType: 'reading',
       );
+      if (headword == '日本') {
+        _insertSearchKey(
+          database,
+          id: '$entryId:reading:secondary',
+          entryId: entryId,
+          key: normalizer.normalizeKana('にっぽん'),
+          displayKey: 'にっぽん',
+          keyType: 'reading',
+        );
+      }
     }
   } finally {
     database.close();

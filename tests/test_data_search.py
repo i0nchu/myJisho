@@ -90,6 +90,36 @@ class NormalizerTests(unittest.TestCase):
             with self.subTest(inflected=inflected):
                 self.assertIn(lemma, {item.lemma for item in deinflect(inflected)})
 
+    def test_p0_deinflection_family_confidence_contract(self) -> None:
+        cases = {
+            "食べられない": (
+                "食べる",
+                "ichidan:potential/passive-negative",
+                0.96,
+            ),
+            "書いている": ("書く", "progressive/te/past:いて", 0.95 * 0.94),
+            "書ける": ("書く", "godan:potential", 0.91),
+            "話される": ("話す", "godan:passive", 0.92),
+            "食べさせる": ("食べる", "ichidan:causative", 0.94),
+            "食べさせられる": (
+                "食べる",
+                "ichidan:causative-passive",
+                0.90,
+            ),
+            "書こう": ("書く", "godan:volitional", 0.91),
+            "書け": ("書く", "godan:imperative", 0.82),
+            "書ければ": ("書く", "godan:conditional", 0.91),
+        }
+        for query, expected in cases.items():
+            with self.subTest(query=query):
+                candidates = {
+                    (item.lemma, item.reason): item.confidence
+                    for item in deinflect(query)
+                }
+                key = expected[:2]
+                self.assertIn(key, candidates)
+                self.assertAlmostEqual(candidates[key], expected[2])
+
 
 class SchemaAndBuilderTests(unittest.TestCase):
     @classmethod

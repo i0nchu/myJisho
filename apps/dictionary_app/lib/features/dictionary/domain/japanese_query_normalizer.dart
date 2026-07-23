@@ -6,19 +6,22 @@ class QueryCandidate {
     required this.kind,
     this.derivedFrom,
     this.deinflectionReason,
+    this.deinflectionConfidence,
   });
 
   final String key;
   final QueryCandidateKind kind;
   final String? derivedFrom;
   final String? deinflectionReason;
+  final double? deinflectionConfidence;
 }
 
 class DeinflectionCandidate {
-  const DeinflectionCandidate(this.lemma, this.reason);
+  const DeinflectionCandidate(this.lemma, this.reason, this.confidence);
 
   final String lemma;
   final String reason;
+  final double confidence;
 }
 
 class JapaneseQueryNormalizer {
@@ -144,16 +147,35 @@ class JapaneseQueryNormalizer {
   List<DeinflectionCandidate> deinflect(String text) {
     final value = normalizeText(text);
     final found = <String, DeinflectionCandidate>{};
-    void add(String lemma, String reason) {
+    void add(String lemma, String reason, double confidence) {
       if (lemma.isNotEmpty && lemma != value) {
-        found.putIfAbsent(lemma, () => DeinflectionCandidate(lemma, reason));
+        final key = '$lemma\u0000$reason';
+        final candidate = DeinflectionCandidate(lemma, reason, confidence);
+        final existing = found[key];
+        if (existing == null || existing.confidence < confidence) {
+          found[key] = candidate;
+        }
+      }
+    }
+
+    for (final suffix in ['ている', 'でいる', 'ています', 'でいます', 'ていた', 'でいた']) {
+      if (value.endsWith(suffix)) {
+        final teForm =
+            '${value.substring(0, value.length - suffix.length)}${suffix[0]}';
+        for (final candidate in deinflect(teForm)) {
+          add(
+            candidate.lemma,
+            'progressive/${candidate.reason}',
+            candidate.confidence * 0.94,
+          );
+        }
       }
     }
 
     for (final suffix in ['ませんでした', 'ました', 'ません', 'ます']) {
       if (value.endsWith(suffix) && value.length > suffix.length) {
         final stem = value.substring(0, value.length - suffix.length);
-        add('$stemる', 'polite:$suffix');
+        add('$stemる', 'polite:$suffix', 0.96);
         if (stem.isNotEmpty) {
           final endings =
               _politeStem[stem.substring(stem.length - 1)] ?? const [];
@@ -161,6 +183,7 @@ class JapaneseQueryNormalizer {
             add(
               '${stem.substring(0, stem.length - 1)}$ending',
               'polite:$suffix',
+              0.92,
             );
           }
         }
@@ -169,42 +192,157 @@ class JapaneseQueryNormalizer {
     for (final rule in _tePastRules.entries) {
       if (value.endsWith(rule.key) && value.length > rule.key.length) {
         final root = value.substring(0, value.length - rule.key.length);
-        add('$rootる', 'te/past:${rule.key}');
+        add('$rootる', 'te/past:${rule.key}', 0.88);
         for (final ending in rule.value) {
-          add('$root$ending', 'te/past:${rule.key}');
+          add('$root$ending', 'te/past:${rule.key}', 0.95);
         }
-        if ((value == '行って' || value == '行った')) add('行く', 'irregular');
+        if (value == '行って' || value == '行った') {
+          add('行く', 'irregular:${rule.key}', 0.99);
+        }
       }
     }
     for (final suffix in ['なくて', 'なかった', 'ない']) {
       if (value.endsWith(suffix) && value.length > suffix.length) {
         final stem = value.substring(0, value.length - suffix.length);
-        add('$stemる', 'negative:$suffix');
+        add('$stemる', 'negative:$suffix', 0.91);
         if (stem.isNotEmpty) {
           final ending = _aRow[stem.substring(stem.length - 1)];
           if (ending != null) {
             add(
               '${stem.substring(0, stem.length - 1)}$ending',
               'negative:$suffix',
+              0.96,
             );
           }
         }
       }
     }
-    for (final rule in _adjectiveRules.entries) {
-      if (value.endsWith(rule.key) && value.length > rule.key.length) {
+
+    for (final rule in const [
+      ('られなかった', 'ichidan:potential/passive-negative-past', 0.94),
+      ('られない', 'ichidan:potential/passive-negative', 0.96),
+      ('られた', 'ichidan:potential/passive-past', 0.93),
+      ('られる', 'ichidan:potential/passive', 0.95),
+      ('させられる', 'ichidan:causative-passive', 0.90),
+      ('させる', 'ichidan:causative', 0.94),
+    ]) {
+      final (suffix, reason, confidence) = rule;
+      if (value.endsWith(suffix) && value.length > suffix.length) {
         add(
-          '${value.substring(0, value.length - rule.key.length)}${rule.value}',
-          'adjective:${rule.key}',
+          '${value.substring(0, value.length - suffix.length)}る',
+          reason,
+          confidence,
         );
       }
     }
-    for (final suffix in ['だった', 'ではない', 'じゃない', 'なら', 'で', 'に', 'な', 'だ']) {
+
+    for (final rule in const [
+      ('せられる', 'godan:causative-passive', 0.88),
+      ('せる', 'godan:causative', 0.93),
+      ('れる', 'godan:passive', 0.92),
+    ]) {
+      final (suffix, reason, confidence) = rule;
       if (value.endsWith(suffix) && value.length > suffix.length) {
-        add(value.substring(0, value.length - suffix.length), 'na:$suffix');
+        final stem = value.substring(0, value.length - suffix.length);
+        if (stem.isNotEmpty) {
+          final ending = _aRow[stem.substring(stem.length - 1)];
+          if (ending != null) {
+            add(
+              '${stem.substring(0, stem.length - 1)}$ending',
+              reason,
+              confidence,
+            );
+          }
+        }
       }
     }
-    return found.values.toList(growable: false);
+
+    for (final rule in const [('れば', 'conditional'), ('る', 'potential')]) {
+      final (suffix, reason) = rule;
+      if (value.endsWith(suffix) && value.length > suffix.length) {
+        final stem = value.substring(0, value.length - suffix.length);
+        if (stem.isNotEmpty) {
+          final ending = _eRow[stem.substring(stem.length - 1)];
+          if (ending != null) {
+            add(
+              '${stem.substring(0, stem.length - 1)}$ending',
+              'godan:$reason',
+              0.91,
+            );
+          }
+        }
+      }
+    }
+    if (value.isNotEmpty) {
+      final last = value.substring(value.length - 1);
+      final ending = _eRow[last];
+      if (ending != null) {
+        add(
+          '${value.substring(0, value.length - 1)}$ending',
+          'godan:imperative',
+          0.82,
+        );
+      }
+    }
+    if (value.endsWith('う') && value.length > 1) {
+      final penultimate = value.substring(value.length - 2, value.length - 1);
+      final ending = _oRow[penultimate];
+      if (ending != null) {
+        add(
+          '${value.substring(0, value.length - 2)}$ending',
+          'godan:volitional',
+          0.91,
+        );
+      }
+    }
+
+    for (final rule in const [
+      ('くなかった', 'い', 'i-adjective:negative-past', 0.98),
+      ('くありませんでした', 'い', 'i-adjective:polite-negative-past', 0.97),
+      ('かった', 'い', 'i-adjective:past', 0.98),
+      ('くない', 'い', 'i-adjective:negative', 0.98),
+      ('くありません', 'い', 'i-adjective:polite-negative', 0.97),
+      ('くて', 'い', 'i-adjective:connective', 0.95),
+      ('く', 'い', 'i-adjective:adverbial', 0.90),
+    ]) {
+      final (suffix, replacement, reason, confidence) = rule;
+      if (value.endsWith(suffix) && value.length > suffix.length) {
+        add(
+          '${value.substring(0, value.length - suffix.length)}$replacement',
+          reason,
+          confidence,
+        );
+      }
+    }
+
+    for (final rule in const [
+      ('ではありませんでした', 'na-adjective:polite-negative-past', 0.96),
+      ('ではない', 'na-adjective:negative', 0.95),
+      ('じゃない', 'na-adjective:negative-casual', 0.93),
+      ('だった', 'na-adjective:past', 0.96),
+      ('なら', 'na-adjective:conditional', 0.90),
+      ('で', 'na-adjective:connective', 0.82),
+      ('に', 'na-adjective:adverbial', 0.80),
+      ('な', 'na-adjective:attributive', 0.80),
+      ('だ', 'na-adjective:copula', 0.88),
+    ]) {
+      final (suffix, reason, confidence) = rule;
+      if (value.endsWith(suffix) && value.length > suffix.length) {
+        add(
+          value.substring(0, value.length - suffix.length),
+          reason,
+          confidence,
+        );
+      }
+    }
+    final result = found.values.toList(growable: false)
+      ..sort((left, right) {
+        final confidence = right.confidence.compareTo(left.confidence);
+        if (confidence != 0) return confidence;
+        final lemma = left.lemma.compareTo(right.lemma);
+        return lemma != 0 ? lemma : left.reason.compareTo(right.reason);
+      });
+    return result;
   }
 
   List<QueryCandidate> queryCandidates(String rawQuery) {
@@ -215,6 +353,7 @@ class JapaneseQueryNormalizer {
       QueryCandidateKind kind, [
       String? derivedFrom,
       String? deinflectionReason,
+      double? deinflectionConfidence,
     ]) {
       if (key.isNotEmpty && seen.add('$kind\u0000$key')) {
         candidates.add(
@@ -223,6 +362,7 @@ class JapaneseQueryNormalizer {
             kind: kind,
             derivedFrom: derivedFrom,
             deinflectionReason: deinflectionReason,
+            deinflectionConfidence: deinflectionConfidence,
           ),
         );
       }
@@ -240,12 +380,14 @@ class JapaneseQueryNormalizer {
         QueryCandidateKind.inflection,
         rawQuery,
         candidate.reason,
+        candidate.confidence,
       );
       add(
         normalizeKana(candidate.lemma),
         QueryCandidateKind.inflection,
         rawQuery,
         candidate.reason,
+        candidate.confidence,
       );
     }
     return candidates;
@@ -386,7 +528,7 @@ class JapaneseQueryNormalizer {
       value: 'お',
   };
   static const _politeStem = <String, List<String>>{
-    'い': ['う'],
+    'い': ['う', 'く', 'ぐ'],
     'き': ['く'],
     'ぎ': ['ぐ'],
     'し': ['す'],
@@ -407,6 +549,28 @@ class JapaneseQueryNormalizer {
     'ま': 'む',
     'ら': 'る',
   };
+  static const _eRow = <String, String>{
+    'え': 'う',
+    'け': 'く',
+    'げ': 'ぐ',
+    'せ': 'す',
+    'て': 'つ',
+    'ね': 'ぬ',
+    'べ': 'ぶ',
+    'め': 'む',
+    'れ': 'る',
+  };
+  static const _oRow = <String, String>{
+    'お': 'う',
+    'こ': 'く',
+    'ご': 'ぐ',
+    'そ': 'す',
+    'と': 'つ',
+    'の': 'ぬ',
+    'ぼ': 'ぶ',
+    'も': 'む',
+    'ろ': 'る',
+  };
   static const _tePastRules = <String, List<String>>{
     'って': ['う', 'つ', 'る'],
     'った': ['う', 'つ', 'る'],
@@ -418,13 +582,6 @@ class JapaneseQueryNormalizer {
     'いだ': ['ぐ'],
     'して': ['す'],
     'した': ['す'],
-  };
-  static const _adjectiveRules = <String, String>{
-    'くなかった': 'い',
-    'かった': 'い',
-    'くない': 'い',
-    'くて': 'い',
-    'く': 'い',
   };
   static const _romaji = <String, String>{
     'ltsu': 'っ',

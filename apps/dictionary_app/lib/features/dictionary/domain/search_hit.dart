@@ -32,6 +32,7 @@ class SearchEvidence {
     required this.finalScore,
     this.derivedFrom,
     this.deinflectionReason,
+    this.deinflectionConfidence,
   });
 
   final String matchedKey;
@@ -41,6 +42,7 @@ class SearchEvidence {
   final int finalScore;
   final String? derivedFrom;
   final String? deinflectionReason;
+  final double? deinflectionConfidence;
 
   int get calculatedFinalScore =>
       rawScore +
@@ -58,6 +60,7 @@ class SearchHit {
     required this.modifiers,
     this.derivedFrom,
     this.deinflectionReason,
+    this.deinflectionConfidence,
   });
 
   final DictionaryEntry entry;
@@ -68,6 +71,7 @@ class SearchHit {
   final List<SearchScoreModifier> modifiers;
   final String? derivedFrom;
   final String? deinflectionReason;
+  final double? deinflectionConfidence;
 
   SearchEvidence get evidence => SearchEvidence(
     matchedKey: matchedKey,
@@ -77,5 +81,6 @@ class SearchHit {
     finalScore: score,
     derivedFrom: derivedFrom,
     deinflectionReason: deinflectionReason,
+    deinflectionConfidence: deinflectionConfidence,
   );
 }

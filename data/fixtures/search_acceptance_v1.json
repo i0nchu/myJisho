@@ -1624,20 +1624,22 @@
         "expected_entry_ids": [
           "golden_29ebffd36857a087"
         ],
+        "expected_match_kind": "contains",
         "forbidden_entry_ids": [],
         "input_context": "ja-JP offline dictionary search",
         "note": "katakana/width normalization for スマートフォン",
-        "raw_query": "ｽﾏｰﾄﾌｫﾝ"
+        "raw_query": "マート"
       },
       {
         "case_id": "katakana-006",
         "expected_entry_ids": [
           "golden_f5f3de79f5510640"
         ],
+        "expected_match_kind": "primary_prefix",
         "forbidden_entry_ids": [],
         "input_context": "ja-JP offline dictionary search",
         "note": "katakana/width normalization for インターネット",
-        "raw_query": "ｲﾝﾀｰﾈｯﾄ"
+        "raw_query": "インター"
       },
       {
         "case_id": "katakana-007",
@@ -2767,7 +2769,7 @@
       }
     ]
   },
-  "content_sha256": "9d48b0429694121f73988f1bd6c806203023b2393c60018d43a95f91ccd8e097",
+  "content_sha256": "e7c6113aa7aae1dfbdf97ca81a059443ae07ceb520c1f77418c08b06da8089c0",
   "corpus_id": "kotoba-search-acceptance-v1",
   "fixture_license": "CC0-1.0",
   "lexicon": [

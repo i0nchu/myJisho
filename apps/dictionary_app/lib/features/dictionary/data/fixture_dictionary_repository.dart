@@ -116,6 +116,7 @@ class FixtureDictionaryRepository implements DictionaryRepository {
       int baseScore = 0;
       String? derivedFrom;
       String? deinflectionReason;
+      double? deinflectionConfidence;
       String matchedKey = '';
 
       if (query == entry.headword) {
@@ -150,6 +151,7 @@ class FixtureDictionaryRepository implements DictionaryRepository {
           if (candidate.key == normalizedHeadword ||
               candidate.key == normalizedReading) {
             deinflectionReason = candidate.deinflectionReason;
+            deinflectionConfidence = candidate.deinflectionConfidence;
             break;
           }
         }
@@ -165,8 +167,10 @@ class FixtureDictionaryRepository implements DictionaryRepository {
         kind = MatchKind.romaji;
         baseScore = 550;
         matchedKey = entry.reading;
-      } else if (normalizedHeadword.contains(normalizedQuery) ||
-          normalizedReading.contains(kanaQuery)) {
+      } else if ((normalizedQuery.runes.length >= 2 &&
+              normalizedHeadword.contains(normalizedQuery)) ||
+          (kanaQuery.runes.length >= 2 &&
+              normalizedReading.contains(kanaQuery))) {
         kind = MatchKind.contains;
         baseScore = 450;
         matchedKey = normalizedHeadword.contains(normalizedQuery)
@@ -195,6 +199,14 @@ class FixtureDictionaryRepository implements DictionaryRepository {
             ),
           );
         }
+        if (kind == MatchKind.inflection && deinflectionConfidence != null) {
+          final penalty = -((1 - deinflectionConfidence) * 100).round();
+          if (penalty != 0) {
+            modifiers.add(
+              SearchScoreModifier('deinflection_uncertainty', penalty),
+            );
+          }
+        }
         final score =
             baseScore +
             modifiers.fold<int>(0, (total, modifier) => total + modifier.value);
@@ -208,11 +220,15 @@ class FixtureDictionaryRepository implements DictionaryRepository {
             modifiers: List.unmodifiable(modifiers),
             derivedFrom: derivedFrom,
             deinflectionReason: deinflectionReason,
+            deinflectionConfidence: deinflectionConfidence,
           ),
         );
       }
     }
 
+    if (hits.any((hit) => hit.kind != MatchKind.contains)) {
+      hits.removeWhere((hit) => hit.kind == MatchKind.contains);
+    }
     hits.sort((a, b) {
       final scoreOrder = b.score.compareTo(a.score);
       if (scoreOrder != 0) return scoreOrder;

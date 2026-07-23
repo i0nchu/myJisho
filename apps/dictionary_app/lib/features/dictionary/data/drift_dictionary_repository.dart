@@ -176,7 +176,10 @@ class DriftDictionaryRepository
     final candidates = _normalizer.queryCandidates(query);
     if (candidates.isEmpty) return const [];
 
-    final values = List.filled(candidates.length, '(?, ?, ?, ?, ?)').join(', ');
+    final values = List.filled(
+      candidates.length,
+      '(?, ?, ?, ?, ?, ?)',
+    ).join(', ');
     final arguments = <Object?>[];
     for (final candidate in candidates) {
       arguments.addAll([
@@ -185,16 +188,18 @@ class DriftDictionaryRepository
         candidate.kind.name,
         candidate.derivedFrom,
         candidate.deinflectionReason,
+        candidate.deinflectionConfidence,
       ]);
     }
     arguments.add((limit * 4).clamp(20, 200));
-    final rows = await _executor.runSelect('''
+    var rows = await _executor.runSelect('''
 WITH requested(
   search_key,
   upper_bound,
   source_kind,
   derived_from,
-  deinflection_reason
+  deinflection_reason,
+  deinflection_confidence
 ) AS (
   VALUES $values
 )
@@ -207,7 +212,9 @@ SELECT e.payload_json,
        q.source_kind,
        q.derived_from,
        q.deinflection_reason,
-       CASE WHEN sk.search_key = q.search_key THEN 1 ELSE 0 END AS exact_match
+       q.deinflection_confidence,
+       CASE WHEN sk.search_key = q.search_key THEN 1 ELSE 0 END AS exact_match,
+       0 AS contains_match
 FROM requested AS q
 JOIN search_keys AS sk INDEXED BY idx_search_keys_key
   ON sk.search_key >= q.search_key AND sk.search_key < q.upper_bound
@@ -219,6 +226,72 @@ JOIN entries AS e ON e.entry_id = sk.entry_id
 ORDER BY exact_match DESC, e.frequency_rank ASC, e.entry_id ASC
 LIMIT ?
 ''', arguments);
+
+    if (rows.isEmpty) {
+      final containsCandidates = <String, QueryCandidate>{};
+      for (final candidate in candidates) {
+        if (candidate.kind == QueryCandidateKind.inflection ||
+            candidate.key.runes.length < 2) {
+          continue;
+        }
+        containsCandidates.putIfAbsent(
+          '${candidate.kind.name}\u0000${candidate.key}',
+          () => candidate,
+        );
+      }
+      if (containsCandidates.isNotEmpty) {
+        final containsValues = List.filled(
+          containsCandidates.length,
+          '(?, ?, ?, ?, ?, ?)',
+        ).join(', ');
+        final containsArguments = <Object?>[];
+        for (final candidate in containsCandidates.values) {
+          containsArguments.addAll([
+            candidate.key,
+            '%${_escapeLike(candidate.key)}%',
+            candidate.kind.name,
+            candidate.derivedFrom,
+            candidate.deinflectionReason,
+            candidate.deinflectionConfidence,
+          ]);
+        }
+        containsArguments.add((limit * 4).clamp(20, 200));
+        rows = await _executor.runSelect('''
+WITH requested(
+  search_key,
+  pattern,
+  source_kind,
+  derived_from,
+  deinflection_reason,
+  deinflection_confidence
+) AS (
+  VALUES $containsValues
+)
+SELECT e.payload_json,
+       e.frequency_rank,
+       sk.search_key,
+       sk.display_key,
+       sk.key_type,
+       sk.is_common,
+       q.source_kind,
+       q.derived_from,
+       q.deinflection_reason,
+       q.deinflection_confidence,
+       0 AS exact_match,
+       1 AS contains_match
+FROM requested AS q
+JOIN search_keys AS sk
+  ON sk.search_key LIKE q.pattern ESCAPE '\\'
+ AND sk.search_key != q.search_key
+JOIN entries AS e ON e.entry_id = sk.entry_id
+ORDER BY e.frequency_rank ASC,
+         e.entry_id ASC,
+         sk.key_type ASC,
+         sk.display_key ASC
+LIMIT ?
+''', containsArguments);
+      }
+    }
 
     final bestByEntry = <String, SearchHit>{};
     for (final row in rows) {
@@ -235,7 +308,9 @@ LIMIT ?
         entry: entry,
         sourceKind: sourceKind,
         keyType: keyType,
+        matchedKey: row['display_key']! as String,
         exact: exact,
+        contains: row['contains_match'] == 1,
       );
       final modifiers = <SearchScoreModifier>[];
       final frequencyBoost = entry.frequencyRank <= 1000
@@ -260,6 +335,17 @@ LIMIT ?
       if (row['is_common'] == 1) {
         modifiers.add(const SearchScoreModifier('common_form', 40));
       }
+      final deinflectionConfidence = (row['deinflection_confidence'] as num?)
+          ?.toDouble();
+      if (sourceKind == QueryCandidateKind.inflection &&
+          deinflectionConfidence != null) {
+        final penalty = -((1 - deinflectionConfidence) * 100).round();
+        if (penalty != 0) {
+          modifiers.add(
+            SearchScoreModifier('deinflection_uncertainty', penalty),
+          );
+        }
+      }
       final score =
           baseScore +
           modifiers.fold<int>(0, (total, modifier) => total + modifier.value);
@@ -272,6 +358,7 @@ LIMIT ?
         modifiers: List.unmodifiable(modifiers),
         derivedFrom: row['derived_from'] as String?,
         deinflectionReason: row['deinflection_reason'] as String?,
+        deinflectionConfidence: deinflectionConfidence,
       );
       final existing = bestByEntry[entry.id];
       if (existing == null || _isBetterEvidence(hit, existing)) {
@@ -311,8 +398,13 @@ LIMIT ?
     required DictionaryEntry entry,
     required QueryCandidateKind sourceKind,
     required String keyType,
+    required String matchedKey,
     required bool exact,
+    required bool contains,
   }) {
+    if (contains) {
+      return (MatchKind.contains, 450);
+    }
     if (sourceKind == QueryCandidateKind.inflection) {
       return (MatchKind.inflection, 800);
     }
@@ -332,10 +424,16 @@ LIMIT ?
     if (keyType == 'alternate') {
       return (MatchKind.alternativeExact, 950);
     }
-    return rawQuery == entry.reading
+    return _normalizer.normalizeText(rawQuery) ==
+            _normalizer.normalizeText(matchedKey)
         ? (MatchKind.readingExact, 900)
         : (MatchKind.normalizedExact, 850);
   }
+
+  String _escapeLike(String value) => value
+      .replaceAll(r'\', r'\\')
+      .replaceAll('%', r'\%')
+      .replaceAll('_', r'\_');
 
   @override
   Future<void> close() async {
