@@ -4,6 +4,8 @@ DictionaryEntry testEntry({
   String id = 'entry_taberu_001',
   String headword = '食べる',
   String reading = 'たべる',
+  String editStatus = 'approved',
+  String reviewStatus = 'approved',
   String? imageAsset,
   String? audioAsset,
 }) {
@@ -26,8 +28,8 @@ DictionaryEntry testEntry({
     ],
     relations: const [],
     sourceLabel: 'test-original',
-    editStatus: 'approved',
-    reviewStatus: 'approved',
+    editStatus: editStatus,
+    reviewStatus: reviewStatus,
     imageAsset: imageAsset,
     audioAsset: audioAsset,
   );

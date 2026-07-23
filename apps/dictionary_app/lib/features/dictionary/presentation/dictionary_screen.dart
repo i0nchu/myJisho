@@ -31,6 +31,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
   @override
   void initState() {
     super.initState();
+    HardwareKeyboard.instance.addHandler(_handleHardwareKeyEvent);
     if (widget.selectedEntryId == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _searchFocusNode.requestFocus();
@@ -40,9 +41,15 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
 
   @override
   void dispose() {
+    HardwareKeyboard.instance.removeHandler(_handleHardwareKeyEvent);
     _searchController.dispose();
     _searchFocusNode.dispose();
     super.dispose();
+  }
+
+  bool _handleHardwareKeyEvent(KeyEvent event) {
+    if (!mounted || ModalRoute.of(context)?.isCurrent != true) return false;
+    return _handleKeyEvent(_searchFocusNode, event) == KeyEventResult.handled;
   }
 
   void _setQuery(String query) {
@@ -151,11 +158,14 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
   Widget build(BuildContext context) {
     return Focus(
       onKeyEvent: _handleKeyEvent,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth >= 840) return _buildDesktop(context);
-          return _buildMobile(context);
-        },
+      child: FocusTraversalGroup(
+        policy: ReadingOrderTraversalPolicy(),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            if (constraints.maxWidth >= 840) return _buildDesktop(context);
+            return _buildMobile(context);
+          },
+        ),
       ),
     );
   }
@@ -164,6 +174,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
     final selectedEntryId = widget.selectedEntryId;
     if (selectedEntryId != null) {
       return Scaffold(
+        key: const Key('mobile-layout'),
         appBar: AppBar(
           leading: IconButton(
             tooltip: '戻る',
@@ -177,10 +188,12 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
     }
 
     return Scaffold(
+      key: const Key('mobile-layout'),
       appBar: AppBar(
         title: const Text('ことば'),
         actions: [
           IconButton(
+            key: const Key('settings-button'),
             tooltip: '設定',
             onPressed: () => showSettingsSheet(context),
             icon: const Icon(Icons.settings_outlined),
@@ -207,10 +220,12 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
 
   Widget _buildDesktop(BuildContext context) {
     return Scaffold(
+      key: const Key('desktop-layout'),
       appBar: AppBar(
         title: const Text('ことば'),
         actions: [
           IconButton(
+            key: const Key('settings-button'),
             tooltip: '設定',
             onPressed: () => showSettingsSheet(context),
             icon: const Icon(Icons.settings_outlined),
@@ -242,9 +257,14 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
             ],
           ),
           const VerticalDivider(width: 1),
-          SizedBox(width: 380, child: _buildPrimaryPane()),
+          SizedBox(
+            key: const Key('desktop-primary-pane'),
+            width: 380,
+            child: _buildPrimaryPane(),
+          ),
           const VerticalDivider(width: 1),
           Expanded(
+            key: const Key('desktop-detail-pane'),
             child: widget.selectedEntryId == null
                 ? const _DesktopEmptyDetail()
                 : EntryDetailView(entryId: widget.selectedEntryId!),

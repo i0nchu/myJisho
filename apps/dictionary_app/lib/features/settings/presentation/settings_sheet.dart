@@ -47,15 +47,29 @@ class _SettingsSheetState extends ConsumerState<_SettingsSheet> {
             const SizedBox(height: 20),
             Text('表示', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
-            SegmentedButton<ThemeMode>(
-              segments: const [
-                ButtonSegment(value: ThemeMode.system, label: Text('端末に合わせる')),
-                ButtonSegment(value: ThemeMode.light, label: Text('明るい')),
-                ButtonSegment(value: ThemeMode.dark, label: Text('暗い')),
-              ],
-              selected: {settings.themeMode},
-              onSelectionChanged: (values) =>
-                  controller.setThemeMode(values.first),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final textScale = MediaQuery.textScalerOf(context).scale(1);
+                final useVerticalSegments =
+                    constraints.maxWidth < 480 || textScale >= 1.5;
+                return SegmentedButton<ThemeMode>(
+                  key: const Key('theme-mode-segmented-control'),
+                  direction: useVerticalSegments
+                      ? Axis.vertical
+                      : Axis.horizontal,
+                  segments: const [
+                    ButtonSegment(
+                      value: ThemeMode.system,
+                      label: Text('端末に合わせる'),
+                    ),
+                    ButtonSegment(value: ThemeMode.light, label: Text('明るい')),
+                    ButtonSegment(value: ThemeMode.dark, label: Text('暗い')),
+                  ],
+                  selected: {settings.themeMode},
+                  onSelectionChanged: (values) =>
+                      controller.setThemeMode(values.first),
+                );
+              },
             ),
             const SizedBox(height: 20),
             Text('文字の大きさ：${(settings.fontScale * 100).round()}%'),
@@ -82,45 +96,50 @@ class _SettingsSheetState extends ConsumerState<_SettingsSheet> {
               title: Text(update.currentVersion ?? '確認中'),
               subtitle: const Text('端末に保存済み・オフラインで利用できます'),
             ),
-            if (kIsWeb)
-              const ListTile(
+            if (update.phase == DictionaryUpdatePhase.unsupported)
+              ListTile(
                 contentPadding: EdgeInsets.zero,
-                leading: Icon(Icons.web_asset_off_outlined),
-                title: Text('Web版では本機更新を利用できません'),
-                subtitle: Text('現在は同梱されたデモ辞書を使います。'),
+                leading: const Icon(Icons.sync_disabled_outlined),
+                title: const Text('このプラットフォームでは更新できません'),
+                subtitle: Text(update.message),
               )
             else ...[
-              TextField(
-                key: const Key('release-directory-field'),
-                controller: _releaseDirectoryController,
-                enabled: !update.isRunning,
-                decoration: const InputDecoration(
-                  labelText: 'releaseフォルダーのパス',
-                  hintText: 'release-manifest.json があるフォルダー',
-                  prefixIcon: Icon(Icons.folder_outlined),
-                ),
+              Wrap(
+                spacing: 12,
+                runSpacing: 8,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  FilledButton.icon(
+                    key: const Key('check-remote-dictionary-update'),
+                    onPressed: update.isRunning || !update.remoteConfigured
+                        ? null
+                        : () => ref
+                              .read(dictionaryUpdateControllerProvider.notifier)
+                              .checkForRemoteUpdate(),
+                    icon: const Icon(Icons.cloud_download_outlined),
+                    label: const Text('更新を確認してインストール'),
+                  ),
+                  if (update.canCancel)
+                    OutlinedButton.icon(
+                      key: const Key('cancel-dictionary-update'),
+                      onPressed: () => ref
+                          .read(dictionaryUpdateControllerProvider.notifier)
+                          .cancel(),
+                      icon: const Icon(Icons.cancel_outlined),
+                      label: const Text('キャンセル'),
+                    ),
+                ],
               ),
-              const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: FilledButton.tonalIcon(
-                  key: const Key('install-local-release'),
-                  onPressed: update.isRunning
-                      ? null
-                      : () => ref
-                            .read(dictionaryUpdateControllerProvider.notifier)
-                            .installFromDirectory(
-                              _releaseDirectoryController.text,
-                            ),
-                  icon: update.isRunning
-                      ? const SizedBox.square(
-                          dimension: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.system_update_alt),
-                  label: const Text('本機パッケージを検証して更新'),
+              if (update.isRunning) ...[
+                const SizedBox(height: 12),
+                Semantics(
+                  label: '辞書更新の進捗',
+                  value: update.progress == null
+                      ? '処理中'
+                      : '${(update.progress! * 100).round()}%',
+                  child: LinearProgressIndicator(value: update.progress),
                 ),
-              ),
+              ],
               const SizedBox(height: 10),
               Text(
                 update.message,
@@ -133,10 +152,59 @@ class _SettingsSheetState extends ConsumerState<_SettingsSheet> {
               ),
               const SizedBox(height: 6),
               Text(
-                'release・reviewed のパッケージだけを受け入れます。',
+                'HTTPSから完全なrelease・reviewed・license-clearedパッケージ'
+                'だけを受け入れます。失敗時は以前の辞書を維持します。',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
+              if (kDebugMode) ...[
+                const Divider(height: 28),
+                Text(
+                  'リリース担当者向け（デバッグ専用）',
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  key: const Key('release-directory-field'),
+                  controller: _releaseDirectoryController,
+                  enabled: !update.isRunning,
+                  decoration: const InputDecoration(
+                    labelText: '完全パッケージのフォルダー',
+                    hintText: '4つのリリースファイルがあるフォルダー',
+                    prefixIcon: Icon(Icons.folder_outlined),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: FilledButton.tonalIcon(
+                    key: const Key('install-local-release'),
+                    onPressed: update.isRunning
+                        ? null
+                        : () => ref
+                              .read(dictionaryUpdateControllerProvider.notifier)
+                              .installFromDirectory(
+                                _releaseDirectoryController.text,
+                              ),
+                    icon: const Icon(Icons.system_update_alt),
+                    label: const Text('本機完全パッケージを検証'),
+                  ),
+                ),
+              ],
             ],
+            const Divider(height: 32),
+            ListTile(
+              key: const Key('open-source-licenses'),
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.description_outlined),
+              title: const Text('オープンソースライセンス'),
+              subtitle: const Text('使用しているパッケージの著作権とライセンス'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => showLicensePage(
+                context: context,
+                applicationName: 'ことば',
+                applicationVersion: '0.1.0',
+              ),
+            ),
           ],
         ),
       ),

@@ -56,13 +56,22 @@ class _EntryContent extends ConsumerWidget {
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 48),
         children: [
           if (entry.isReviewPending) ...[
-            Card(
-              color: Theme.of(context).colorScheme.tertiaryContainer,
-              child: const ListTile(
-                dense: true,
-                leading: Icon(Icons.science_outlined),
-                title: Text('レビュー前のデモ内容'),
-                subtitle: Text('公開前に日本語の確認が必要です。'),
+            Semantics(
+              key: const Key('review-status-banner'),
+              container: true,
+              label:
+                  'レビュー状態：レビュー前のデモ内容。'
+                  '公開前に日本語の確認が必要です。',
+              child: ExcludeSemantics(
+                child: Card(
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  child: const ListTile(
+                    dense: true,
+                    leading: Icon(Icons.science_outlined),
+                    title: Text('レビュー前のデモ内容'),
+                    subtitle: Text('公開前に日本語の確認が必要です。'),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -86,22 +95,20 @@ class _EntryContent extends ConsumerWidget {
                   ],
                 ),
               ),
-              Semantics(
-                button: true,
-                label: '${entry.headword}の合成音声を聞く',
-                child: IconButton.filledTonal(
-                  tooltip: '合成音声を聞く',
-                  onPressed: speech.isLoading ? null : speak,
-                  icon: speech.isLoading
-                      ? const SizedBox.square(
-                          dimension: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Icon(Icons.volume_up_outlined),
-                ),
+              IconButton.filledTonal(
+                key: const Key('tts-button'),
+                tooltip: '${entry.headword}の合成音声を聞く',
+                onPressed: speech.isLoading ? null : speak,
+                icon: speech.isLoading
+                    ? const SizedBox.square(
+                        dimension: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.volume_up_outlined),
               ),
               const SizedBox(width: 8),
               IconButton.filledTonal(
+                key: const Key('favorite-button'),
                 tooltip: isFavorite ? 'お気に入りから削除' : 'お気に入りに追加',
                 onPressed: () => ref
                     .read(libraryControllerProvider.notifier)
