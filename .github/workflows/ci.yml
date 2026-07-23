@@ -12,15 +12,15 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.13"
       - name: Data and search tests
         run: python -m unittest discover -s tests -v
       - name: Content editor tests
         run: python -m unittest discover -s services/editor_api/tests -v
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: "3.44.7"
           channel: stable
@@ -33,7 +33,7 @@ jobs:
           flutter analyze
           flutter test
           flutter build web --release
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: kotoba-web
           path: apps/dictionary_app/build/web
@@ -41,38 +41,38 @@ jobs:
   windows:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: "3.44.7"
           channel: stable
           cache: true
-      - name: Build Windows debug app
+      - name: Build Windows release app
         working-directory: apps/dictionary_app
-        run: flutter build windows --debug
-      - uses: actions/upload-artifact@v4
+        run: flutter build windows --release
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: kotoba-windows-debug
-          path: apps/dictionary_app/build/windows/x64/runner/Debug
+          name: kotoba-windows-release-unsigned
+          path: apps/dictionary_app/build/windows/x64/runner/Release
 
   apple:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: subosito/flutter-action@v2
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: "3.44.7"
           channel: stable
           cache: true
-      - name: Build macOS debug app
+      - name: Build macOS release app
         working-directory: apps/dictionary_app
-        run: flutter build macos --debug
-      - name: Build iOS simulator app
+        run: flutter build macos --release
+      - name: Build iOS release simulator app
         working-directory: apps/dictionary_app
-        run: flutter build ios --simulator --no-codesign
-      - uses: actions/upload-artifact@v4
+        run: flutter build ios --release --simulator --no-codesign
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: kotoba-apple-debug
+          name: kotoba-apple-release-unsigned
           path: |
-            apps/dictionary_app/build/macos/Build/Products/Debug
-            apps/dictionary_app/build/ios/iphonesimulator
+            apps/dictionary_app/build/macos/Build/Products/Release
+            apps/dictionary_app/build/ios/iphonesimulator/Runner.app
