@@ -5,16 +5,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../data/dictionary_repository.dart';
+import '../data/bundled_database_path.dart';
 import '../data/drift_dictionary_repository.dart';
 import '../data/fixture_dictionary_repository.dart';
 import '../domain/dictionary_entry.dart';
 import '../domain/search_hit.dart';
 
+final activeDictionaryDatabasePathProvider = FutureProvider<String>((ref) {
+  return prepareBundledDictionaryDatabase(
+    rootBundle,
+    'assets/database/dictionary.sqlite',
+    recoverInterruptedUpdate: true,
+  );
+});
+
 final dictionaryRepositoryProvider = Provider<DictionaryRepository>((ref) {
   final fixture = FixtureDictionaryRepository(rootBundle);
   if (kIsWeb) return fixture;
-  final drift = DriftDictionaryRepository.bundled(rootBundle);
-  ref.onDispose(drift.close);
+  final drift = DriftDictionaryRepository.withDatabasePath(
+    () => ref.read(activeDictionaryDatabasePathProvider.future),
+  );
+  ref.onDispose(() => unawaited(drift.close()));
   return FallbackDictionaryRepository(primary: drift, fallback: fixture);
 });
 

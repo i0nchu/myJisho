@@ -10,6 +10,7 @@ class ReleaseManifest {
     required this.databaseSha256,
     required this.releasedAt,
     required this.licenseStatus,
+    this.assets = const <ReleaseAssetRecord>[],
   });
 
   factory ReleaseManifest.fromJson(
@@ -93,6 +94,22 @@ class ReleaseManifest {
     );
   }
 
+  ReleaseManifest withAssets(List<ReleaseAssetRecord> value) {
+    return ReleaseManifest(
+      channel: channel,
+      contentStatus: contentStatus,
+      databaseFile: databaseFile,
+      schemaVersion: schemaVersion,
+      dictionaryVersion: dictionaryVersion,
+      minimumAppVersion: minimumAppVersion,
+      databaseSize: databaseSize,
+      databaseSha256: databaseSha256,
+      releasedAt: releasedAt,
+      licenseStatus: licenseStatus,
+      assets: List<ReleaseAssetRecord>.unmodifiable(value),
+    );
+  }
+
   static final RegExp _semanticVersion = RegExp(
     r'^[0-9]+(?:\.[0-9]+){2}(?:[-+][0-9A-Za-z.-]+)?$',
   );
@@ -122,4 +139,23 @@ class ReleaseManifest {
   final String databaseSha256;
   final DateTime releasedAt;
   final String licenseStatus;
+  final List<ReleaseAssetRecord> assets;
+}
+
+class ReleaseAssetRecord {
+  const ReleaseAssetRecord({
+    required this.assetId,
+    required this.kind,
+    required this.path,
+    required this.sha256,
+    required this.sourceId,
+    required this.licenseSpdx,
+  });
+
+  final String assetId;
+  final String kind;
+  final String path;
+  final String sha256;
+  final String sourceId;
+  final String licenseSpdx;
 }

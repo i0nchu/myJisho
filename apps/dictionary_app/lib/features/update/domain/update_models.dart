@@ -115,10 +115,19 @@ class CompletePackageMetadata {
 }
 
 class DictionaryDownload {
-  const DictionaryDownload({required this.bytes, this.contentLength});
+  const DictionaryDownload({
+    required this.bytes,
+    this.contentLength,
+    this.onDispose,
+  });
 
   final Stream<List<int>> bytes;
   final int? contentLength;
+  final Future<void> Function()? onDispose;
+
+  Future<void> dispose() async {
+    await onDispose?.call();
+  }
 }
 
 class StagedDictionary {

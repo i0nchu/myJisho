@@ -24,8 +24,10 @@ Japanese-only and supports phone navigation plus a desktop search/detail split.
   application/schema/content versions, required tables and foreign keys.
   Drift is quiesced before atomic replacement and reopened before the backup is
   committed; a transaction marker and exclusive update lock recover interrupted
-  replacement. Download, disk-full, validation, replace, or reopen failure
-  preserves the previous database.
+  replacement before the first SQLite open. Commit waits for a newly constructed
+  Drift repository to execute a real readiness query; download, disk-full,
+  validation, replace, reopen, or query failure preserves and verifies the
+  previous database.
 
 `DictionaryEntry.fromJson` treats the canonical snake_case model as its primary
 contract (`entry_id`, structured forms/readings, `parts_of_speech`, canonical

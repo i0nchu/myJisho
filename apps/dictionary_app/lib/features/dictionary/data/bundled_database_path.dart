@@ -6,7 +6,12 @@ import 'bundled_database_path_stub.dart'
 
 Future<String> prepareBundledDictionaryDatabase(
   AssetBundle bundle,
-  String assetPath,
-) {
-  return implementation.prepareBundledDictionaryDatabase(bundle, assetPath);
+  String assetPath, {
+  bool recoverInterruptedUpdate = false,
+}) {
+  return implementation.prepareBundledDictionaryDatabase(
+    bundle,
+    assetPath,
+    recoverInterruptedUpdate: recoverInterruptedUpdate,
+  );
 }

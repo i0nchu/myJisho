@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../dictionary/application/dictionary_providers.dart';
-import '../../dictionary/data/bundled_database_path.dart';
 import '../../dictionary/data/dictionary_repository.dart';
 import '../data/dictionary_update_service.dart';
 import '../data/file_update_storage.dart';
@@ -79,10 +77,9 @@ class DictionaryUpdateController extends Notifier<DictionaryUpdateState> {
     );
   }
 
-  Future<String> _activeDatabasePath() => prepareBundledDictionaryDatabase(
-    rootBundle,
-    'assets/database/dictionary.sqlite',
-  );
+  Future<String> _activeDatabasePath() {
+    return ref.read(activeDictionaryDatabasePathProvider.future);
+  }
 
   Future<void> _refreshCurrentVersion() async {
     final version = await readDictionaryVersion(await _activeDatabasePath());
@@ -181,7 +178,30 @@ class DictionaryUpdateController extends Notifier<DictionaryUpdateState> {
     try {
       final activePath = await _activeDatabasePath();
       final currentVersion = await readDictionaryVersion(activePath);
-      final repository = ref.read(dictionaryRepositoryProvider);
+      DictionaryRepository? liveRepository = ref.read(
+        dictionaryRepositoryProvider,
+      );
+
+      Future<void> closeLiveRepository() async {
+        final repository = liveRepository;
+        liveRepository = null;
+        if (repository is DictionaryRepositoryLifecycle) {
+          await (repository as DictionaryRepositoryLifecycle).close();
+        }
+      }
+
+      Future<void> reopenAndVerifyRepository() async {
+        final repository = ref.refresh(dictionaryRepositoryProvider);
+        liveRepository = repository;
+        try {
+          await _verifyRepositoryReady(repository);
+        } on Object {
+          await closeLiveRepository();
+          rethrow;
+        }
+        _invalidateDictionaryConsumers();
+      }
+
       final service = DictionaryUpdateService(
         source: source,
         storage: createFileUpdateStorage(
@@ -194,17 +214,10 @@ class DictionaryUpdateController extends Notifier<DictionaryUpdateState> {
         currentAppVersion: _appVersion,
         cancellationToken: cancellation,
         onProgress: _showProgress,
-        beforeActivate: () async {
-          if (repository is DictionaryRepositoryLifecycle) {
-            await (repository as DictionaryRepositoryLifecycle).close();
-          }
-        },
-        afterActivate: () async {
-          ref.invalidate(dictionaryRepositoryProvider);
-          ref.invalidate(searchResultsProvider);
-          ref.invalidate(entryProvider);
-          ref.invalidate(allEntriesProvider);
-        },
+        beforeActivate: closeLiveRepository,
+        afterActivate: reopenAndVerifyRepository,
+        beforeRollback: closeLiveRepository,
+        afterRollback: reopenAndVerifyRepository,
       );
       final result = await service.checkAndInstall();
       final nextVersion = await readDictionaryVersion(activePath);
@@ -232,6 +245,24 @@ class DictionaryUpdateController extends Notifier<DictionaryUpdateState> {
         _cancellationToken = null;
       }
     }
+  }
+
+  Future<void> _verifyRepositoryReady(DictionaryRepository repository) async {
+    if (repository is DictionaryRepositoryReadiness) {
+      await (repository as DictionaryRepositoryReadiness).verifyReady();
+      return;
+    }
+    final entries = await repository.allEntries();
+    if (entries.isEmpty) {
+      throw StateError('Dictionary repository returned no entries.');
+    }
+  }
+
+  void _invalidateDictionaryConsumers() {
+    ref.invalidate(searchResultsProvider);
+    ref.invalidate(entryProvider);
+    ref.invalidate(allEntriesProvider);
+    ref.invalidate(entriesByIdsProvider);
   }
 
   void _showProgress(DictionaryUpdateProgress progress) {

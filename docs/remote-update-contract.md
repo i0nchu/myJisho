@@ -84,8 +84,14 @@ database checksum must match `database_sha256`.
 7. Under an exclusive update lock, close the current repository, write and
    flush a transaction marker, rename the active database to backup, and rename
    staging into the active path.
-8. Reopen the new repository. Delete the marker and backup only after success.
-   Any replace or reopen error restores and reopens the backup.
+8. Construct a new Drift repository and await a real `SELECT ... LIMIT 1`
+   readiness query. Delete the marker and backup only after that query succeeds.
+   Any replace, reopen, or query error first closes the failed repository, then
+   restores the backup and awaits the same readiness query against the old DB.
+9. On every process start, the native database-path bootstrap acquires the
+   update lock and resolves a transaction marker before the first SQLite open.
+   This recovery is one-shot for the process; staging never moves an active file
+   merely because it encounters a stale marker after SQLite is already open.
 
 An OS disk-full error is classified even if free-space probing is unavailable.
 At no point does the updater open or mutate the separate favorites/history
@@ -93,10 +99,11 @@ store.
 
 Fault-injection coverage lives in
 `apps/dictionary_app/test/remote_dictionary_update_test.dart` and
-`dictionary_update_service_test.dart`: interrupted HTTP, cancellation,
-insufficient capacity, wrong size/hash, tampered metadata, incompatible
-manifest, unhealthy/version-mismatched SQLite, activation/reopen rollback, and
-successful end-to-end activation.
+`dictionary_update_production_path_test.dart`: interrupted HTTP, cancellation,
+insufficient capacity, wrong size/hash, tampered metadata, release-assets-to-
+SQLite cross-binding, incompatible manifest, unhealthy/version-mismatched
+SQLite, startup recovery, real Drift reopen/query rollback, explicit HTTP
+handle disposal, and successful end-to-end activation.
 
 ## Release decisions still external
 

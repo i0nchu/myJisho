@@ -70,11 +70,20 @@ class RemoteDictionaryPackageSource
     cancellationToken.throwIfCancelled();
     final client = HttpClient()..connectionTimeout = _requestTimeout;
     HttpClientRequest? request;
+    var cleanedUp = false;
     var streamOwnsClient = false;
-    void abort() {
-      request?.abort(const UpdateCancelledException());
+    late void Function() abort;
+    void cleanup() {
+      if (cleanedUp) return;
+      cleanedUp = true;
+      cancellationToken.removeListener(abort);
       client.close(force: true);
     }
+
+    abort = () {
+      request?.abort(const UpdateCancelledException());
+      cleanup();
+    };
 
     cancellationToken.addListener(abort);
     try {
@@ -90,17 +99,18 @@ class RemoteDictionaryPackageSource
       final length = response.contentLength < 0 ? null : response.contentLength;
       final bytes = _guardedResponseStream(
         response,
-        client,
         cancellationToken,
-        abort,
+        cleanup,
       );
       streamOwnsClient = true;
-      return DictionaryDownload(bytes: bytes, contentLength: length);
+      return DictionaryDownload(
+        bytes: bytes,
+        contentLength: length,
+        onDispose: () async => cleanup(),
+      );
     } on UpdateCancelledException {
-      client.close(force: true);
       rethrow;
     } on Object catch (error) {
-      client.close(force: true);
       if (cancellationToken.isCancelled) {
         throw const UpdateCancelledException();
       }
@@ -109,16 +119,14 @@ class RemoteDictionaryPackageSource
         error,
       );
     } finally {
-      // The stream owns the listener and client after a successful response.
-      if (!streamOwnsClient) cancellationToken.removeListener(abort);
+      if (!streamOwnsClient) cleanup();
     }
   }
 
   Stream<List<int>> _guardedResponseStream(
     HttpClientResponse response,
-    HttpClient client,
     UpdateCancellationToken cancellationToken,
-    void Function() abort,
+    void Function() cleanup,
   ) async* {
     try {
       await for (final chunk in response.timeout(_streamIdleTimeout)) {
@@ -137,8 +145,7 @@ class RemoteDictionaryPackageSource
         error,
       );
     } finally {
-      cancellationToken.removeListener(abort);
-      client.close(force: true);
+      cleanup();
     }
   }
 
@@ -163,10 +170,14 @@ class RemoteDictionaryPackageSource
       UpdateCancellationToken(),
     );
     final builder = BytesBuilder(copy: false);
-    await for (final chunk in download.bytes) {
-      builder.add(chunk);
+    try {
+      await for (final chunk in download.bytes) {
+        builder.add(chunk);
+      }
+      return builder.takeBytes();
+    } finally {
+      await download.dispose();
     }
-    return builder.takeBytes();
   }
 
   Future<Uint8List> _getBytes(

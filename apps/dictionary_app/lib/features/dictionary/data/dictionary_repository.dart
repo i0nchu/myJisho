@@ -18,3 +18,10 @@ abstract interface class DictionaryRepository {
 abstract interface class DictionaryRepositoryLifecycle {
   Future<void> close();
 }
+
+/// Opens the production repository and executes a minimal real query.
+///
+/// Update activation must await this before deleting its rollback backup.
+abstract interface class DictionaryRepositoryReadiness {
+  Future<void> verifyReady();
+}

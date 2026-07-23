@@ -34,6 +34,7 @@ Future<bool> sqliteDictionaryMatchesManifest(
     path,
     expectedSchemaVersion: manifest.schemaVersion,
     expectedDictionaryVersion: manifest.dictionaryVersion,
+    expectedAssets: manifest.assets,
   );
 }
 
@@ -41,6 +42,7 @@ Future<bool> _inspect(
   String path, {
   int? expectedSchemaVersion,
   String? expectedDictionaryVersion,
+  List<ReleaseAssetRecord>? expectedAssets,
 }) async {
   final database = sqlite3.open(path, mode: OpenMode.readOnly);
   try {
@@ -80,6 +82,32 @@ Future<bool> _inspect(
       if (versions.isEmpty ||
           versions.first['metadata_value'] != expectedDictionaryVersion) {
         return false;
+      }
+    }
+    if (expectedAssets != null) {
+      final expectedById = <String, ReleaseAssetRecord>{
+        for (final asset in expectedAssets) asset.assetId: asset,
+      };
+      final actualRows = database.select('''
+SELECT asset_id, 'image' AS kind, COALESCE(local_path, '') AS path,
+       sha256, source_id, license_spdx
+FROM images
+UNION ALL
+SELECT asset_id, 'audio' AS kind, COALESCE(local_path, '') AS path,
+       sha256, source_id, license_spdx
+FROM audio_assets
+''');
+      if (actualRows.length != expectedById.length) return false;
+      for (final row in actualRows) {
+        final expected = expectedById[row['asset_id']! as String];
+        if (expected == null ||
+            row['kind'] != expected.kind ||
+            row['path'] != expected.path ||
+            row['sha256'] != expected.sha256 ||
+            row['source_id'] != expected.sourceId ||
+            row['license_spdx'] != expected.licenseSpdx) {
+          return false;
+        }
       }
     }
     return true;

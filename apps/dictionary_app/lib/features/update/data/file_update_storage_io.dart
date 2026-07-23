@@ -47,16 +47,6 @@ class FileDictionaryUpdateStorage
 
   RandomAccessFile? _updateLock;
 
-  Future<void> _recoverInterruptedUpdate() async {
-    final marker = File(_markerPath);
-    final backup = File(_backupPath);
-    if (!await marker.exists()) return;
-    if (await backup.exists()) {
-      await _restoreBackup();
-    }
-    await marker.delete();
-  }
-
   Future<void> _acquireUpdateLock() async {
     if (_updateLock != null) {
       throw StateError('This update storage already owns the update lock.');
@@ -125,7 +115,11 @@ class FileDictionaryUpdateStorage
     final digestSink = sha256.startChunkedConversion(digestOutput);
     var received = 0;
     try {
-      await _recoverInterruptedUpdate();
+      if (await File(_markerPath).exists()) {
+        throw const DictionaryDownloadException(
+          'An interrupted activation must be recovered before opening SQLite.',
+        );
+      }
       await ensureCapacity(expectedSize);
       if (await staged.exists()) await staged.delete();
       output = await staged.open(mode: FileMode.write);

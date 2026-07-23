@@ -8,6 +8,7 @@ import 'package:kotoba_dictionary_app/features/update/data/dictionary_update_ser
 import 'package:kotoba_dictionary_app/features/update/data/file_update_storage.dart';
 import 'package:kotoba_dictionary_app/features/update/data/remote_dictionary_package_source.dart';
 import 'package:kotoba_dictionary_app/features/update/data/sqlite_dictionary_inspector.dart';
+import 'package:kotoba_dictionary_app/features/update/domain/release_manifest.dart';
 import 'package:kotoba_dictionary_app/features/update/domain/update_models.dart';
 import 'package:sqlite3/sqlite3.dart';
 
@@ -134,6 +135,29 @@ void main() {
     expect(File('${activeDatabase.path}.staged').existsSync(), isFalse);
   });
 
+  test('size preflight disposes an unconsumed download handle', () async {
+    final package = _ReleasePackage(
+      nextDatabaseBytes,
+      declaredDatabaseSize: nextDatabaseBytes.length + 1,
+    );
+    final source = _DisposablePackageSource(package);
+    final service = DictionaryUpdateService(
+      source: source,
+      storage: createFileUpdateStorage(
+        activeDatabasePath: activeDatabase.path,
+        healthCheck: isHealthySqliteDictionary,
+        manifestHealthCheck: sqliteDictionaryMatchesManifest,
+      ),
+      supportedSchemaVersion: 1,
+      currentDictionaryVersion: '0.1.0-fixture.1',
+      currentAppVersion: '0.1.0',
+    );
+
+    expect(await service.checkAndInstall(), DictionaryUpdateResult.invalidSize);
+    expect(source.disposed, isTrue);
+    expect(source.streamListened, isFalse);
+  });
+
   test(
     'tampered assets manifest contract is rejected before database download',
     () async {
@@ -154,6 +178,29 @@ void main() {
       expect(await activeDatabase.readAsBytes(), oldDatabaseBytes);
     },
   );
+
+  test('assets manifest must match SQLite media rows exactly', () async {
+    final package = _ReleasePackage(
+      nextDatabaseBytes,
+      assets: <Object?>[
+        <String, Object?>{
+          'asset_id': 'asset_missing_from_sqlite',
+          'kind': 'image',
+          'path': 'assets/images/missing.png',
+          'sha256': 'a' * 64,
+          'source_id': 'source_missing',
+          'license_spdx': 'CC0-1.0',
+        },
+      ],
+    );
+    final server = await _PackageServer.start(package);
+    addTearDown(server.close);
+
+    final result = await makeService(server).checkAndInstall();
+
+    expect(result, DictionaryUpdateResult.unhealthyDatabase);
+    expect(await activeDatabase.readAsBytes(), oldDatabaseBytes);
+  });
 
   test(
     'cancelling a streamed download removes staging and keeps old DB',
@@ -263,6 +310,7 @@ class _ReleasePackage {
     String? databaseDigest,
     this.declaredDatabaseSize,
     this.corruptAssetsChecksum = false,
+    this.assets = const <Object?>[],
   }) : databaseDigest =
            databaseDigest ?? sha256.convert(databaseBytes).toString() {
     releaseManifestBytes = Uint8List.fromList(
@@ -272,7 +320,7 @@ class _ReleasePackage {
     );
     assetsManifestBytes = Uint8List.fromList(
       utf8.encode(
-        '${jsonEncode(<String, Object?>{'schema_version': 1, 'dictionary_version': dictionaryVersion, 'released_at': '2026-08-01T00:00:00Z', 'assets': <Object?>[]})}\n',
+        '${jsonEncode(<String, Object?>{'schema_version': 1, 'dictionary_version': dictionaryVersion, 'released_at': '2026-08-01T00:00:00Z', 'assets': assets})}\n',
       ),
     );
     final assetsDigest = corruptAssetsChecksum
@@ -292,6 +340,7 @@ class _ReleasePackage {
   final String databaseDigest;
   final int? declaredDatabaseSize;
   final bool corruptAssetsChecksum;
+  final List<Object?> assets;
   late final Uint8List releaseManifestBytes;
   late final Uint8List assetsManifestBytes;
   late final Uint8List checksumsBytes;
@@ -386,5 +435,55 @@ class _PackageServer {
     } on Object {
       // Client cancellation and forced disconnects are expected fault cases.
     }
+  }
+}
+
+class _DisposablePackageSource
+    implements DictionaryPackageSource, CompleteDictionaryPackageSource {
+  _DisposablePackageSource(this.package);
+
+  final _ReleasePackage package;
+  bool disposed = false;
+  bool streamListened = false;
+
+  @override
+  Future<CompletePackageMetadata> fetchCompletePackageMetadata(
+    UpdateCancellationToken cancellationToken,
+  ) async {
+    return CompletePackageMetadata(
+      releaseManifestBytes: package.releaseManifestBytes,
+      assetsManifestBytes: package.assetsManifestBytes,
+      checksumsBytes: package.checksumsBytes,
+    );
+  }
+
+  @override
+  Future<DictionaryDownload> openDatabaseDownload(
+    ReleaseManifest manifest,
+    UpdateCancellationToken cancellationToken,
+  ) async {
+    Stream<List<int>> bytes() async* {
+      streamListened = true;
+      yield package.databaseBytes;
+    }
+
+    return DictionaryDownload(
+      bytes: bytes(),
+      contentLength: package.databaseBytes.length,
+      onDispose: () async {
+        disposed = true;
+      },
+    );
+  }
+
+  @override
+  Future<Uint8List> fetchDatabase(ReleaseManifest manifest) async {
+    return package.databaseBytes;
+  }
+
+  @override
+  Future<Map<String, Object?>> fetchManifest() async {
+    return jsonDecode(utf8.decode(package.releaseManifestBytes))
+        as Map<String, Object?>;
   }
 }

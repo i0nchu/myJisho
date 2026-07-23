@@ -80,6 +80,8 @@ class DictionaryUpdateService {
     required this.currentAppVersion,
     this.beforeActivate,
     this.afterActivate,
+    this.beforeRollback,
+    this.afterRollback,
     this.cancellationToken,
     this.onProgress,
     this.maxDatabaseSizeBytes = 150 * 1024 * 1024,
@@ -92,6 +94,8 @@ class DictionaryUpdateService {
   final String currentAppVersion;
   final Future<void> Function()? beforeActivate;
   final Future<void> Function()? afterActivate;
+  final Future<void> Function()? beforeRollback;
+  final Future<void> Function()? afterRollback;
   final UpdateCancellationToken? cancellationToken;
   final DictionaryUpdateProgressCallback? onProgress;
   final int maxDatabaseSizeBytes;
@@ -217,6 +221,7 @@ class DictionaryUpdateService {
     }
     if (download.contentLength != null &&
         download.contentLength != manifest.databaseSize) {
+      await download.dispose();
       return DictionaryUpdateResult.invalidSize;
     }
 
@@ -236,6 +241,8 @@ class DictionaryUpdateService {
       return DictionaryUpdateResult.downloadFailed;
     } on Object {
       return DictionaryUpdateResult.downloadFailed;
+    } finally {
+      await download.dispose();
     }
     if (staged.size != manifest.databaseSize) {
       await storage.discard(staged.handle);
@@ -338,8 +345,9 @@ class DictionaryUpdateService {
           await afterActivate?.call();
           await storage.commit();
         } on Object {
+          await beforeRollback?.call();
           await storage.rollback();
-          await afterActivate?.call();
+          await (afterRollback ?? afterActivate)?.call();
           rethrow;
         }
         return DictionaryUpdateResult.updated;
@@ -392,7 +400,7 @@ class ReleasePackageContract {
       metadata.assetsManifestBytes,
       'assets-manifest.json',
     );
-    _validateAssetsManifest(assetsJson, manifest);
+    final assets = _validateAssetsManifest(assetsJson, manifest);
 
     final checksums = _parseChecksums(metadata.checksumsBytes);
     final expected = <String>{
@@ -424,7 +432,7 @@ class ReleasePackageContract {
       checksums['assets-manifest.json']!,
       'assets-manifest.json',
     );
-    return manifest;
+    return manifest.withAssets(assets);
   }
 
   static Map<String, Object?> _decodeObject(Uint8List bytes, String filename) {
@@ -435,7 +443,7 @@ class ReleasePackageContract {
     return decoded;
   }
 
-  static void _validateAssetsManifest(
+  static List<ReleaseAssetRecord> _validateAssetsManifest(
     Map<String, Object?> json,
     ReleaseManifest manifest,
   ) {
@@ -469,6 +477,7 @@ class ReleasePackageContract {
     }
     final ids = <String>{};
     final paths = <String>{};
+    final validated = <ReleaseAssetRecord>[];
     const assetFields = <String>{
       'asset_id',
       'kind',
@@ -492,6 +501,7 @@ class ReleasePackageContract {
       if (id is! String ||
           id.isEmpty ||
           !ids.add(id) ||
+          kind is! String ||
           (kind != 'image' && kind != 'audio') ||
           path is! String ||
           !_isSafeAssetPath(path) ||
@@ -504,7 +514,18 @@ class ReleasePackageContract {
           license.isEmpty) {
         throw const FormatException('Invalid asset manifest item value.');
       }
+      validated.add(
+        ReleaseAssetRecord(
+          assetId: id,
+          kind: kind,
+          path: path,
+          sha256: digest,
+          sourceId: sourceId,
+          licenseSpdx: license,
+        ),
+      );
     }
+    return validated;
   }
 
   static bool _isSafeAssetPath(String value) {
