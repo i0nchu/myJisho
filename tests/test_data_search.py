@@ -399,6 +399,7 @@ class SearchGoldenTests(unittest.TestCase):
             "拾って": ("拾う", "deinflection"),
             "行かなかった": ("行く", "deinflection"),
             "ガッコウ": ("学校", "normalized_exact"),
+            "ﾀﾍﾞﾙ": ("食べる", "normalized_exact"),
             "gakkou": ("学校", "romaji"),
             "shimbun": ("新聞", "romaji"),
             "shinbun": ("新聞", "romaji"),

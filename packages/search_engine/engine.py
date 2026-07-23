@@ -148,6 +148,7 @@ class SearchEngine:
         if limit < 1:
             return []
         raw = query
+        raw_display = query.strip()
         normalized = normalize_text(query)
         if not normalized:
             return []
@@ -170,8 +171,10 @@ class SearchEngine:
             for exact_key in dict.fromkeys(exact_keys):
                 for row in self._rows_exact(exact_key):
                     key_type = row["key_type"]
-                    display_normalized = normalize_text(row["display_key"])
-                    transformed = exact_key != normalized or display_normalized != normalized
+                    transformed = (
+                        exact_key != normalized
+                        or raw_display != row["display_key"]
+                    )
                     if transformed:
                         match_type, base = "normalized_exact", 850
                     elif key_type == "primary":

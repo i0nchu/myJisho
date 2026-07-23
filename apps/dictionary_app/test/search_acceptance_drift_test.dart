@@ -215,7 +215,28 @@ void main() {
     expect(hit.baseScore, 900);
     expect(hit.matchedKey, 'にっぽん');
     expect(hit.evidence.isScoreConsistent, isTrue);
+
+    final transformed = (await repository.search('ﾆｯﾎﾟﾝ')).first;
+    expect(transformed.entry.headword, '日本');
+    expect(transformed.kind, MatchKind.normalizedExact);
+    expect(transformed.baseScore, 850);
+    expect(transformed.matchedKey, 'にっぽん');
   });
+
+  test(
+    'alternate exact distinguishes raw and width-normalized input',
+    () async {
+      final exact = (await repository.search('ジャパン')).first;
+      expect(exact.entry.headword, '日本');
+      expect(exact.kind, MatchKind.alternativeExact);
+      expect(exact.baseScore, 950);
+
+      final transformed = (await repository.search('ｼﾞｬﾊﾟﾝ')).first;
+      expect(transformed.entry.headword, '日本');
+      expect(transformed.kind, MatchKind.normalizedExact);
+      expect(transformed.baseScore, 850);
+    },
+  );
 
   test('contains fallback escapes LIKE wildcards', () async {
     expect(await repository.search(r'%_'), isEmpty);
@@ -316,6 +337,11 @@ CREATE INDEX idx_search_keys_key ON search_keys(search_key, key_type);
         'review': {'status': 'ai_draft'},
       };
       if (headword == '日本') {
+        (payload['forms']! as List<Object?>).add({
+          'text': 'ジャパン',
+          'type': 'alternate',
+          'common': false,
+        });
         (payload['readings']! as List<Object?>).add({
           'kana': 'にっぽん',
           'primary': false,
@@ -344,6 +370,14 @@ CREATE INDEX idx_search_keys_key ON search_keys(search_key, key_type);
         keyType: 'reading',
       );
       if (headword == '日本') {
+        _insertSearchKey(
+          database,
+          id: '$entryId:alternate',
+          entryId: entryId,
+          key: normalizer.normalizeText('ジャパン'),
+          displayKey: 'ジャパン',
+          keyType: 'alternate',
+        );
         _insertSearchKey(
           database,
           id: '$entryId:reading:secondary',

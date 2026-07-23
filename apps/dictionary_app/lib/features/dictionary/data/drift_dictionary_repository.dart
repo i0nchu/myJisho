@@ -422,10 +422,11 @@ LIMIT ?
           : (MatchKind.normalizedExact, 850);
     }
     if (keyType == 'alternate') {
-      return (MatchKind.alternativeExact, 950);
+      return rawQuery == matchedKey
+          ? (MatchKind.alternativeExact, 950)
+          : (MatchKind.normalizedExact, 850);
     }
-    return _normalizer.normalizeText(rawQuery) ==
-            _normalizer.normalizeText(matchedKey)
+    return rawQuery == matchedKey
         ? (MatchKind.readingExact, 900)
         : (MatchKind.normalizedExact, 850);
   }
