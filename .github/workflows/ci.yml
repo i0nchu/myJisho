@@ -67,12 +67,15 @@ jobs:
       - name: Build macOS release app
         working-directory: apps/dictionary_app
         run: flutter build macos --release
-      - name: Build iOS release simulator app
+      # Flutter does not support release/profile execution on the iOS
+      # simulator. This is a compile preflight only; signed physical-device
+      # release archives remain an external release gate.
+      - name: Build iOS debug simulator app
         working-directory: apps/dictionary_app
-        run: flutter build ios --release --simulator --no-codesign
+        run: flutter build ios --debug --simulator --no-codesign
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: kotoba-apple-release-unsigned
+          name: kotoba-apple-preflight-unsigned
           path: |
             apps/dictionary_app/build/macos/Build/Products/Release
             apps/dictionary_app/build/ios/iphonesimulator/Runner.app
