@@ -6,10 +6,12 @@ import unittest
 from pathlib import Path
 
 from tools.security_audit import (
+    AuditInfrastructureError,
     LockedPackage,
     build_cyclonedx,
     license_inventory,
     parse_pub_lock,
+    parse_osv_response,
     scan_secret_files,
 )
 
@@ -73,6 +75,25 @@ sdks:
             [{"kind": "aws_access_key", "file": "unsafe.txt", "line": 1}],
         )
         self.assertNotIn("AKIA", json.dumps(findings))
+
+    def test_secret_scan_fails_closed_for_oversized_tracked_text(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repository = Path(directory)
+            oversized = repository / "oversized.txt"
+            oversized.write_text("x" * (2 * 1024 * 1024 + 1), encoding="utf-8")
+            with self.assertRaisesRegex(
+                AuditInfrastructureError, "exceeds scan limit"
+            ):
+                scan_secret_files(repository, [oversized])
+
+    def test_osv_malformed_vulnerability_fails_closed(self) -> None:
+        packages = [
+            LockedPackage("alpha", "1.2.3", "hosted", "direct main")
+        ]
+        with self.assertRaisesRegex(
+            AuditInfrastructureError, "item is not an object"
+        ):
+            parse_osv_response(packages, {"results": [{"vulns": ["bad"]}]})
 
     def test_cyclonedx_has_deterministic_components_and_lock_identity(self) -> None:
         packages = [

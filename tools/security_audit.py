@@ -137,6 +137,14 @@ def query_osv(
     except (OSError, urllib.error.URLError, json.JSONDecodeError) as error:
         raise AuditInfrastructureError(f"OSV query failed: {error}") from error
 
+    return parse_osv_response(hosted, payload)
+
+
+def parse_osv_response(
+    hosted: Sequence[LockedPackage], payload: object
+) -> list[dict[str, object]]:
+    if not isinstance(payload, dict):
+        raise AuditInfrastructureError("OSV response is not an object")
     results = payload.get("results")
     if not isinstance(results, list) or len(results) != len(hosted):
         raise AuditInfrastructureError("OSV response does not match requested packages")
@@ -150,7 +158,9 @@ def query_osv(
             raise AuditInfrastructureError("OSV vulnerabilities field is not a list")
         for vulnerability in vulnerabilities:
             if not isinstance(vulnerability, dict):
-                continue
+                raise AuditInfrastructureError(
+                    "OSV vulnerabilities item is not an object"
+                )
             findings.append(
                 {
                     "package": package.name,
@@ -268,11 +278,24 @@ def scan_secret_files(
     findings: list[dict[str, object]] = []
     for path in files:
         try:
-            if not path.is_file() or path.stat().st_size > MAX_SCANNED_FILE_BYTES:
+            if not path.is_file():
                 continue
-            raw = path.read_bytes()
-        except OSError:
-            continue
+            with path.open("rb") as handle:
+                prefix = handle.read(8192)
+                if b"\0" in prefix:
+                    continue
+                remainder = handle.read(MAX_SCANNED_FILE_BYTES - len(prefix) + 1)
+                raw = prefix + remainder
+                if len(raw) > MAX_SCANNED_FILE_BYTES:
+                    raise AuditInfrastructureError(
+                        f"tracked text file exceeds scan limit: "
+                        f"{path.relative_to(repository).as_posix()}"
+                    )
+        except OSError as error:
+            raise AuditInfrastructureError(
+                f"could not scan tracked file "
+                f"{path.relative_to(repository).as_posix()}: {error}"
+            ) from error
         if b"\0" in raw:
             continue
         text = raw.decode("utf-8", errors="replace")

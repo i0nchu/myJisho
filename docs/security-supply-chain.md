@@ -22,6 +22,10 @@ without license evidence, a secret finding, an invalid lockfile or an
 unavailable/malformed OSV response. A network failure is an infrastructure
 failure, not a clean vulnerability result.
 
+Unreadable tracked files and text files larger than the explicit 2 MiB scan
+limit also fail closed; binary files are identified by a NUL byte in their
+prefix and omitted from the text-pattern scan.
+
 The tracked secret scan intentionally uses a small high-signal pattern set and
 does not claim to replace repository-host secret protection or incident
 response. The SBOM describes the locked Pub/Flutter dependency inventory; native
