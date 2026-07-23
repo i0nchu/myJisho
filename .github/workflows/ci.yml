@@ -37,6 +37,7 @@ jobs:
         with:
           name: kotoba-web
           path: apps/dictionary_app/build/web
+          if-no-files-found: error
 
   windows:
     runs-on: windows-latest
@@ -54,6 +55,7 @@ jobs:
         with:
           name: kotoba-windows-release-unsigned
           path: apps/dictionary_app/build/windows/x64/runner/Release
+          if-no-files-found: error
 
   apple:
     runs-on: macos-latest
@@ -79,3 +81,4 @@ jobs:
           path: |
             apps/dictionary_app/build/macos/Build/Products/Release
             apps/dictionary_app/build/ios/iphonesimulator/Runner.app
+          if-no-files-found: error
