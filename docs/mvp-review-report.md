@@ -26,17 +26,18 @@
 |---|---|---|
 | Python 資料／搜尋／供應鏈 | PASS | 37/37 |
 | AC-02/03/04 固定搜尋 corpus | PASS（自動化） | 250/250 全域唯一、可重現；235-row temporary SQLite 經 deployed Drift 全量驗證 exact/prefix/contains/deinflection、ID/kind/order/negative/explain |
-| 編輯器 schema、workflow、storage、HTTP security | PASS | 25/25 |
+| 編輯器 schema、workflow、storage、HTTP security | PASS | 34/34；預設流程隱藏 stable ID／raw enum／hash，且 canonical snapshot merge 不遺失系統欄位 |
 | Flutter format | PASS | 61 files，0 changes |
 | Flutter analyze | PASS | No issues found |
 | Flutter unit/widget/integration | PASS | 80/80 |
 | TTS 日文 voice P0 | PASS（自動化）／DEVICE PENDING | 枚舉系統 voice、正規化並明確選取 `ja` locale；中文-only、設定拒絕、retry、按鈕／Space reading 與真實 success/error 均有測試；三平台實機尚未驗收 |
+| 平台 UI／搜尋流暢度 P0 | PASS（自動化）／DEVICE PENDING | 8 個 platform UX cases；桌面 stable shell、搜尋保留既有結果、latest-wins、iOS push/pop、macOS/Windows desktop surface |
 | 遠端更新／fault injection | PASS（自動化） | 24/24；含 pre-open recovery、真實 Drift readiness、reopen failure rollback、HTTP cleanup、assets↔SQLite binding |
 | AC-08/09 adaptive/a11y automation | PASS（自動化） | 12 adaptive/a11y + 8 platform UX cases；390px、雙欄、200%、鍵盤、semantics、contrast、reduced motion |
 | 供應鏈 audit | PASS（目前 lock） | 106 locked／102 hosted；OSV 0 漏洞、0 缺 license、0 secret；CycloneDX 1.7 SBOM |
 | Flutter Web release build | PASS | `build/web` 成功產生 |
-| 內容編輯器瀏覽器 smoke | PASS | 搜尋、選取、編輯表單、即時預覽 |
-| Flutter 桌面響應式 smoke | PASS | 最新 Web build 雙欄搜尋／詳情空狀態 |
+| 內容編輯器瀏覽器 smoke | PASS | 搜尋、選取、友善編輯表單、即時預覽；預設不顯示 stable ID／hash／raw enum |
+| Flutter 桌面響應式 smoke | PASS | 最新 Web build 搜尋 `shinbun`、開啟新聞詳情，搜尋工作區維持不重建 |
 | Flutter 390×844 smoke | PASS | `shinbun`→新聞→詳情，無水平捲動 |
 | 100k 搜尋 benchmark | PASS | P95 6.070 ms；規格門檻 <100 ms |
 | Android scope removal | PASS | 無 runner、無 CI job、無發布／驗收承諾 |
@@ -56,7 +57,7 @@
 | Dependency/license/secret/SBOM | AUTOMATION PASS／CI EVIDENCE PENDING | 本機 exact-lock audit 通過；release commit 的 CI reports/SBOM 仍須保存及人工審閱 |
 | 原生三平台 build | PENDING | GitHub CI 實際跑通 iOS simulator、Windows、macOS artifacts |
 | 實機／實體桌面驗收 | PENDING | iOS 及至少一個桌面完成離線、IME、TTS、音訊、a11y smoke |
-| 效能與啟動指標 | PARTIAL | SQLite benchmark 通過；本次 10k host-debug UI regression P95 290.072 ms（800 ms 工程 budget）；仍須 release app 冷啟動與真實 SQLite UI P95 ≤150 ms |
+| 效能與啟動指標 | PARTIAL | SQLite benchmark 通過；本次 10k host-debug UI regression P95 271.182 ms（800 ms 工程 budget）；仍須 release app 冷啟動與真實 SQLite UI P95 ≤150 ms |
 
 依產品規格，以上 Blocked／Pending 項目完成前不得稱為「正式 MVP 已驗收」或
 發布 production dictionary。這不影響本版用於客戶操作評審與需求修訂。
