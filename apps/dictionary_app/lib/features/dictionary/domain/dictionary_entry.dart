@@ -258,6 +258,21 @@ class RelatedEntry {
   final String note;
   final String? targetEntryId;
 
+  /// Human-facing Japanese label for the canonical relation code.
+  ///
+  /// Relation codes are part of the data contract and must never leak into
+  /// the learner-facing dictionary UI.
+  String get displayRelationLabel => switch (relation) {
+    'near_synonym' => '似ている言葉',
+    'antonym' => '反対語',
+    'hypernym' => 'より広い言葉',
+    'hyponym' => 'より具体的な言葉',
+    'easily_confused' => '間違えやすい言葉',
+    'related' => '関連する言葉',
+    'orthographic_variant' => '表記の違い',
+    _ => '関連する言葉',
+  };
+
   RelatedEntry copyWith({String? headword}) => RelatedEntry(
     headword: headword ?? this.headword,
     relation: relation,

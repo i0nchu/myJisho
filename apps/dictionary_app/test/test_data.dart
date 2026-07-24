@@ -8,6 +8,7 @@ DictionaryEntry testEntry({
   String reviewStatus = 'approved',
   String? imageAsset,
   String? audioAsset,
+  List<RelatedEntry> relations = const [],
 }) {
   return DictionaryEntry(
     id: id,
@@ -26,7 +27,7 @@ DictionaryEntry testEntry({
         collocations: ['ご飯を食べる'],
       ),
     ],
-    relations: const [],
+    relations: relations,
     sourceLabel: 'test-original',
     editStatus: editStatus,
     reviewStatus: reviewStatus,

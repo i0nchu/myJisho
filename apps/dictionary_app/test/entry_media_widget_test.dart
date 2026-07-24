@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kotoba_dictionary_app/features/dictionary/application/dictionary_providers.dart';
 import 'package:kotoba_dictionary_app/features/dictionary/data/fixture_dictionary_repository.dart';
+import 'package:kotoba_dictionary_app/features/dictionary/domain/dictionary_entry.dart';
 import 'package:kotoba_dictionary_app/features/dictionary/presentation/entry_detail_view.dart';
 import 'package:kotoba_dictionary_app/features/library/application/library_controller.dart';
 import 'package:kotoba_dictionary_app/features/library/data/user_library_repository.dart';
@@ -86,14 +87,35 @@ void main() {
     await tester.pumpAndSettle();
     expect(audio.lastAsset, startsWith('data:audio/wav'));
   });
+
+  testWidgets(
+    'uses a learner-facing relation label instead of a contract code',
+    (tester) async {
+      final entry = testEntry(
+        relations: const [
+          RelatedEntry(
+            headword: '橋',
+            relation: 'easily_confused',
+            note: '「箸」は食事の道具で、「橋」は川などを渡る場所。',
+          ),
+        ],
+      );
+
+      await tester.pumpWidget(_detailApp(DemoSpeechService(), entry: entry));
+      await tester.pumpAndSettle();
+
+      expect(find.text('橋　間違えやすい言葉'), findsOneWidget);
+      expect(find.textContaining('easily_confused'), findsNothing);
+    },
+  );
 }
 
-Widget _detailApp(SpeechService speechService) {
-  final entry = testEntry();
+Widget _detailApp(SpeechService speechService, {DictionaryEntry? entry}) {
+  final detailEntry = entry ?? testEntry();
   return ProviderScope(
     overrides: [
       dictionaryRepositoryProvider.overrideWithValue(
-        FixtureDictionaryRepository.fromEntries([entry]),
+        FixtureDictionaryRepository.fromEntries([detailEntry]),
       ),
       userLibraryRepositoryProvider.overrideWithValue(
         InMemoryUserLibraryRepository(),

@@ -134,7 +134,7 @@ class _EntryContent extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${relation.headword}　${relation.relation}',
+                        '${relation.headword}　${relation.displayRelationLabel}',
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
                       const SizedBox(height: 6),

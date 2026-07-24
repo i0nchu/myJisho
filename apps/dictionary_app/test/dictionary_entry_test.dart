@@ -49,6 +49,7 @@ void main() {
     expect(entry.forms, ['拾う', 'ひろう']);
     expect(entry.primarySense.examples, ['道で財布を拾った。']);
     expect(entry.relations.single.relation, 'easily_confused');
+    expect(entry.relations.single.displayRelationLabel, '間違えやすい言葉');
     expect(entry.imageAsset, 'assets/images/hirou.png');
     expect(entry.audioAsset, 'assets/audio/hirou.wav');
     expect(entry.sourceLabel, 'source_original');
