@@ -65,6 +65,11 @@ class EditorHandler(BaseHTTPRequestHandler):
             results, revision = self.server.store.search(query[:200])
             self._json(HTTPStatus.OK, {"entries": results, "revision": revision})
             return
+        if route.path == "/api/sources":
+            query = parse_qs(route.query).get("q", [""])[0]
+            results, revision = self.server.store.search_sources(query[:200])
+            self._json(HTTPStatus.OK, {"sources": results, "revision": revision})
+            return
         match = ENTRY_ROUTE.fullmatch(route.path)
         if match and not match.group(2):
             entry_id = unquote(match.group(1))
@@ -96,8 +101,8 @@ class EditorHandler(BaseHTTPRequestHandler):
         try:
             payload = self._body()
             if match.group(2) == "/validate":
-                entry = self._entry_payload(payload)
-                current, _ = self._require_entry(entry_id)
+                submitted = self._entry_payload(payload)
+                current, entry = self.server.store.prepare_editor_entry(entry_id, submitted)
                 check_replacement(current, entry)
                 issues = self.server.store.validate_replacement(entry_id, entry)
                 self._json(HTTPStatus.OK, {"valid": not issues, "issues": issues})
@@ -137,8 +142,8 @@ class EditorHandler(BaseHTTPRequestHandler):
         entry_id = unquote(match.group(1))
         try:
             payload = self._body()
-            entry = self._entry_payload(payload)
-            current, _ = self._require_entry(entry_id)
+            submitted = self._entry_payload(payload)
+            current, entry = self.server.store.prepare_editor_entry(entry_id, submitted)
             check_replacement(current, entry)
             revision = self.server.store.replace_entry(entry_id, entry, str(payload.get("base_revision", "")))
             self._json(HTTPStatus.OK, {

@@ -65,6 +65,43 @@ class EditorAPITests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(saved["entry"]["headword"], "食う")
 
+    def test_source_catalog_exposes_friendly_reference_metadata(self) -> None:
+        status, payload = self.call("/api/sources?q=Kotoba")
+        self.assertEqual(status, 200)
+        self.assertEqual(payload["sources"], [{
+            "source_id": "kotoba.original",
+            "title": "Kotoba original",
+            "source_type": "original",
+            "author": "Kotoba editorial team",
+            "license_spdx": "CC-BY-4.0",
+        }])
+
+    def test_editor_save_preserves_hidden_system_fields(self) -> None:
+        _, detail = self.call("/api/entries/entry-taberu")
+        original = json.loads(json.dumps(detail["entry"]))
+        submitted = detail["entry"]
+        submitted["headword"] = "食う"
+        submitted["created_at"] = "2000-01-01T00:00:00Z"
+        submitted["updated_at"] = "2000-01-01T00:00:00Z"
+        submitted["data_version"] = "client-version"
+        submitted["edit_status"] = "published"
+        submitted["review"]["status"] = "published"
+        submitted["senses"][0]["review_status"] = "published"
+
+        status, saved = self.call(
+            "/api/entries/entry-taberu",
+            "PUT",
+            {"entry": submitted, "base_revision": detail["revision"]},
+        )
+
+        self.assertEqual(status, 200)
+        self.assertEqual(saved["entry"]["headword"], "食う")
+        for field in ("entry_id", "created_at", "data_version", "edit_status", "review"):
+            self.assertEqual(saved["entry"][field], original[field])
+        self.assertEqual(saved["entry"]["senses"][0]["sense_id"], original["senses"][0]["sense_id"])
+        self.assertEqual(saved["entry"]["senses"][0]["review_status"], original["senses"][0]["review_status"])
+        self.assertNotEqual(saved["entry"]["updated_at"], "2000-01-01T00:00:00Z")
+
     def test_stale_save_returns_conflict(self) -> None:
         _, detail = self.call("/api/entries/entry-taberu")
         first = dict(detail["entry"])

@@ -38,6 +38,59 @@ class WorkingCopyStoreTests(unittest.TestCase):
         with self.assertRaises(ConflictError):
             self.store.replace_entry("entry-taberu", entry, revision)
 
+    def test_editor_preparation_preserves_system_fields_and_allocates_child_ids(self) -> None:
+        current, _ = self.store.get_entry("entry-taberu")
+        assert current is not None
+        submitted = json.loads(json.dumps(current))
+        submitted["created_at"] = "2000-01-01T00:00:00Z"
+        submitted["updated_at"] = "2000-01-01T00:00:00Z"
+        submitted["data_version"] = "tampered"
+        submitted["edit_status"] = "published"
+        submitted["review"] = {
+            "status": "published",
+            "reviewed_by": "Mallory",
+            "reviewed_at": "2000-01-01T00:00:00Z",
+            "notes": "",
+        }
+        submitted["senses"][0]["review_status"] = "published"
+        submitted["senses"].append({
+            "sense_id": "",
+            "order": 99,
+            "definition_ja_simple": "新しい意味。",
+            "usage_note_ja": "",
+            "register": "neutral",
+            "importance": "secondary",
+            "examples": [{
+                "example_id": "",
+                "sentence": "新しい例文。",
+                "source_id": "kotoba.original",
+                "audio_asset_id": None,
+            }],
+            "relations": [],
+            "image_assets": [],
+            "audio_assets": [],
+            "source_ids": ["kotoba.original"],
+            "review_status": "published",
+        })
+
+        before, prepared = self.store.prepare_editor_entry("entry-taberu", submitted)
+
+        self.assertEqual(before, current)
+        for field in ("entry_id", "created_at", "data_version", "edit_status", "review"):
+            self.assertEqual(prepared[field], current[field])
+        self.assertNotEqual(prepared["updated_at"], submitted["updated_at"])
+        self.assertEqual([sense["order"] for sense in prepared["senses"]], [1, 2])
+        self.assertEqual([sense["review_status"] for sense in prepared["senses"]], ["draft", "draft"])
+        self.assertTrue(prepared["senses"][1]["sense_id"].startswith("sense-"))
+        self.assertTrue(prepared["senses"][1]["examples"][0]["example_id"].startswith("example-"))
+
+    def test_editor_preparation_rejects_rewritten_stable_ids(self) -> None:
+        submitted, _ = self.store.get_entry("entry-taberu")
+        assert submitted is not None
+        submitted["senses"][0]["sense_id"] = "rewritten-by-client"
+        with self.assertRaisesRegex(ValueError, "sense_id is system managed"):
+            self.store.prepare_editor_entry("entry-taberu", submitted)
+
     def test_filesystem_target_cannot_escape_working_directory(self) -> None:
         with self.assertRaises(ValueError):
             self.store._confined(self.store.root.parent / "outside.json")

@@ -42,6 +42,7 @@ future remote-access design.
 | `GET` | `/api/health` | Liveness check |
 | `GET` | `/api/schema` | Canonical schema and workflow transitions |
 | `GET` | `/api/entries?q=...` | Search up to 100 entries by ID, form, headword, or reading |
+| `GET` | `/api/sources?q=...` | Search editor-safe source titles, authors, types, and license summaries |
 | `GET` | `/api/entries/{entry_id}` | Entry, global revision, and allowed transitions |
 | `POST` | `/api/entries/{entry_id}/validate` | Validate a proposed `{ "entry": ... }` in full-document context |
 | `PUT` | `/api/entries/{entry_id}` | Validate and atomically save `{ "entry": ..., "base_revision": ... }` |
@@ -50,6 +51,12 @@ future remote-access design.
 A save uses an SHA-256 revision for optimistic concurrency. A stale save returns
 HTTP 409. Schema failures return HTTP 422 with stable `path`, `code`, `message`,
 and `severity` fields.
+
+Normal editor saves submit the complete entry snapshot. Before validation, the
+server restores system-owned entry metadata and review state, assigns globally
+unique IDs to new senses/examples/assets, derives sense order from the submitted
+array, and sets `updated_at`. Rewriting an existing child ID is rejected. Review
+transitions continue to use the dedicated transition endpoint.
 
 ## Workflow and safety
 

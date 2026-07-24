@@ -18,7 +18,7 @@
   <main class="workspace">
     <aside class="entry-browser" aria-label="詞條清單">
       <label for="search">搜尋詞條</label>
-      <input id="search" type="search" placeholder="表記、讀音或 ID" autocomplete="off">
+      <input id="search" type="search" placeholder="搜尋詞目、表記或讀音" autocomplete="off">
       <p id="result-count" class="muted"></p>
       <div id="entry-list" class="entry-list"></div>
     </aside>
@@ -32,33 +32,44 @@
       <form id="entry-form" class="hidden">
         <div class="editor-heading">
           <div>
-            <p id="entry-id" class="eyebrow"></p>
+            <p class="eyebrow">詞條編輯</p>
             <h2 id="entry-title"></h2>
           </div>
           <span id="status-badge" class="status-badge"></span>
         </div>
 
-        <div id="ai-warning" class="notice hidden">AI 草稿不得直接核准或發佈，必須依序經 needs_review 與 reviewed。</div>
-        <section class="panel">
-          <h3>基本資料</h3>
+        <div id="ai-warning" class="notice hidden">AI 草稿必須先送交人工審核並完成校閱，才能核准或發佈。</div>
+        <section class="panel primary-panel">
+          <h3>見出與讀音</h3>
           <div id="basic-fields" class="field-grid"></div>
+          <div id="parts-section" class="editor-subsection"></div>
+          <div id="forms-section" class="editor-subsection"></div>
+          <div id="readings-section" class="editor-subsection"></div>
         </section>
-        <section id="forms-section" class="panel"></section>
-        <section id="readings-section" class="panel"></section>
         <section class="panel">
-          <div class="section-heading"><h3>義項、例句、關係與媒體</h3><button id="add-sense" type="button" class="secondary">＋ 新增義項</button></div>
+          <div class="section-heading"><h3>詞義、例句與關聯</h3><button id="add-sense" type="button" class="secondary">＋ 新增詞義</button></div>
           <div id="senses"></div>
         </section>
+        <details id="advanced-panel" class="panel disclosure">
+          <summary>進階設定</summary>
+          <p class="muted">出典與編輯優先度等欄位只在需要時調整；技術識別碼由系統管理。</p>
+          <div id="advanced-fields"></div>
+        </details>
+        <details id="system-panel" class="panel disclosure">
+          <summary>系統資訊</summary>
+          <p class="muted">以下資訊僅供查核與複製，不會由一般表單修改。</p>
+          <div id="system-info"></div>
+        </details>
         <section class="panel workflow-panel">
           <h3>人工審核流程</h3>
           <div class="field-grid">
-            <label>審核者姓名<input id="reviewer" autocomplete="name" placeholder="轉為 reviewed/approved/published 時必填"></label>
+            <label id="reviewer-label">審核者姓名<input id="reviewer" autocomplete="name" placeholder="完成校閱、核准或發佈時必填"></label>
             <label>審核備註<input id="review-notes" placeholder="審核依據或待辦事項"></label>
           </div>
           <div id="transition-buttons" class="button-row"></div>
         </section>
         <section id="issues-panel" class="panel issues hidden" aria-live="polite">
-          <h3>驗證結果</h3>
+          <div class="section-heading"><h3>驗證結果</h3><span id="issue-summary" class="muted"></span></div>
           <ul id="issues"></ul>
         </section>
         <div class="sticky-actions">
