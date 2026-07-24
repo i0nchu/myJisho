@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,9 +18,16 @@ import 'search_pane.dart';
 
 enum DictionarySection { search, favorites, history }
 
-class DictionaryScreen extends ConsumerStatefulWidget {
-  const DictionaryScreen({super.key, this.selectedEntryId});
+enum DictionaryLayoutMode { mobile, desktop }
 
+class DictionaryScreen extends ConsumerStatefulWidget {
+  const DictionaryScreen({
+    required this.layoutMode,
+    super.key,
+    this.selectedEntryId,
+  });
+
+  final DictionaryLayoutMode layoutMode;
   final String? selectedEntryId;
 
   @override
@@ -104,7 +115,7 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
       return KeyEventResult.handled;
     }
 
-    final hits = ref.read(searchResultsProvider).asData?.value ?? const [];
+    final hits = ref.read(searchResultsProvider).hits;
     if (!isComposing &&
         (key == LogicalKeyboardKey.arrowDown ||
             key == LogicalKeyboardKey.arrowUp) &&
@@ -135,15 +146,31 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
     if (key == LogicalKeyboardKey.space && !_searchFocusNode.hasFocus) {
       final entryId = widget.selectedEntryId;
       if (entryId != null) {
-        ref.read(entryProvider(entryId).future).then((entry) {
-          if (entry != null) {
-            ref.read(speechControllerProvider.notifier).speak(entry.headword);
-          }
-        });
+        unawaited(_speakEntry(entryId));
         return KeyEventResult.handled;
       }
     }
     return KeyEventResult.ignored;
+  }
+
+  Future<void> _speakEntry(String entryId) async {
+    final entry = await ref.read(entryProvider(entryId).future);
+    if (entry == null || !mounted) return;
+
+    try {
+      await ref.read(speechControllerProvider.notifier).speak(entry.reading);
+      if (mounted) {
+        ScaffoldMessenger.maybeOf(
+          context,
+        )?.showSnackBar(const SnackBar(content: Text('日本語の合成音声を再生しました。')));
+      }
+    } catch (error) {
+      if (mounted) {
+        ScaffoldMessenger.maybeOf(
+          context,
+        )?.showSnackBar(SnackBar(content: Text(speechFailureMessage(error))));
+      }
+    }
   }
 
   void _changeSection(DictionarySection section) {
@@ -160,11 +187,11 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
       onKeyEvent: _handleKeyEvent,
       child: FocusTraversalGroup(
         policy: ReadingOrderTraversalPolicy(),
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            if (constraints.maxWidth >= 840) return _buildDesktop(context);
-            return _buildMobile(context);
-          },
+        child: KeyedSubtree(
+          key: const Key('dictionary-workspace-continuity'),
+          child: widget.layoutMode == DictionaryLayoutMode.desktop
+              ? _buildDesktop(context)
+              : _buildMobile(context),
         ),
       ),
     );

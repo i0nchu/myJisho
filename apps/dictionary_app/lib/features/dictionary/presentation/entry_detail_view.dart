@@ -42,11 +42,19 @@ class _EntryContent extends ConsumerWidget {
     final speech = ref.watch(speechControllerProvider);
 
     Future<void> speak() async {
-      await ref.read(speechControllerProvider.notifier).speak(entry.headword);
-      if (context.mounted) {
-        ScaffoldMessenger.maybeOf(
-          context,
-        )?.showSnackBar(const SnackBar(content: Text('合成音声を再生しました。')));
+      try {
+        await ref.read(speechControllerProvider.notifier).speak(entry.reading);
+        if (context.mounted) {
+          ScaffoldMessenger.maybeOf(
+            context,
+          )?.showSnackBar(const SnackBar(content: Text('日本語の合成音声を再生しました。')));
+        }
+      } catch (error) {
+        if (context.mounted) {
+          ScaffoldMessenger.maybeOf(
+            context,
+          )?.showSnackBar(SnackBar(content: Text(speechFailureMessage(error))));
+        }
       }
     }
 

@@ -3,7 +3,7 @@
 - Baseline: `docs/product-spec.md`
 - Platforms: iOS, Windows, macOS
 - Status vocabulary: PASS, PARTIAL, EXTERNAL GATE, FAIL
-- Last audit: 2026-07-23
+- Last audit: 2026-07-24
 
 PASS means the cited evidence directly covers the acceptance criterion. PARTIAL
 means useful evidence exists but the full criterion is not proven. EXTERNAL GATE
@@ -17,7 +17,7 @@ that local automation cannot replace.
 | AC-03 Deinflection | 50 distinct verb lemmas + 20 adjective cases pass Python and deployed Drift paths; Dart parity tests cover all P0 rule families, confidence and `食べられない → 食べる` | Qualified Japanese review of inflection expectations | PASS automated / EXTERNAL REVIEW |
 | AC-04 Explainable ranking | Python/Dart share featured +80, curated +40, imported +0 and deinflection uncertainty 0..-100; 20 ambiguity orders and SearchHit raw/modifier/final/deinflection evidence are deterministic | Search owner reviews intentional ranking changes | PASS |
 | AC-05 Entry experience | Flutter entry/media/widget tests; responsive browser smoke | 20 entries must pass qualified editorial review | PARTIAL / EXTERNAL GATE |
-| AC-06 Pronunciation | speech abstraction, synthesized-speech label and media widget tests | Offline TTS/audio and screen-reader test on all three platforms | PARTIAL / EXTERNAL GATE |
+| AC-06 Pronunciation | Japanese voice enumeration and normalized `ja` selection; every configuration result is checked; typed fail-closed/retry tests cover Chinese-only, Japanese-available and rejected setup; button/Space use the dictionary reading and distinguish success from failure | Offline TTS/audio and screen-reader test on iOS, Windows and macOS; record selected voice locale/identifier and missing-voice behavior | PASS automated / EXTERNAL DEVICE |
 | AC-07 Personal data | user-library persistence tests; update handoff test keeps user repository separate | Release-build restart/update smoke | PASS automated; device check pending |
 | AC-08 Desktop/mobile | 11-case AC-08/09 suite covers 390×844, 1200×800, keyboard selection, Space guard and shortcut disable; browser smoke confirms latest build | Full keyboard/IME matrix on iOS, Windows and macOS | PASS automated / EXTERNAL DEVICE |
 | AC-09 Accessibility | 200% text, semantic/focus labels, non-color status, 4.5:1 core contrast, reduced-motion routes and LicensePage tests | VoiceOver/Narrator, system high contrast and full platform focus order | PASS automated / EXTERNAL DEVICE |

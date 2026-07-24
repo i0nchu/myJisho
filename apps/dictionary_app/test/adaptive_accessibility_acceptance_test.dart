@@ -122,7 +122,8 @@ void main() {
       await tester.pump();
       await tester.sendKeyEvent(LogicalKeyboardKey.space);
       await tester.pumpAndSettle();
-      expect(speech.lastSpokenText, '食べる');
+      expect(speech.lastSpokenText, 'たべる');
+      expect(find.text('日本語の合成音声を再生しました。'), findsOneWidget);
 
       await tester.pumpWidget(const SizedBox.shrink());
       await tester.pump();
@@ -135,6 +136,28 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('entry-entry_taberu_001')), findsNothing);
     });
+
+    testWidgets(
+      'Space reports a missing Japanese voice without false success',
+      (tester) async {
+        _setViewport(tester, const Size(1200, 800));
+        await tester.pumpWidget(
+          _testApp(speechService: const _UnavailableSpeechService()),
+        );
+        await tester.pumpAndSettle();
+        await _searchFor(tester, '食べる');
+        await tester.tap(find.byKey(const Key('result-entry_taberu_001')));
+        await tester.pumpAndSettle();
+        FocusManager.instance.primaryFocus?.unfocus();
+        await tester.pump();
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.space);
+        await tester.pumpAndSettle();
+
+        expect(find.textContaining('日本語のシステム音声が見つかりません'), findsOneWidget);
+        expect(find.text('日本語の合成音声を再生しました。'), findsNothing);
+      },
+    );
   });
 
   group('AC-09 accessibility and appearance', () {
@@ -447,6 +470,18 @@ class _StaticUpdateController extends DictionaryUpdateController {
 class _FakeAudioService implements AudioPlaybackService {
   @override
   Future<void> play(String assetOrDataUri) async {}
+
+  @override
+  Future<void> stop() async {}
+}
+
+class _UnavailableSpeechService implements SpeechService {
+  const _UnavailableSpeechService();
+
+  @override
+  Future<void> speakJapanese(String text) async {
+    throw const JapaneseVoiceUnavailableException();
+  }
 
   @override
   Future<void> stop() async {}

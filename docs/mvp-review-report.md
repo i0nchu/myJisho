@@ -1,7 +1,7 @@
 # Kotoba MVP 客戶評審報告
 
 - 評審版本：Engineering MVP 0.1
-- 評審日期：2026-07-23
+- 評審日期：2026-07-24
 - 產品平台：iOS、Windows、macOS
 - Android：依客戶決策移除，見 ADR-0005
 - 整體判定：**Engineering MVP 可進行客戶評審；正式發布 NO-GO**
@@ -30,6 +30,7 @@
 | Flutter format | PASS | 59 files，0 changes |
 | Flutter analyze | PASS | No issues found |
 | Flutter unit/widget/integration | PASS | 60/60 |
+| TTS 日文 voice P0 | PASS（自動化）／DEVICE PENDING | 枚舉系統 voice、正規化並明確選取 `ja` locale；中文-only、設定拒絕、retry、按鈕／Space reading 與真實 success/error 均有測試；三平台實機尚未驗收 |
 | 遠端更新／fault injection | PASS（自動化） | 24/24；含 pre-open recovery、真實 Drift readiness、reopen failure rollback、HTTP cleanup、assets↔SQLite binding |
 | AC-08/09 adaptive/a11y automation | PASS（自動化） | 11 acceptance cases；390px、雙欄、200%、鍵盤、semantics、contrast、reduced motion |
 | 供應鏈 audit | PASS（目前 lock） | 106 locked／102 hosted；OSV 0 漏洞、0 缺 license、0 secret；CycloneDX 1.7 SBOM |
@@ -51,6 +52,7 @@
 | 完整搜尋黃金集 | AUTOMATION PASS／REVIEW PENDING | 固定 corpus 已經 canonical builder、Python reference 與 deployed Drift 全量驗證；仍須日文／產品 reviewer 核准語言預期 |
 | 遠端完整資料包更新 | AUTOMATION PASS／CONFIG PENDING | 安全交易與 fault suite 通過；客戶須選定 HTTPS host/CDN、build-time endpoint、rollback policy，並決定 manifest signing/key rotation |
 | Adaptive／accessibility | AUTOMATION PASS／DEVICE PENDING | Widget 契約通過；VoiceOver、Narrator、真實 IME、高對比與系統 reduced-motion 仍須三平台驗收 |
+| 日文系統 TTS | AUTOMATION PASS／DEVICE PENDING | 非 `ja` voice 一律 fail-closed，只有完成 `getVoices → setLanguage → setVoice` 驗證才播放權威 reading；仍須 iOS、Windows、macOS 在日文 voice 已安裝／缺失及離線狀態各驗一次 |
 | Dependency/license/secret/SBOM | AUTOMATION PASS／CI EVIDENCE PENDING | 本機 exact-lock audit 通過；release commit 的 CI reports/SBOM 仍須保存及人工審閱 |
 | 原生三平台 build | PENDING | GitHub CI 實際跑通 iOS simulator、Windows、macOS artifacts |
 | 實機／實體桌面驗收 | PENDING | iOS 及至少一個桌面完成離線、IME、TTS、音訊、a11y smoke |

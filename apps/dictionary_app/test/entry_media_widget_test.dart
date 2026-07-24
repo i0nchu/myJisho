@@ -14,6 +14,34 @@ import 'package:kotoba_dictionary_app/features/pronunciation/data/speech_service
 import 'test_data.dart';
 
 void main() {
+  testWidgets('TTS button speaks the reading and reports success', (
+    tester,
+  ) async {
+    final speech = DemoSpeechService();
+    await tester.pumpWidget(_detailApp(speech));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('tts-button')));
+    await tester.pumpAndSettle();
+
+    expect(speech.lastSpokenText, 'たべる');
+    expect(find.text('日本語の合成音声を再生しました。'), findsOneWidget);
+    expect(find.textContaining('日本語のシステム音声が見つかりません'), findsNothing);
+  });
+
+  testWidgets('TTS button reports a missing Japanese voice without success', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_detailApp(const _UnavailableSpeechService()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('tts-button')));
+    await tester.pumpAndSettle();
+
+    expect(find.textContaining('日本語のシステム音声が見つかりません'), findsOneWidget);
+    expect(find.text('日本語の合成音声を再生しました。'), findsNothing);
+  });
+
   testWidgets('renders offline image and audio fields and invokes playback', (
     tester,
   ) async {
@@ -58,6 +86,37 @@ void main() {
     await tester.pumpAndSettle();
     expect(audio.lastAsset, startsWith('data:audio/wav'));
   });
+}
+
+Widget _detailApp(SpeechService speechService) {
+  final entry = testEntry();
+  return ProviderScope(
+    overrides: [
+      dictionaryRepositoryProvider.overrideWithValue(
+        FixtureDictionaryRepository.fromEntries([entry]),
+      ),
+      userLibraryRepositoryProvider.overrideWithValue(
+        InMemoryUserLibraryRepository(),
+      ),
+      speechServiceProvider.overrideWithValue(speechService),
+      audioPlaybackServiceProvider.overrideWithValue(_RecordingAudioService()),
+    ],
+    child: const MaterialApp(
+      home: Scaffold(body: EntryDetailView(entryId: 'entry_taberu_001')),
+    ),
+  );
+}
+
+class _UnavailableSpeechService implements SpeechService {
+  const _UnavailableSpeechService();
+
+  @override
+  Future<void> speakJapanese(String text) async {
+    throw const JapaneseVoiceUnavailableException();
+  }
+
+  @override
+  Future<void> stop() async {}
 }
 
 class _RecordingAudioService implements AudioPlaybackService {
