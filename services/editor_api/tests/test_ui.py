@@ -34,6 +34,16 @@ class EditorUITests(unittest.TestCase):
         self.assertIn("STATUS_ACTIONS", self.script)
         self.assertIn("labelFor(STATUS_LABELS, item.edit_status)", self.script)
 
+    def test_pos_subtypes_render_as_families_without_rewriting_canonical_codes(self) -> None:
+        self.assertIn('code.startsWith(`${prefix}-`)', self.script)
+        self.assertIn("function mergePartsOfSpeech(original, selectedFamilies, otherParts)", self.script)
+        self.assertIn("original.filter((code)", self.script)
+        self.assertIn("section.dataset.originalParts = JSON.stringify(parts)", self.script)
+        self.assertIn("parts_of_speech: mergePartsOfSpeech(", self.script)
+        self.assertIn("partDisplayLabel(part)", self.script)
+        self.assertIn('control("目前 canonical 詞性代碼"', self.script)
+        self.assertNotIn("parts_of_speech: selectedFamilies", self.script)
+
     def test_editor_merges_changes_into_a_canonical_snapshot(self) -> None:
         self.assertIn("const draft = clone(original);", self.script)
         self.assertIn("function mergeEditableEntry(original, values)", self.script)

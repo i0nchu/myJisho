@@ -59,6 +59,25 @@ const PART_LABELS = {
   expression: "慣用表現",
   prefix: "接頭詞",
   suffix: "接尾詞",
+  pronoun: "代名詞",
+  interjection: "感動詞",
+  conjunction: "接續詞",
+  auxiliary: "助動詞",
+};
+const PART_FAMILY_PREFIXES = {
+  verb: ["verb", "auxiliary-verb"],
+  adjective: ["adjective", "auxiliary-adjective"],
+  noun: ["noun", "proper-noun"],
+  adverb: ["adverb"],
+  particle: ["particle"],
+  counter: ["counter"],
+  expression: ["expression"],
+  prefix: ["prefix"],
+  suffix: ["suffix"],
+  pronoun: ["pronoun"],
+  interjection: ["interjection"],
+  conjunction: ["conjunction"],
+  auxiliary: ["auxiliary"],
 };
 
 const state = {
@@ -79,6 +98,34 @@ const clone = (value) => (
 
 function labelFor(labels, value, fallback = "其他") {
   return labels[value] || fallback;
+}
+
+function partFamily(code) {
+  for (const [family, prefixes] of Object.entries(PART_FAMILY_PREFIXES)) {
+    if (prefixes.some((prefix) => code === prefix || code.startsWith(`${prefix}-`))) return family;
+  }
+  return null;
+}
+
+function partDisplayLabel(code) {
+  const family = partFamily(code);
+  return family ? PART_LABELS[family] : "其他";
+}
+
+function mergePartsOfSpeech(original, selectedFamilies, otherParts) {
+  const selected = new Set(selectedFamilies);
+  const merged = original.filter((code) => {
+    const family = partFamily(code);
+    return family ? selected.has(family) : false;
+  });
+  const preservedFamilies = new Set(merged.map((code) => partFamily(code)));
+  for (const family of selected) {
+    if (!preservedFamilies.has(family)) merged.push(family);
+  }
+  for (const code of otherParts) {
+    if (!merged.includes(code)) merged.push(code);
+  }
+  return merged;
 }
 
 function node(tag, className = "", text = "") {
@@ -240,13 +287,14 @@ function sectionHeader(title, buttonText, callback) {
 
 function renderParts(parts) {
   const section = $("#parts-section");
-  const known = new Set(Object.keys(PART_LABELS));
+  const selectedFamilies = new Set(parts.map((part) => partFamily(part)).filter(Boolean));
   const options = node("div", "choice-grid parts-options");
   for (const [value, label] of Object.entries(PART_LABELS)) {
-    options.append(checkbox(label, "part-option", parts.includes(value), value));
+    options.append(checkbox(label, "part-option", selectedFamilies.has(value), value));
   }
-  const unknown = parts.filter((part) => !known.has(part));
+  const unknown = parts.filter((part) => !partFamily(part));
   section.replaceChildren(node("h4", "", "詞性"), options);
+  section.dataset.originalParts = JSON.stringify(parts);
   section.dataset.unknownParts = JSON.stringify(unknown);
 }
 
@@ -330,8 +378,11 @@ function renderAdvanced(entry) {
     control("使用頻率排名", "frequency", entry.frequency_rank ?? "", { type: "number" }),
     control("編輯優先度", "editorial-level", entry.editorial_level, { choices: choices(EDITORIAL_LABELS) }),
   );
-  const unknownParts = entry.parts_of_speech.filter((part) => !(part in PART_LABELS));
+  const unknownParts = entry.parts_of_speech.filter((part) => !partFamily(part));
   fields.append(control("其他詞性代碼（逗號分隔）", "parts-unknown", unknownParts.join(", ")));
+  fields.append(control("目前 canonical 詞性代碼", "parts-canonical", entry.parts_of_speech.join(", "), {
+    readonly: true,
+  }));
   holder.replaceChildren(fields, sourceChecklist(entry.source_ids, "entry-sources"));
 }
 
@@ -554,11 +605,16 @@ function assetRow(asset, kind) {
 }
 
 function collectEditableValues() {
-  const knownParts = $$(".part-option").filter((input) => input.checked).map((input) => input.value);
+  const selectedFamilies = $$(".part-option").filter((input) => input.checked).map((input) => input.value);
+  const originalParts = JSON.parse($("#parts-section").dataset.originalParts || "[]");
   const entrySources = selectedSources($(".entry-sources"));
   return {
     headword: $(".headword").value.trim(),
-    parts_of_speech: [...knownParts, ...splitList($(".parts-unknown").value)],
+    parts_of_speech: mergePartsOfSpeech(
+      originalParts,
+      selectedFamilies,
+      splitList($(".parts-unknown").value),
+    ),
     frequency_rank: $(".frequency").value ? Number($(".frequency").value) : null,
     editorial_level: $(".editorial-level").value,
     source_ids: entrySources,
@@ -675,7 +731,8 @@ function updatePreview() {
   const draft = collectDraft();
   const preview = $("#preview");
   preview.replaceChildren();
-  preview.append(node("p", "preview-meta", draft.parts_of_speech.map((part) => labelFor(PART_LABELS, part)).join(" · ")));
+  const previewParts = [...new Set(draft.parts_of_speech.map((part) => partDisplayLabel(part)))];
+  preview.append(node("p", "preview-meta", previewParts.join(" · ")));
   preview.append(node("h3", "preview-headword", draft.headword || "—"));
   preview.append(node("p", "preview-reading", draft.readings.find((item) => item.primary)?.kana || draft.readings[0]?.kana || ""));
   preview.append(node("p", "preview-meta", `頻率 ${draft.frequency_rank ?? "—"} · ${labelFor(EDITORIAL_LABELS, draft.editorial_level)}`));
@@ -697,6 +754,7 @@ function renderSystemInfo(entry) {
   };
   add("詞條識別碼", entry.entry_id);
   add("原始狀態代碼", entry.edit_status);
+  add("原始詞性代碼", entry.parts_of_speech.join(", "));
   add("資料版本", entry.data_version);
   add("建立時間", entry.created_at);
   add("更新時間", entry.updated_at);
@@ -982,6 +1040,9 @@ if (typeof module !== "undefined" && module.exports) {
     FORM_TYPE_LABELS,
     RELATION_LABELS,
     labelFor,
+    partFamily,
+    partDisplayLabel,
+    mergePartsOfSpeech,
     mergeEditableEntry,
   };
 }

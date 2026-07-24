@@ -81,6 +81,7 @@ class EditorAPITests(unittest.TestCase):
         original = json.loads(json.dumps(detail["entry"]))
         submitted = detail["entry"]
         submitted["headword"] = "食う"
+        submitted["parts_of_speech"] = ["verb-ichidan", "verb-transitive"]
         submitted["created_at"] = "2000-01-01T00:00:00Z"
         submitted["updated_at"] = "2000-01-01T00:00:00Z"
         submitted["data_version"] = "client-version"
@@ -96,6 +97,7 @@ class EditorAPITests(unittest.TestCase):
 
         self.assertEqual(status, 200)
         self.assertEqual(saved["entry"]["headword"], "食う")
+        self.assertEqual(saved["entry"]["parts_of_speech"], ["verb-ichidan", "verb-transitive"])
         for field in ("entry_id", "created_at", "data_version", "edit_status", "review"):
             self.assertEqual(saved["entry"][field], original[field])
         self.assertEqual(saved["entry"]["senses"][0]["sense_id"], original["senses"][0]["sense_id"])
