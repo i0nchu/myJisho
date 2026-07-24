@@ -18,6 +18,16 @@ void main() {
 
       expect(driver.calls, ['getVoices']);
       expect(driver.spokenText, isNull);
+
+      driver
+        ..voices = [
+          {'name': 'Haruka', 'locale': 'ja-JP'},
+        ]
+        ..calls.clear();
+      await service.speakJapanese('がっこう');
+
+      expect(driver.calls.first, 'getVoices');
+      expect(driver.spokenText, 'がっこう');
     });
 
     test('normalizes locale and explicitly selects a Japanese voice', () async {

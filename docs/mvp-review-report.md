@@ -27,12 +27,12 @@
 | Python 資料／搜尋／供應鏈 | PASS | 37/37 |
 | AC-02/03/04 固定搜尋 corpus | PASS（自動化） | 250/250 全域唯一、可重現；235-row temporary SQLite 經 deployed Drift 全量驗證 exact/prefix/contains/deinflection、ID/kind/order/negative/explain |
 | 編輯器 schema、workflow、storage、HTTP security | PASS | 25/25 |
-| Flutter format | PASS | 59 files，0 changes |
+| Flutter format | PASS | 61 files，0 changes |
 | Flutter analyze | PASS | No issues found |
-| Flutter unit/widget/integration | PASS | 60/60 |
+| Flutter unit/widget/integration | PASS | 80/80 |
 | TTS 日文 voice P0 | PASS（自動化）／DEVICE PENDING | 枚舉系統 voice、正規化並明確選取 `ja` locale；中文-only、設定拒絕、retry、按鈕／Space reading 與真實 success/error 均有測試；三平台實機尚未驗收 |
 | 遠端更新／fault injection | PASS（自動化） | 24/24；含 pre-open recovery、真實 Drift readiness、reopen failure rollback、HTTP cleanup、assets↔SQLite binding |
-| AC-08/09 adaptive/a11y automation | PASS（自動化） | 11 acceptance cases；390px、雙欄、200%、鍵盤、semantics、contrast、reduced motion |
+| AC-08/09 adaptive/a11y automation | PASS（自動化） | 12 adaptive/a11y + 8 platform UX cases；390px、雙欄、200%、鍵盤、semantics、contrast、reduced motion |
 | 供應鏈 audit | PASS（目前 lock） | 106 locked／102 hosted；OSV 0 漏洞、0 缺 license、0 secret；CycloneDX 1.7 SBOM |
 | Flutter Web release build | PASS | `build/web` 成功產生 |
 | 內容編輯器瀏覽器 smoke | PASS | 搜尋、選取、編輯表單、即時預覽 |
