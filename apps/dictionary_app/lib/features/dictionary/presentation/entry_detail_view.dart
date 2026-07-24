@@ -29,35 +29,13 @@ class EntryDetailView extends ConsumerWidget {
   }
 }
 
-class _EntryContent extends ConsumerWidget {
+class _EntryContent extends StatelessWidget {
   const _EntryContent({required this.entry});
 
   final DictionaryEntry entry;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final library = ref.watch(libraryControllerProvider);
-    final isFavorite =
-        library.asData?.value.favoriteEntryIds.contains(entry.id) ?? false;
-    final speech = ref.watch(speechControllerProvider);
-
-    Future<void> speak() async {
-      try {
-        await ref.read(speechControllerProvider.notifier).speak(entry.reading);
-        if (context.mounted) {
-          ScaffoldMessenger.maybeOf(
-            context,
-          )?.showSnackBar(const SnackBar(content: Text('日本語の合成音声を再生しました。')));
-        }
-      } catch (error) {
-        if (context.mounted) {
-          ScaffoldMessenger.maybeOf(
-            context,
-          )?.showSnackBar(SnackBar(content: Text(speechFailureMessage(error))));
-        }
-      }
-    }
-
+  Widget build(BuildContext context) {
     return SelectionArea(
       child: ListView(
         key: Key('entry-${entry.id}'),
@@ -103,26 +81,7 @@ class _EntryContent extends ConsumerWidget {
                   ],
                 ),
               ),
-              IconButton.filledTonal(
-                key: const Key('tts-button'),
-                tooltip: '${entry.headword}の合成音声を聞く',
-                onPressed: speech.isLoading ? null : speak,
-                icon: speech.isLoading
-                    ? const SizedBox.square(
-                        dimension: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.volume_up_outlined),
-              ),
-              const SizedBox(width: 8),
-              IconButton.filledTonal(
-                key: const Key('favorite-button'),
-                tooltip: isFavorite ? 'お気に入りから削除' : 'お気に入りに追加',
-                onPressed: () => ref
-                    .read(libraryControllerProvider.notifier)
-                    .toggleFavorite(entry.id),
-                icon: Icon(isFavorite ? Icons.star : Icons.star_outline),
-              ),
+              _EntryActions(entry: entry),
             ],
           ),
           const SizedBox(height: 8),
@@ -189,6 +148,68 @@ class _EntryContent extends ConsumerWidget {
           _SecondaryInformation(entry: entry),
         ],
       ),
+    );
+  }
+}
+
+class _EntryActions extends ConsumerWidget {
+  const _EntryActions({required this.entry});
+
+  final DictionaryEntry entry;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFavorite = ref.watch(
+      libraryControllerProvider.select(
+        (library) =>
+            library.asData?.value.favoriteEntryIds.contains(entry.id) ?? false,
+      ),
+    );
+    final speechIsLoading = ref.watch(
+      speechControllerProvider.select((speech) => speech.isLoading),
+    );
+
+    Future<void> speak() async {
+      try {
+        await ref.read(speechControllerProvider.notifier).speak(entry.reading);
+        if (context.mounted) {
+          ScaffoldMessenger.maybeOf(
+            context,
+          )?.showSnackBar(const SnackBar(content: Text('日本語の合成音声を再生しました。')));
+        }
+      } catch (error) {
+        if (context.mounted) {
+          ScaffoldMessenger.maybeOf(
+            context,
+          )?.showSnackBar(SnackBar(content: Text(speechFailureMessage(error))));
+        }
+      }
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        IconButton.filledTonal(
+          key: const Key('tts-button'),
+          tooltip: '${entry.headword}の合成音声を聞く',
+          onPressed: speechIsLoading ? null : speak,
+          icon: speechIsLoading
+              ? const SizedBox.square(
+                  dimension: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.volume_up_outlined),
+        ),
+        const SizedBox(width: 8),
+        IconButton.filledTonal(
+          key: const Key('favorite-button'),
+          tooltip: isFavorite ? 'お気に入りから削除' : 'お気に入りに追加',
+          onPressed: () => ref
+              .read(libraryControllerProvider.notifier)
+              .toggleFavorite(entry.id),
+          icon: Icon(isFavorite ? Icons.star : Icons.star_outline),
+        ),
+      ],
     );
   }
 }

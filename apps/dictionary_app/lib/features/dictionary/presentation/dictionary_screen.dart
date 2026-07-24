@@ -200,47 +200,68 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
   Widget _buildMobile(BuildContext context) {
     final selectedEntryId = widget.selectedEntryId;
     if (selectedEntryId != null) {
+      return MobileEntryScreen(entryId: selectedEntryId);
+    }
+
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
       return Scaffold(
         key: const Key('mobile-layout'),
-        appBar: AppBar(
-          leading: IconButton(
-            tooltip: '戻る',
-            onPressed: () => context.go('/'),
-            icon: const Icon(Icons.arrow_back),
+        appBar: CupertinoNavigationBar(
+          middle: const Text('ことば'),
+          trailing: Tooltip(
+            message: '設定',
+            child: Semantics(
+              key: const Key('settings-button'),
+              container: true,
+              button: true,
+              focusable: true,
+              label: '設定',
+              onTap: () => showSettingsSurface(context),
+              child: ExcludeSemantics(
+                child: CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  minimumSize: const Size.square(44),
+                  onPressed: () => showSettingsSurface(context),
+                  child: const Icon(CupertinoIcons.settings),
+                ),
+              ),
+            ),
           ),
-          title: const Text('ことば'),
         ),
-        body: EntryDetailView(entryId: selectedEntryId),
+        body: SafeArea(child: _buildPrimaryPane()),
+        bottomNavigationBar: CupertinoTabBar(
+          key: const Key('ios-section-tabs'),
+          currentIndex: _section.index,
+          onTap: (index) => _changeSection(DictionarySection.values[index]),
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.search),
+              label: '検索',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.star),
+              label: 'お気に入り',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.clock),
+              label: '履歴',
+            ),
+          ],
+        ),
       );
     }
 
     return Scaffold(
       key: const Key('mobile-layout'),
-      appBar: AppBar(
-        title: const Text('ことば'),
-        actions: [
-          IconButton(
-            key: const Key('settings-button'),
-            tooltip: '設定',
-            onPressed: () => showSettingsSheet(context),
-            icon: const Icon(Icons.settings_outlined),
-          ),
+      body: Column(
+        children: [
+          _PlatformToolbar(onOpenSettings: () => showSettingsSurface(context)),
+          Expanded(child: SafeArea(top: false, child: _buildPrimaryPane())),
         ],
       ),
-      body: SafeArea(child: _buildPrimaryPane()),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _section.index,
-        onDestinationSelected: (index) =>
-            _changeSection(DictionarySection.values[index]),
-        destinations: const [
-          NavigationDestination(icon: Icon(Icons.search), label: '検索'),
-          NavigationDestination(
-            icon: Icon(Icons.star_outline),
-            selectedIcon: Icon(Icons.star),
-            label: 'お気に入り',
-          ),
-          NavigationDestination(icon: Icon(Icons.history), label: '履歴'),
-        ],
+      bottomNavigationBar: _CompactSectionBar(
+        selected: _section,
+        onSelected: (index) => _changeSection(DictionarySection.values[index]),
       ),
     );
   }
@@ -248,53 +269,28 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
   Widget _buildDesktop(BuildContext context) {
     return Scaffold(
       key: const Key('desktop-layout'),
-      appBar: AppBar(
-        title: const Text('ことば'),
-        actions: [
-          IconButton(
-            key: const Key('settings-button'),
-            tooltip: '設定',
-            onPressed: () => showSettingsSheet(context),
-            icon: const Icon(Icons.settings_outlined),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
-      body: Row(
+      body: Column(
         children: [
-          NavigationRail(
-            selectedIndex: _section.index,
-            onDestinationSelected: (index) =>
-                _changeSection(DictionarySection.values[index]),
-            labelType: NavigationRailLabelType.all,
-            destinations: const [
-              NavigationRailDestination(
-                icon: Icon(Icons.search),
-                label: Text('検索'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.star_outline),
-                selectedIcon: Icon(Icons.star),
-                label: Text('お気に入り'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.history),
-                label: Text('履歴'),
-              ),
-            ],
-          ),
-          const VerticalDivider(width: 1),
-          SizedBox(
-            key: const Key('desktop-primary-pane'),
-            width: 380,
-            child: _buildPrimaryPane(),
-          ),
-          const VerticalDivider(width: 1),
+          _PlatformToolbar(onOpenSettings: () => showSettingsSurface(context)),
           Expanded(
-            key: const Key('desktop-detail-pane'),
-            child: widget.selectedEntryId == null
-                ? const _DesktopEmptyDetail()
-                : EntryDetailView(entryId: widget.selectedEntryId!),
+            child: Row(
+              children: [
+                _DesktopSidebar(selected: _section, onSelected: _changeSection),
+                const VerticalDivider(width: 1),
+                SizedBox(
+                  key: const Key('desktop-primary-pane'),
+                  width: 380,
+                  child: _buildPrimaryPane(),
+                ),
+                const VerticalDivider(width: 1),
+                Expanded(
+                  key: const Key('desktop-detail-pane'),
+                  child: widget.selectedEntryId == null
+                      ? const _DesktopEmptyDetail()
+                      : EntryDetailView(entryId: widget.selectedEntryId!),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -321,6 +317,337 @@ class _DictionaryScreenState extends ConsumerState<DictionaryScreen> {
         onUseHistoryQuery: _setQuery,
       ),
     };
+  }
+}
+
+class MobileEntryScreen extends StatelessWidget {
+  const MobileEntryScreen({required this.entryId, super.key});
+
+  final String entryId;
+
+  void _goBack(BuildContext context) {
+    if (context.canPop()) {
+      context.pop();
+    } else {
+      context.go('/');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      return Scaffold(
+        key: const Key('mobile-layout'),
+        appBar: CupertinoNavigationBar(
+          leading: Tooltip(
+            message: '戻る',
+            child: CupertinoNavigationBarBackButton(
+              key: const Key('ios-entry-back'),
+              onPressed: () => _goBack(context),
+            ),
+          ),
+          middle: const Text('ことば'),
+        ),
+        body: EntryDetailView(entryId: entryId),
+      );
+    }
+
+    return Scaffold(
+      key: const Key('mobile-layout'),
+      body: Column(
+        children: [
+          _PlatformToolbar(title: 'ことば', onBack: () => _goBack(context)),
+          Expanded(child: EntryDetailView(entryId: entryId)),
+        ],
+      ),
+    );
+  }
+}
+
+class _PlatformToolbar extends StatelessWidget {
+  const _PlatformToolbar({
+    this.title = 'ことば',
+    this.onBack,
+    this.onOpenSettings,
+  });
+
+  final String title;
+  final VoidCallback? onBack;
+  final VoidCallback? onOpenSettings;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: colors.surface,
+        border: Border(bottom: BorderSide(color: colors.outlineVariant)),
+      ),
+      child: SafeArea(
+        bottom: false,
+        child: SizedBox(
+          height: 52,
+          child: Row(
+            children: [
+              const SizedBox(width: 8),
+              if (onBack != null)
+                IconButton(
+                  tooltip: '戻る',
+                  onPressed: onBack,
+                  icon: Icon(
+                    defaultTargetPlatform == TargetPlatform.macOS
+                        ? Icons.chevron_left
+                        : Icons.arrow_back,
+                  ),
+                ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              if (onOpenSettings != null)
+                Semantics(
+                  key: const Key('settings-button'),
+                  container: true,
+                  button: true,
+                  focusable: true,
+                  label: '設定',
+                  onTap: onOpenSettings,
+                  child: ExcludeSemantics(
+                    child: IconButton(
+                      tooltip: '設定',
+                      onPressed: onOpenSettings,
+                      icon: Icon(
+                        defaultTargetPlatform == TargetPlatform.macOS
+                            ? Icons.tune
+                            : Icons.settings_outlined,
+                      ),
+                    ),
+                  ),
+                ),
+              const SizedBox(width: 8),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _DesktopSidebar extends StatelessWidget {
+  const _DesktopSidebar({required this.selected, required this.onSelected});
+
+  final DictionarySection selected;
+  final ValueChanged<DictionarySection> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      key: const Key('desktop-platform-sidebar'),
+      width: defaultTargetPlatform == TargetPlatform.macOS ? 184 : 176,
+      color: colors.surfaceContainerLow,
+      padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _SectionButton(
+            section: DictionarySection.search,
+            selected: selected == DictionarySection.search,
+            icon: Icons.search,
+            label: '検索',
+            onPressed: onSelected,
+          ),
+          const SizedBox(height: 4),
+          _SectionButton(
+            section: DictionarySection.favorites,
+            selected: selected == DictionarySection.favorites,
+            icon: Icons.star_outline,
+            selectedIcon: Icons.star,
+            label: 'お気に入り',
+            onPressed: onSelected,
+          ),
+          const SizedBox(height: 4),
+          _SectionButton(
+            section: DictionarySection.history,
+            selected: selected == DictionarySection.history,
+            icon: Icons.history,
+            label: '履歴',
+            onPressed: onSelected,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CompactSectionBar extends StatelessWidget {
+  const _CompactSectionBar({required this.selected, required this.onSelected});
+
+  final DictionarySection selected;
+  final ValueChanged<int> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return SafeArea(
+      top: false,
+      child: Container(
+        key: const Key('compact-platform-navigation'),
+        decoration: BoxDecoration(
+          color: colors.surface,
+          border: Border(top: BorderSide(color: colors.outlineVariant)),
+        ),
+        padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
+        child: Row(
+          children: [
+            for (final section in DictionarySection.values)
+              Expanded(
+                child: _SectionButton(
+                  section: section,
+                  selected: selected == section,
+                  icon: switch (section) {
+                    DictionarySection.search => Icons.search,
+                    DictionarySection.favorites => Icons.star_outline,
+                    DictionarySection.history => Icons.history,
+                  },
+                  selectedIcon: section == DictionarySection.favorites
+                      ? Icons.star
+                      : null,
+                  label: switch (section) {
+                    DictionarySection.search => '検索',
+                    DictionarySection.favorites => 'お気に入り',
+                    DictionarySection.history => '履歴',
+                  },
+                  compact: true,
+                  onPressed: (value) => onSelected(value.index),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SectionButton extends StatefulWidget {
+  const _SectionButton({
+    required this.section,
+    required this.selected,
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+    this.selectedIcon,
+    this.compact = false,
+  });
+
+  final DictionarySection section;
+  final bool selected;
+  final IconData icon;
+  final IconData? selectedIcon;
+  final String label;
+  final ValueChanged<DictionarySection> onPressed;
+  final bool compact;
+
+  @override
+  State<_SectionButton> createState() => _SectionButtonState();
+}
+
+class _SectionButtonState extends State<_SectionButton> {
+  var _hovered = false;
+  var _focused = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    final active = widget.selected || _focused;
+    final background = widget.selected
+        ? colors.secondaryContainer
+        : _hovered || _focused
+        ? colors.surfaceContainerHighest
+        : Colors.transparent;
+
+    return Semantics(
+      button: true,
+      selected: widget.selected,
+      label: widget.label,
+      onTap: () => widget.onPressed(widget.section),
+      child: ExcludeSemantics(
+        child: MouseRegion(
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: FocusableActionDetector(
+            onShowFocusHighlight: (value) => setState(() => _focused = value),
+            actions: {
+              ActivateIntent: CallbackAction<ActivateIntent>(
+                onInvoke: (_) {
+                  widget.onPressed(widget.section);
+                  return null;
+                },
+              ),
+            },
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => widget.onPressed(widget.section),
+              child: AnimatedContainer(
+                duration: MediaQuery.disableAnimationsOf(context)
+                    ? Duration.zero
+                    : const Duration(milliseconds: 100),
+                constraints: BoxConstraints(
+                  minHeight: widget.compact ? 48 : 40,
+                ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: widget.compact ? 6 : 12,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: background,
+                  borderRadius: BorderRadius.circular(7),
+                  border: active
+                      ? Border.all(
+                          color: colors.primary.withValues(alpha: 0.35),
+                        )
+                      : null,
+                ),
+                child: widget.compact
+                    ? Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            widget.selected
+                                ? widget.selectedIcon ?? widget.icon
+                                : widget.icon,
+                            size: 20,
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            widget.label,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          Icon(
+                            widget.selected
+                                ? widget.selectedIcon ?? widget.icon
+                                : widget.icon,
+                            size: 19,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(child: Text(widget.label)),
+                        ],
+                      ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

@@ -18,15 +18,33 @@ class SettingsController extends Notifier<AppSettings> {
   }
 
   void _persist(AppSettings next) {
+    if (_sameSettings(next, state)) return;
     state = next;
     unawaited(ref.read(settingsRepositoryProvider).save(next));
   }
 
   void setThemeMode(ThemeMode value) =>
       _persist(state.copyWith(themeMode: value));
-  void setFontScale(double value) => _persist(state.copyWith(fontScale: value));
+  void previewFontScale(double value) {
+    final next = state.copyWith(fontScale: value);
+    if (_sameSettings(next, state)) return;
+    state = next;
+  }
+
+  void commitFontScale(double value) {
+    final next = state.copyWith(fontScale: value);
+    state = next;
+    unawaited(ref.read(settingsRepositoryProvider).save(next));
+  }
+
   void setShortcutsEnabled(bool value) =>
       _persist(state.copyWith(shortcutsEnabled: value));
+
+  bool _sameSettings(AppSettings left, AppSettings right) {
+    return left.themeMode == right.themeMode &&
+        left.fontScale == right.fontScale &&
+        left.shortcutsEnabled == right.shortcutsEnabled;
+  }
 }
 
 final settingsRepositoryProvider = Provider<SettingsRepository>((ref) {

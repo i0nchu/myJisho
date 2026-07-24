@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,23 +6,62 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../update/application/dictionary_update_controller.dart';
 import '../application/settings_controller.dart';
 
-Future<void> showSettingsSheet(BuildContext context) {
-  return showModalBottomSheet<void>(
+Future<void> showSettingsSurface(BuildContext context) {
+  if (defaultTargetPlatform == TargetPlatform.iOS) {
+    return showCupertinoModalPopup<void>(
+      context: context,
+      builder: (popupContext) => Align(
+        alignment: Alignment.bottomCenter,
+        child: Material(
+          type: MaterialType.transparency,
+          child: CupertinoPopupSurface(
+            child: ConstrainedBox(
+              key: const Key('ios-settings-popup'),
+              constraints: BoxConstraints(
+                maxWidth: 640,
+                maxHeight: MediaQuery.sizeOf(popupContext).height * 0.88,
+              ),
+              child: const _SettingsSurfaceContent(showCloseButton: true),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  return showDialog<void>(
     context: context,
-    showDragHandle: true,
-    isScrollControlled: true,
-    builder: (context) => const _SettingsSheet(),
+    builder: (dialogContext) {
+      final size = MediaQuery.sizeOf(dialogContext);
+      return Dialog(
+        key: const Key('desktop-settings-dialog'),
+        clipBehavior: Clip.antiAlias,
+        insetPadding: const EdgeInsets.all(32),
+        child: SizedBox(
+          width: 640,
+          height: (size.height - 128).clamp(320, 640),
+          child: const _SettingsSurfaceContent(showCloseButton: true),
+        ),
+      );
+    },
   );
 }
 
-class _SettingsSheet extends ConsumerStatefulWidget {
-  const _SettingsSheet();
+Future<void> showSettingsSheet(BuildContext context) =>
+    showSettingsSurface(context);
+
+class _SettingsSurfaceContent extends ConsumerStatefulWidget {
+  const _SettingsSurfaceContent({this.showCloseButton = false});
+
+  final bool showCloseButton;
 
   @override
-  ConsumerState<_SettingsSheet> createState() => _SettingsSheetState();
+  ConsumerState<_SettingsSurfaceContent> createState() =>
+      _SettingsSurfaceContentState();
 }
 
-class _SettingsSheetState extends ConsumerState<_SettingsSheet> {
+class _SettingsSurfaceContentState
+    extends ConsumerState<_SettingsSurfaceContent> {
   final _releaseDirectoryController = TextEditingController();
 
   @override
@@ -43,7 +83,37 @@ class _SettingsSheetState extends ConsumerState<_SettingsSheet> {
           shrinkWrap: true,
           padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
           children: [
-            Text('設定', style: Theme.of(context).textTheme.headlineSmall),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    '設定',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ),
+                if (widget.showCloseButton)
+                  IconButton(
+                    key: const Key('close-settings'),
+                    tooltip: '閉じる',
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.close),
+                  ),
+              ],
+            ),
+            ListTile(
+              key: const Key('open-source-licenses'),
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.description_outlined),
+              title: const Text('オープンソースライセンス'),
+              subtitle: const Text('使用しているパッケージの著作権とライセンス'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => showLicensePage(
+                context: context,
+                applicationName: 'ことば',
+                applicationVersion: '0.1.0',
+              ),
+            ),
+            const Divider(height: 24),
             const SizedBox(height: 20),
             Text('表示', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
@@ -79,7 +149,8 @@ class _SettingsSheetState extends ConsumerState<_SettingsSheet> {
               max: 1.4,
               divisions: 5,
               label: '${(settings.fontScale * 100).round()}%',
-              onChanged: controller.setFontScale,
+              onChanged: controller.previewFontScale,
+              onChangeEnd: controller.commitFontScale,
             ),
             SwitchListTile(
               contentPadding: EdgeInsets.zero,
@@ -191,20 +262,6 @@ class _SettingsSheetState extends ConsumerState<_SettingsSheet> {
                 ),
               ],
             ],
-            const Divider(height: 32),
-            ListTile(
-              key: const Key('open-source-licenses'),
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.description_outlined),
-              title: const Text('オープンソースライセンス'),
-              subtitle: const Text('使用しているパッケージの著作権とライセンス'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => showLicensePage(
-                context: context,
-                applicationName: 'ことば',
-                applicationVersion: '0.1.0',
-              ),
-            ),
           ],
         ),
       ),

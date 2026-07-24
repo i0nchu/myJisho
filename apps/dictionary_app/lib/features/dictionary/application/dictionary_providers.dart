@@ -55,13 +55,13 @@ class SearchQueryController extends Notifier<SearchQueryState> {
   void schedule(String query) {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 120), () {
-      state = SearchQueryState(query: query.trim());
+      _setQuery(query);
     });
   }
 
   void submit(String query) {
     _debounce?.cancel();
-    state = SearchQueryState(query: query.trim());
+    _setQuery(query);
   }
 
   void clear() {
@@ -74,6 +74,12 @@ class SearchQueryController extends Notifier<SearchQueryState> {
     final next = (state.selectedIndex + delta).clamp(0, resultCount - 1);
     state = state.copyWith(selectedIndex: next);
   }
+
+  void _setQuery(String query) {
+    final normalized = query.trim();
+    if (normalized == state.query && state.selectedIndex == 0) return;
+    state = SearchQueryState(query: normalized);
+  }
 }
 
 final searchQueryControllerProvider =
@@ -81,10 +87,100 @@ final searchQueryControllerProvider =
       SearchQueryController.new,
     );
 
-final searchResultsProvider = FutureProvider<List<SearchHit>>((ref) async {
-  final query = ref.watch(searchQueryControllerProvider).query;
-  return ref.watch(dictionaryRepositoryProvider).search(query);
-});
+class SearchResultsState {
+  const SearchResultsState({
+    this.query = '',
+    this.hits = const [],
+    this.isLoading = false,
+    this.hasCompletedSearch = false,
+    this.error,
+  });
+
+  final String query;
+  final List<SearchHit> hits;
+  final bool isLoading;
+  final bool hasCompletedSearch;
+  final Object? error;
+
+  SearchResultsState copyWith({
+    String? query,
+    List<SearchHit>? hits,
+    bool? isLoading,
+    bool? hasCompletedSearch,
+    Object? error,
+    bool clearError = false,
+  }) {
+    return SearchResultsState(
+      query: query ?? this.query,
+      hits: hits ?? this.hits,
+      isLoading: isLoading ?? this.isLoading,
+      hasCompletedSearch: hasCompletedSearch ?? this.hasCompletedSearch,
+      error: clearError ? null : error ?? this.error,
+    );
+  }
+}
+
+/// Runs debounced searches with latest-query-wins semantics.
+///
+/// Existing hits remain visible while the next query is in flight. The
+/// generation guard prevents a slow, stale response from replacing a newer
+/// response even when the underlying database operation cannot be cancelled.
+class SearchResultsController extends Notifier<SearchResultsState> {
+  var _generation = 0;
+
+  @override
+  SearchResultsState build() {
+    final repository = ref.watch(dictionaryRepositoryProvider);
+    ref.listen<String>(
+      searchQueryControllerProvider.select((value) => value.query),
+      (previous, next) => unawaited(_search(repository, next)),
+    );
+
+    final query = ref.read(searchQueryControllerProvider).query;
+    if (query.isNotEmpty) {
+      Future<void>.microtask(() => _search(repository, query));
+      return SearchResultsState(query: query, isLoading: true);
+    }
+    return const SearchResultsState();
+  }
+
+  Future<void> _search(DictionaryRepository repository, String query) async {
+    final generation = ++_generation;
+    if (query.isEmpty) {
+      state = const SearchResultsState();
+      return;
+    }
+
+    state = state.copyWith(
+      query: query,
+      isLoading: true,
+      hasCompletedSearch: false,
+      clearError: true,
+    );
+    try {
+      final hits = await repository.search(query);
+      if (generation != _generation) return;
+      state = SearchResultsState(
+        query: query,
+        hits: hits,
+        hasCompletedSearch: true,
+      );
+    } catch (error) {
+      if (generation != _generation) return;
+      state = state.copyWith(
+        query: query,
+        isLoading: false,
+        hasCompletedSearch: true,
+        error: error,
+      );
+    }
+  }
+}
+
+final searchResultsProvider =
+    NotifierProvider<SearchResultsController, SearchResultsState>(
+      SearchResultsController.new,
+    );
 
 final entryProvider = FutureProvider.family<DictionaryEntry?, String>(
   (ref, entryId) => ref.watch(dictionaryRepositoryProvider).findById(entryId),
