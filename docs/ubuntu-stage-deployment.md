@@ -2,7 +2,7 @@
 
 - 適用環境：Ubuntu Server 24.04 LTS
 - 網路範圍：server loopback；實機／遠端選用 Tailscale Serve
-- 模型服務：沿用主機已安裝的 Ollama，不建立 Ollama container
+- 模型服務：沿用既有 Docker Compose Ollama，不由 Kotoba 建立或管理
 - 資料位置：server 本機 Docker volume，不使用 NAS
 - 不包含：公網 port、公開 DNS、Caddy、Tailscale Funnel、正式資料
 
@@ -16,7 +16,7 @@ Kotoba API container（host network，只監聽 loopback）
     │
     ├─ http://127.0.0.1:11434/v1
     │          ▼
-    │    主機既有 Ollama + qwen3:8b
+    │    既有 Ollama container + qwen3:8b
     │
     └─ Docker volume：kotoba-stage_kotoba-data
 
@@ -33,34 +33,40 @@ Tailscale Serve
 只在 tailnet 內提供 HTTPS；不得使用會把服務公開到 Internet 的
 `tailscale funnel`。
 
-## 2. Ollama 不需要重裝
+## 2. 沿用既有 Docker Compose Ollama
 
-如果 Ubuntu 主機已經安裝並執行 Ollama，不需要再安裝，也不需要啟動
-Compose 內的 Ollama service。先檢查：
+不需要另外安裝主機版 Ollama，也不必把 Ollama service 複製到 Kotoba 的
+Compose。既有 Ollama Compose 必須把 API **只發布到主機 loopback**：
+
+```yaml
+services:
+  ollama:
+    # 保留既有 image、volume、GPU 等設定
+    ports:
+      - "127.0.0.1:11434:11434"
+```
+
+若目前是 `11434:11434`，請改成上面的 loopback 綁定後重新執行既有
+`docker compose up -d`。這可讓 Kotoba 連線，但不會把 Ollama API 暴露給
+LAN。接著從主機檢查：
 
 ```bash
-systemctl status ollama --no-pager
 curl --fail http://127.0.0.1:11434/api/version
-ollama list
-```
-
-Kotoba 預設需要 `qwen3:8b`。安裝 Ollama 不代表模型已下載；若
-`ollama list` 沒有該模型，執行：
-
-```bash
-ollama pull qwen3:8b
-ollama show qwen3:8b
-```
-
-再檢查 OpenAI-compatible endpoint：
-
-```bash
+curl --fail http://127.0.0.1:11434/api/tags
 curl --fail http://127.0.0.1:11434/v1/models
 ```
 
+Kotoba 預設需要 `qwen3:8b`。部署腳本會透過 Ollama HTTP API 檢查模型，
+缺少時也會透過 API 下載；主機不需要 `ollama` 指令。若要由原本的 Compose
+手動管理模型，可在 Ollama 專案目錄執行（service 名稱不同時自行替換）：
+
+```bash
+docker compose exec ollama ollama pull qwen3:8b
+docker compose exec ollama ollama list
+```
+
 Kotoba API container 使用 Linux host networking，因此可直接連主機的
-`127.0.0.1:11434`。不必把 Ollama 改成 `0.0.0.0`，也不要向 LAN 或
-tailnet 公開 11434。
+`127.0.0.1:11434`。不要向 LAN、tailnet 或 Internet 公開 11434。
 
 ## 3. 建議 server 規格
 
@@ -68,11 +74,12 @@ CPU-only staging 最低建議 4 vCPU、16 GB RAM、30 GB 可用 SSD；較適合
 `qwen3:8b` 實機驗收的是 8 vCPU、32 GB RAM、60 GB SSD。這只是起始基線，
 最後仍以真實生成延遲與記憶體用量決定。
 
-已有 GPU 且主機 Ollama 能正常使用時，Kotoba 會直接受益，不必在 Kotoba
+已有 GPU 且既有 Ollama container 能正常使用時，Kotoba 會直接受益，不必在 Kotoba
 Compose 額外宣告 GPU。可用以下命令確認模型實際執行情況：
 
 ```bash
-ollama ps
+cd <既有 Ollama Compose 目錄>
+docker compose exec ollama ollama ps
 nvidia-smi  # 僅 NVIDIA 主機
 ```
 
@@ -82,7 +89,7 @@ nvidia-smi  # 僅 NVIDIA 主機
 
 ```bash
 sudo install -d -o "$USER" -g "$USER" /opt/kotoba
-git clone <YOUR_REPOSITORY_URL> /opt/kotoba
+git clone git@github.com:i0nchu/myJisho.git /opt/kotoba
 cd /opt/kotoba
 ```
 
@@ -128,11 +135,18 @@ cd /opt/kotoba
 
 腳本會：
 
-1. 確認主機 Ollama 的 `127.0.0.1:11434` 可用。
-2. 確認 `qwen3:8b` 存在；缺少時才執行 `ollama pull`。
+1. 確認既有 Ollama container 的 `127.0.0.1:11434` 可用。
+2. 透過 Ollama API 確認 `qwen3:8b` 存在；缺少時才透過 API 下載。
 3. 建立權限 `600` 的 `deploy/.env` 與隨機 bearer token。
 4. 只建置、啟動 Kotoba API，不啟動 Ollama container。
 5. 讓 API 只監聽 `127.0.0.1:8766` 並完成 health check。
+
+如果既有 Ollama 發布在其他 loopback port，例如 `127.0.0.1:21434`：
+
+```bash
+./scripts/deploy-self-hosted.sh \
+  --ollama-url http://127.0.0.1:21434
+```
 
 確認 container：
 
@@ -290,7 +304,7 @@ docker compose --env-file .env -f compose.internal.yaml ps
 docker compose --env-file .env -f compose.internal.yaml \
   logs --tail=200 --follow kotoba-api
 
-# 重啟 API；不影響主機 Ollama
+# 重啟 API；不影響既有 Ollama container
 docker compose --env-file .env -f compose.internal.yaml restart kotoba-api
 
 # 停止 API；不刪資料
@@ -307,7 +321,7 @@ docker compose --env-file .env -f compose.internal.yaml up -d
 | 資料 | 位置 | 備註 |
 | --- | --- | --- |
 | 生成詞庫 | `kotoba-stage_kotoba-data` | Docker volume |
-| Ollama 模型 | 主機既有 Ollama 目錄 | Kotoba 不管理 |
+| Ollama 模型 | 既有 Ollama Compose volume | Kotoba 不管理 |
 | API 設定/token | `/opt/kotoba/deploy/.env` | 權限 600 |
 | DB 備份 | `/opt/kotoba/deploy/backups` | 本機 stage |
 | Tailscale Serve | tailscaled state | 選用 |
@@ -321,7 +335,7 @@ cd /opt/kotoba
 ./scripts/backup-self-hosted.sh
 ```
 
-它只短暫停止 Kotoba API，不停止主機 Ollama。輸出為：
+它只短暫停止 Kotoba API，不停止既有 Ollama container。輸出為：
 
 ```text
 deploy/backups/kotoba-stage-<UTC>.tar.gz

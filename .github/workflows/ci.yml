@@ -29,6 +29,12 @@ jobs:
             scripts/deploy-self-hosted.sh \
             scripts/backup-self-hosted.sh \
             scripts/restore-self-hosted.sh
+          bash scripts/deploy-self-hosted.sh --help | grep -- "--ollama-url"
+          if grep -Eq '(^|[[:space:]])ollama[[:space:]]+(pull|show|list)' \
+            scripts/deploy-self-hosted.sh; then
+            echo "Ubuntu deploy script must use the Ollama HTTP API, not a host CLI."
+            exit 1
+          fi
           python -m py_compile scripts/stage-smoke-test.py
           docker compose \
             --env-file deploy/.env.example \

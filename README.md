@@ -28,8 +28,9 @@ private lookup or generation.
 - `services/local_dictionary` — private generation jobs, Wikimedia search,
   OpenAI-compatible LLM adapter, automatic validation, SQLite and HTTP API.
 - `deploy` + `scripts/deploy-self-hosted.ps1` / `.sh` — token-protected Docker
-  Compose deployment. Ubuntu reuses host Ollama and optionally exposes only
-  the loopback API through private Tailscale Serve HTTPS.
+  Compose deployment. Ubuntu reuses an existing Ollama service, including one
+  started by another Docker Compose project, and optionally exposes only the
+  loopback API through private Tailscale Serve HTTPS.
 - `apps/content_editor` + `services/editor_api` — future public-package
   editorial workbench; it is separate from private self-hosted entries.
 - `packages` — canonical schema, Japanese normalization, deinflection, and
@@ -52,14 +53,18 @@ powershell -ExecutionPolicy Bypass -File scripts/run-self-hosted-app.ps1
 ```
 
 The Windows deployment script starts an Ollama container. The Ubuntu script
-reuses the host's existing Ollama, starts only the loopback-bound Kotoba API,
-and completes a health check. See
+reuses the server's existing Ollama API, starts only the loopback-bound Kotoba
+API, and completes a health check. It does not require the `ollama` CLI on the
+host. See
 [the self-hosted generation guide](docs/self-hosted-generation.md) for manual,
 remote, macOS and iOS configuration.
 
 For an Ubuntu Server 24.04 internal staging server:
 
 ```bash
+sudo install -d -o "$USER" -g "$USER" /opt/kotoba
+git clone git@github.com:i0nchu/myJisho.git /opt/kotoba
+cd /opt/kotoba
 sudo ./scripts/install-docker-ubuntu.sh
 # Log out and back in once after first-time Docker installation.
 ./scripts/deploy-self-hosted.sh
