@@ -8,6 +8,8 @@ import '../data/dictionary_repository.dart';
 import '../data/bundled_database_path.dart';
 import '../data/drift_dictionary_repository.dart';
 import '../data/fixture_dictionary_repository.dart';
+import '../data/local_dictionary_client.dart';
+import '../data/on_demand_dictionary_repository.dart';
 import '../domain/dictionary_entry.dart';
 import '../domain/search_hit.dart';
 
@@ -25,20 +27,38 @@ final dictionaryRepositoryProvider = Provider<DictionaryRepository>((ref) {
   final drift = DriftDictionaryRepository.withDatabasePath(
     () => ref.read(activeDictionaryDatabasePathProvider.future),
   );
-  ref.onDispose(() => unawaited(drift.close()));
-  return FallbackDictionaryRepository(primary: drift, fallback: fixture);
+  final bundled = FallbackDictionaryRepository(
+    primary: drift,
+    fallback: fixture,
+  );
+  final local = LocalDictionaryClient();
+  ref.onDispose(() {
+    local.close();
+    unawaited(drift.close());
+  });
+  return OnDemandDictionaryRepository(bundled: bundled, local: local);
 });
 
 class SearchQueryState {
-  const SearchQueryState({this.query = '', this.selectedIndex = 0});
+  const SearchQueryState({
+    this.query = '',
+    this.selectedIndex = 0,
+    this.submissionSequence = 0,
+  });
 
   final String query;
   final int selectedIndex;
+  final int submissionSequence;
 
-  SearchQueryState copyWith({String? query, int? selectedIndex}) {
+  SearchQueryState copyWith({
+    String? query,
+    int? selectedIndex,
+    int? submissionSequence,
+  }) {
     return SearchQueryState(
       query: query ?? this.query,
       selectedIndex: selectedIndex ?? this.selectedIndex,
+      submissionSequence: submissionSequence ?? this.submissionSequence,
     );
   }
 }
@@ -61,7 +81,15 @@ class SearchQueryController extends Notifier<SearchQueryState> {
 
   void submit(String query) {
     _debounce?.cancel();
-    _setQuery(query);
+    final normalized = query.trim();
+    if (normalized.isEmpty) {
+      clear();
+      return;
+    }
+    state = SearchQueryState(
+      query: normalized,
+      submissionSequence: state.submissionSequence + 1,
+    );
   }
 
   void clear() {
@@ -78,7 +106,10 @@ class SearchQueryController extends Notifier<SearchQueryState> {
   void _setQuery(String query) {
     final normalized = query.trim();
     if (normalized == state.query && state.selectedIndex == 0) return;
-    state = SearchQueryState(query: normalized);
+    state = SearchQueryState(
+      query: normalized,
+      submissionSequence: state.submissionSequence,
+    );
   }
 }
 
@@ -92,30 +123,48 @@ class SearchResultsState {
     this.query = '',
     this.hits = const [],
     this.isLoading = false,
+    this.isGenerating = false,
     this.hasCompletedSearch = false,
     this.error,
+    this.generationFailure,
+    this.generatedEntryId,
   });
 
   final String query;
   final List<SearchHit> hits;
   final bool isLoading;
+  final bool isGenerating;
   final bool hasCompletedSearch;
   final Object? error;
+  final DictionaryGenerationFailure? generationFailure;
+  final String? generatedEntryId;
 
   SearchResultsState copyWith({
     String? query,
     List<SearchHit>? hits,
     bool? isLoading,
+    bool? isGenerating,
     bool? hasCompletedSearch,
     Object? error,
+    DictionaryGenerationFailure? generationFailure,
+    String? generatedEntryId,
     bool clearError = false,
+    bool clearGenerationFailure = false,
+    bool clearGeneratedEntry = false,
   }) {
     return SearchResultsState(
       query: query ?? this.query,
       hits: hits ?? this.hits,
       isLoading: isLoading ?? this.isLoading,
+      isGenerating: isGenerating ?? this.isGenerating,
       hasCompletedSearch: hasCompletedSearch ?? this.hasCompletedSearch,
       error: clearError ? null : error ?? this.error,
+      generationFailure: clearGenerationFailure
+          ? null
+          : generationFailure ?? this.generationFailure,
+      generatedEntryId: clearGeneratedEntry
+          ? null
+          : generatedEntryId ?? this.generatedEntryId,
     );
   }
 }
@@ -131,20 +180,41 @@ class SearchResultsController extends Notifier<SearchResultsState> {
   @override
   SearchResultsState build() {
     final repository = ref.watch(dictionaryRepositoryProvider);
-    ref.listen<String>(
-      searchQueryControllerProvider.select((value) => value.query),
-      (previous, next) => unawaited(_search(repository, next)),
-    );
+    ref.listen<SearchQueryState>(searchQueryControllerProvider, (
+      previous,
+      next,
+    ) {
+      final submitted =
+          previous != null &&
+          next.submissionSequence != previous.submissionSequence;
+      if (next.query != previous?.query || submitted) {
+        unawaited(
+          _search(repository, next.query, generateIfMissing: submitted),
+        );
+      }
+    });
 
     final query = ref.read(searchQueryControllerProvider).query;
     if (query.isNotEmpty) {
-      Future<void>.microtask(() => _search(repository, query));
+      Future<void>.microtask(
+        () => _search(repository, query, generateIfMissing: false),
+      );
       return SearchResultsState(query: query, isLoading: true);
     }
     return const SearchResultsState();
   }
 
-  Future<void> _search(DictionaryRepository repository, String query) async {
+  Future<void> retryGeneration() => _search(
+    ref.read(dictionaryRepositoryProvider),
+    ref.read(searchQueryControllerProvider).query,
+    generateIfMissing: true,
+  );
+
+  Future<void> _search(
+    DictionaryRepository repository,
+    String query, {
+    required bool generateIfMissing,
+  }) async {
     final generation = ++_generation;
     if (query.isEmpty) {
       state = const SearchResultsState();
@@ -154,12 +224,68 @@ class SearchResultsController extends Notifier<SearchResultsState> {
     state = state.copyWith(
       query: query,
       isLoading: true,
+      isGenerating: false,
       hasCompletedSearch: false,
       clearError: true,
+      clearGenerationFailure: true,
+      clearGeneratedEntry: true,
     );
     try {
       final hits = await repository.search(query);
       if (generation != _generation) return;
+      if (hits.isEmpty &&
+          generateIfMissing &&
+          repository is DictionaryGenerationRepository) {
+        final generator = repository as DictionaryGenerationRepository;
+        state = SearchResultsState(
+          query: query,
+          isGenerating: true,
+          hasCompletedSearch: true,
+        );
+        try {
+          final entry = await generator.generateMissing(query);
+          if (generation != _generation) return;
+          final hit = SearchHit(
+            entry: entry,
+            kind: MatchKind.primaryExact,
+            baseScore: 1000,
+            score: 1000 + entry.editorialLevel.rankingBoost,
+            matchedKey: entry.headword,
+            modifiers: entry.editorialLevel.rankingBoost == 0
+                ? const []
+                : [
+                    SearchScoreModifier(
+                      'editorial_${entry.editorialLevel.name}',
+                      entry.editorialLevel.rankingBoost,
+                    ),
+                  ],
+            derivedFrom: query == entry.headword ? null : query,
+          );
+          state = SearchResultsState(
+            query: query,
+            hits: [hit],
+            hasCompletedSearch: true,
+            generatedEntryId: entry.id,
+          );
+        } on DictionaryGenerationFailure catch (error) {
+          if (generation != _generation) return;
+          state = SearchResultsState(
+            query: query,
+            hasCompletedSearch: true,
+            generationFailure: error,
+          );
+        } on Object catch (error) {
+          if (generation != _generation) return;
+          state = SearchResultsState(
+            query: query,
+            hasCompletedSearch: true,
+            generationFailure: DictionaryGenerationFailure(
+              message: '詞條生成失敗：$error',
+            ),
+          );
+        }
+        return;
+      }
       state = SearchResultsState(
         query: query,
         hits: hits,

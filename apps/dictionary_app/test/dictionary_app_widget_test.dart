@@ -43,8 +43,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 130));
     await tester.pump();
 
-    expect(find.text('見つかりませんでした'), findsOneWidget);
-    expect(find.text('別の表記や読み方を試してください。'), findsOneWidget);
+    expect(find.text('ローカル辞書には見つかりませんでした'), findsOneWidget);
+    expect(find.text('Enter または検索ボタンで送信すると、新しい詞条を生成します。'), findsOneWidget);
   });
 
   testWidgets('desktop layout opens a result in the detail column', (

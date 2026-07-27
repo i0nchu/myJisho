@@ -3,7 +3,7 @@
 - Baseline: `docs/product-spec.md`
 - Platforms: iOS, Windows, macOS
 - Status vocabulary: PASS, PARTIAL, EXTERNAL GATE, FAIL
-- Last audit: 2026-07-24
+- Last audit: 2026-07-27
 
 PASS means the cited evidence directly covers the acceptance criterion. PARTIAL
 means useful evidence exists but the full criterion is not proven. EXTERNAL GATE
@@ -24,12 +24,14 @@ that local automation cannot replace.
 | AC-10 Safe update | 24 update tests cover HTTPS, fixed package contract, progress/cancel, interruption/disk-full, size/hash/assets/checksums, assets↔SQLite binding, pre-open recovery, real Drift readiness and rollback | Select/publish HTTPS host and run platform fault smoke; signing/key rotation decision | PASS automated / EXTERNAL CONFIG+DEVICE |
 | AC-11 Traceable release | schema/data/license/review validator tests; deterministic builder; editor audit workflow/security tests | Editorial/licensing sign-off for exact production input checksum | PASS mechanism; EXTERNAL GATE for content |
 | AC-12 Platform RC | committed iOS/Windows/macOS runners and CI jobs | Successful release artifacts, signing and recorded device smoke for all three platforms | EXTERNAL GATE |
+| AC-13 Self-hosted generation | generation/schema/semantic/storage/HTTP tests; Flutter explicit-submit gating, existing-entry reuse, generated metadata and action tests; token-protected Compose deployment | Real Qwen3 8B generation quality sampling; physical iPhone HTTPS endpoint smoke | PASS automated / EXTERNAL MODEL+DEVICE |
 
 ## Evidence commands
 
 ```powershell
 python -m unittest discover -s tests -v
 python -m unittest discover -s services/editor_api/tests -v
+python -m unittest discover -s services/local_dictionary/tests -t . -v
 powershell -ExecutionPolicy Bypass -File scripts/verify.ps1
 git diff --check
 ```

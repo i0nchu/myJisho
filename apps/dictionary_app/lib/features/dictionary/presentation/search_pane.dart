@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../library/application/library_controller.dart';
 import '../application/dictionary_providers.dart';
+import '../data/local_dictionary_client.dart';
 import '../domain/search_hit.dart';
 
 class SearchPane extends ConsumerWidget {
@@ -28,6 +29,15 @@ class SearchPane extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final queryState = ref.watch(searchQueryControllerProvider);
     final resultState = ref.watch(searchResultsProvider);
+    ref.listen<String?>(
+      searchResultsProvider.select((state) => state.generatedEntryId),
+      (previous, next) {
+        if (next == null || next == previous) return;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (context.mounted) onOpenEntry(next);
+        });
+      },
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,7 +60,7 @@ class SearchPane extends ConsumerWidget {
         SizedBox(
           key: const Key('search-progress-slot'),
           height: 2,
-          child: resultState.isLoading
+          child: resultState.isLoading || resultState.isGenerating
               ? const LinearProgressIndicator(
                   key: Key('search-refresh-progress'),
                   minHeight: 2,
@@ -65,6 +75,17 @@ class SearchPane extends ConsumerWidget {
                   hits: resultState.hits,
                   selectedIndex: queryState.selectedIndex,
                   onOpenEntry: onOpenEntry,
+                )
+              : resultState.isGenerating
+              ? const _GenerationProgress()
+              : resultState.generationFailure != null
+              ? _GenerationFailure(
+                  failure: resultState.generationFailure!,
+                  onRetry: resultState.generationFailure!.retryable
+                      ? () => ref
+                            .read(searchResultsProvider.notifier)
+                            .retryGeneration()
+                      : null,
                 )
               : resultState.isLoading
               ? const _FirstSearchProgress()
@@ -402,9 +423,79 @@ class _NoResults extends StatelessWidget {
           children: [
             Icon(Icons.search_off, size: 44),
             SizedBox(height: 12),
-            Text('見つかりませんでした'),
+            Text('ローカル辞書には見つかりませんでした'),
             SizedBox(height: 6),
-            Text('別の表記や読み方を試してください。'),
+            Text('Enter または検索ボタンで送信すると、新しい詞条を生成します。'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GenerationProgress extends StatelessWidget {
+  const _GenerationProgress();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      key: Key('generation-progress'),
+      child: Padding(
+        padding: EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CircularProgressIndicator.adaptive(),
+            SizedBox(height: 16),
+            Text('ウェブ資料を調べて詞条を生成しています。'),
+            SizedBox(height: 6),
+            Text('自動検証に合格した内容だけを保存します。'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GenerationFailure extends StatelessWidget {
+  const _GenerationFailure({required this.failure, required this.onRetry});
+
+  final DictionaryGenerationFailure failure;
+  final VoidCallback? onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      key: const Key('generation-failure'),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.warning_amber_outlined, size: 44),
+            const SizedBox(height: 12),
+            Text(
+              failure.message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            if (failure.issues.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              for (final issue in failure.issues.take(6))
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Text('・$issue', textAlign: TextAlign.left),
+                ),
+            ],
+            if (onRetry != null) ...[
+              const SizedBox(height: 16),
+              FilledButton.icon(
+                key: const Key('retry-generation'),
+                onPressed: onRetry,
+                icon: const Icon(Icons.refresh),
+                label: const Text('もう一度生成'),
+              ),
+            ],
           ],
         ),
       ),

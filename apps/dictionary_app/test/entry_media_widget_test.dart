@@ -108,6 +108,57 @@ void main() {
       expect(find.textContaining('easily_confused'), findsNothing);
     },
   );
+
+  testWidgets(
+    'generated entry shows low-noise metadata and management actions',
+    (tester) async {
+      tester.view.physicalSize = const Size(800, 1200);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final entry = testEntry(
+        versionOrigin: 'generated',
+        generationInfo: GenerationInfo(
+          model: 'Qwen3 8B',
+          generatedAt: DateTime.utc(2026, 7, 27, 13, 16),
+          generatorVersion: 'kotoba-local-1',
+          sourceCount: 1,
+          knowledgeOnly: false,
+          sources: [
+            GenerationSource(
+              sourceId: 'web_1',
+              title: '日本語版ウィクショナリー',
+              url: 'https://ja.wiktionary.org/wiki/食べる',
+              snippet: '食べるについての資料。',
+              retrievedAt: DateTime.utc(2026, 7, 27, 13, 15),
+              licenseSpdx: 'CC-BY-SA-4.0',
+            ),
+          ],
+        ),
+      );
+
+      await tester.pumpWidget(_detailApp(DemoSpeechService(), entry: entry));
+      await tester.pumpAndSettle();
+
+      expect(find.byKey(const Key('review-status-banner')), findsNothing);
+      expect(find.textContaining('利用できる出典が少ない'), findsOneWidget);
+      expect(find.byKey(const Key('local-entry-menu')), findsOneWidget);
+
+      await tester.ensureVisible(find.text('生成情報'));
+      await tester.tap(find.text('生成情報'));
+      await tester.pumpAndSettle();
+      expect(find.text('Qwen3 8B'), findsOneWidget);
+      expect(find.text('1 件'), findsOneWidget);
+
+      await tester.tap(find.byKey(const Key('local-entry-menu')));
+      await tester.pumpAndSettle();
+      expect(find.text('編集'), findsOneWidget);
+      expect(find.text('バージョン履歴'), findsOneWidget);
+      expect(find.text('再生成'), findsOneWidget);
+      expect(find.text('現在版をロック'), findsOneWidget);
+      expect(find.text('削除'), findsOneWidget);
+    },
+  );
 }
 
 Widget _detailApp(SpeechService speechService, {DictionaryEntry? entry}) {

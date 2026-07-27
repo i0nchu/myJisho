@@ -53,7 +53,8 @@ void main() {
     expect(entry.imageAsset, 'assets/images/hirou.png');
     expect(entry.audioAsset, 'assets/audio/hirou.wav');
     expect(entry.sourceLabel, 'source_original');
-    expect(entry.isReviewPending, isTrue);
+    expect(entry.status, 'ready');
+    expect(entry.versionOrigin, 'imported');
     expect(entry.partOfSpeechLabel, '動詞・五段');
   });
 
@@ -90,5 +91,60 @@ void main() {
       }),
       throwsFormatException,
     );
+  });
+
+  test('parses self-hosted generation metadata without review state', () {
+    final entry = DictionaryEntry.fromJson({
+      'entry_id': 'entry_generated_test',
+      'headword': '新語',
+      'forms': [
+        {'text': '新語', 'type': 'primary', 'common': true},
+      ],
+      'readings': [
+        {'kana': 'しんご', 'primary': true},
+      ],
+      'parts_of_speech': ['noun'],
+      'frequency_rank': null,
+      'editorial_level': 'curated',
+      'status': 'ready',
+      'version_origin': 'generated',
+      'locked': false,
+      'senses': [
+        {
+          'sense_id': 'sense_generated_test',
+          'definition_ja_simple': '新しく作られた言葉。',
+          'usage_note_ja': '',
+          'examples': [
+            {
+              'example_id': 'example_generated_test',
+              'sentence': 'この新語を辞書に加える。',
+              'source_id': null,
+            },
+          ],
+          'relations': <Object?>[],
+          'image_assets': <Object?>[],
+          'audio_assets': <Object?>[],
+        },
+      ],
+      'source_ids': <Object?>[],
+      'generation': {
+        'model': 'Qwen3 8B',
+        'generated_at': '2026-07-27T13:16:00Z',
+        'generator_version': 'kotoba-local-1',
+        'source_count': 0,
+        'knowledge_only': true,
+        'sources': <Object?>[],
+      },
+      'created_at': '2026-07-27T13:16:00Z',
+      'updated_at': '2026-07-27T13:16:00Z',
+      'data_version': 'kotoba-local-1',
+    });
+
+    expect(entry.status, 'ready');
+    expect(entry.versionOrigin, 'generated');
+    expect(entry.isGeneratedLocally, isTrue);
+    expect(entry.isKnowledgeOnly, isTrue);
+    expect(entry.frequencyRank, 999999);
+    expect(entry.generationInfo?.model, 'Qwen3 8B');
   });
 }

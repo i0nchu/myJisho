@@ -7,6 +7,8 @@ import '../../library/application/library_controller.dart';
 import '../../media/application/audio_controller.dart';
 import '../../pronunciation/application/speech_controller.dart';
 import '../application/dictionary_providers.dart';
+import '../data/dictionary_repository.dart';
+import '../data/local_dictionary_client.dart';
 import '../domain/dictionary_entry.dart';
 
 class EntryDetailView extends ConsumerWidget {
@@ -41,27 +43,7 @@ class _EntryContent extends StatelessWidget {
         key: Key('entry-${entry.id}'),
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 48),
         children: [
-          if (entry.isReviewPending) ...[
-            Semantics(
-              key: const Key('review-status-banner'),
-              container: true,
-              label:
-                  'レビュー状態：レビュー前のデモ内容。'
-                  '公開前に日本語の確認が必要です。',
-              child: ExcludeSemantics(
-                child: Card(
-                  color: Theme.of(context).colorScheme.tertiaryContainer,
-                  child: const ListTile(
-                    dense: true,
-                    leading: Icon(Icons.science_outlined),
-                    title: Text('レビュー前のデモ内容'),
-                    subtitle: Text('公開前に日本語の確認が必要です。'),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-          ],
+          _EntryStatusNotices(entry: entry),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -152,6 +134,58 @@ class _EntryContent extends StatelessWidget {
   }
 }
 
+class _EntryStatusNotices extends StatelessWidget {
+  const _EntryStatusNotices({required this.entry});
+
+  final DictionaryEntry entry;
+
+  @override
+  Widget build(BuildContext context) {
+    final notices = <(IconData, String)>[
+      if (entry.isStale) (Icons.update_outlined, 'この詞条は生成バージョンが古くなっています。'),
+      if (entry.isKnowledgeOnly)
+        (Icons.info_outline, '利用できる出典がなく、主にモデルの既有知識から生成されました。'),
+      if (entry.hasLowSourceWarning)
+        (Icons.info_outline, '利用できる出典が少ないため、内容を慎重に確認してください。'),
+    ];
+    if (notices.isEmpty) return const SizedBox.shrink();
+    final colors = Theme.of(context).colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: colors.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: colors.outlineVariant),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Column(
+            children: [
+              for (final notice in notices)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 3),
+                  child: Row(
+                    children: [
+                      Icon(notice.$1, size: 17),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          notice.$2,
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _EntryActions extends ConsumerWidget {
   const _EntryActions({required this.entry});
 
@@ -209,9 +243,332 @@ class _EntryActions extends ConsumerWidget {
               .toggleFavorite(entry.id),
           icon: Icon(isFavorite ? Icons.star : Icons.star_outline),
         ),
+        if (entry.isGeneratedLocally) ...[
+          const SizedBox(width: 4),
+          PopupMenuButton<_EntryCommand>(
+            key: const Key('local-entry-menu'),
+            tooltip: 'ローカル詞条を管理',
+            onSelected: (command) =>
+                _runEntryCommand(context, ref, entry, command),
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: _EntryCommand.edit,
+                child: ListTile(
+                  dense: true,
+                  leading: Icon(Icons.edit_outlined),
+                  title: Text('編集'),
+                ),
+              ),
+              const PopupMenuItem(
+                value: _EntryCommand.revisions,
+                child: ListTile(
+                  dense: true,
+                  leading: Icon(Icons.history),
+                  title: Text('バージョン履歴'),
+                ),
+              ),
+              PopupMenuItem(
+                value: _EntryCommand.regenerate,
+                enabled: !entry.locked,
+                child: const ListTile(
+                  dense: true,
+                  leading: Icon(Icons.auto_awesome_outlined),
+                  title: Text('再生成'),
+                ),
+              ),
+              PopupMenuItem(
+                value: _EntryCommand.lock,
+                child: ListTile(
+                  dense: true,
+                  leading: Icon(
+                    entry.locked ? Icons.lock_open : Icons.lock_outline,
+                  ),
+                  title: Text(entry.locked ? 'ロックを解除' : '現在版をロック'),
+                ),
+              ),
+              const PopupMenuDivider(),
+              const PopupMenuItem(
+                value: _EntryCommand.delete,
+                child: ListTile(
+                  dense: true,
+                  leading: Icon(Icons.delete_outline),
+                  title: Text('削除'),
+                ),
+              ),
+            ],
+          ),
+        ],
       ],
     );
   }
+}
+
+enum _EntryCommand { edit, revisions, regenerate, lock, delete }
+
+Future<void> _runEntryCommand(
+  BuildContext context,
+  WidgetRef ref,
+  DictionaryEntry entry,
+  _EntryCommand command,
+) async {
+  final repository = ref.read(dictionaryRepositoryProvider);
+  if (repository is! DictionaryEntryManagementRepository) return;
+  final manager = repository as DictionaryEntryManagementRepository;
+  try {
+    switch (command) {
+      case _EntryCommand.edit:
+        final patch = await _showEditDialog(context, entry);
+        if (patch == null) return;
+        await manager.editEntry(entry.id, patch);
+        break;
+      case _EntryCommand.revisions:
+        final revisions = await manager.listRevisions(entry.id);
+        if (!context.mounted) return;
+        final revision = await _showRevisionDialog(
+          context,
+          manager,
+          entry.id,
+          revisions,
+        );
+        if (revision == null) return;
+        await manager.restoreRevision(entry.id, revision);
+        break;
+      case _EntryCommand.regenerate:
+        ScaffoldMessenger.maybeOf(
+          context,
+        )?.showSnackBar(const SnackBar(content: Text('詞条を再生成しています。')));
+        await manager.regenerate(entry.id);
+        break;
+      case _EntryCommand.lock:
+        await manager.setLocked(entry.id, !entry.locked);
+        break;
+      case _EntryCommand.delete:
+        final confirmed = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('詞条を削除しますか'),
+            content: Text('「${entry.headword}」をローカル辞書から削除します。'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: const Text('キャンセル'),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Text('削除'),
+              ),
+            ],
+          ),
+        );
+        if (confirmed != true) return;
+        await manager.deleteEntry(entry.id);
+        break;
+    }
+    ref.invalidate(entryProvider(entry.id));
+    ref.invalidate(allEntriesProvider);
+    ref.invalidate(searchResultsProvider);
+    if (context.mounted) {
+      ScaffoldMessenger.maybeOf(
+        context,
+      )?.showSnackBar(const SnackBar(content: Text('ローカル詞条を更新しました。')));
+    }
+  } on Object catch (error) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.maybeOf(
+      context,
+    )?.showSnackBar(SnackBar(content: Text('操作に失敗しました：$error')));
+  }
+}
+
+Future<Map<String, Object?>?> _showEditDialog(
+  BuildContext context,
+  DictionaryEntry entry,
+) async {
+  final headword = TextEditingController(text: entry.headword);
+  final reading = TextEditingController(text: entry.reading);
+  final partsOfSpeech = TextEditingController(
+    text: entry.partsOfSpeech.join(', '),
+  );
+  final definition = TextEditingController(text: entry.primarySense.definition);
+  final usageNote = TextEditingController(text: entry.primarySense.usageNote);
+  try {
+    return await showDialog<Map<String, Object?>>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('詞条を編集'),
+        content: SingleChildScrollView(
+          child: SizedBox(
+            width: 480,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: headword,
+                  decoration: const InputDecoration(labelText: '見出し'),
+                ),
+                TextField(
+                  controller: reading,
+                  decoration: const InputDecoration(labelText: '読み'),
+                ),
+                TextField(
+                  controller: partsOfSpeech,
+                  decoration: const InputDecoration(labelText: '品詞（カンマ区切り）'),
+                ),
+                TextField(
+                  controller: definition,
+                  minLines: 2,
+                  maxLines: 5,
+                  decoration: const InputDecoration(labelText: '意味'),
+                ),
+                TextField(
+                  controller: usageNote,
+                  minLines: 1,
+                  maxLines: 4,
+                  decoration: const InputDecoration(labelText: '使い方の注意'),
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('キャンセル'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, {
+              'headword': headword.text.trim(),
+              'reading': reading.text.trim(),
+              'parts_of_speech': partsOfSpeech.text
+                  .split(',')
+                  .map((value) => value.trim())
+                  .where((value) => value.isNotEmpty)
+                  .toList(growable: false),
+              'definition_ja_simple': definition.text.trim(),
+              'usage_note_ja': usageNote.text.trim(),
+            }),
+            child: const Text('保存'),
+          ),
+        ],
+      ),
+    );
+  } finally {
+    headword.dispose();
+    reading.dispose();
+    partsOfSpeech.dispose();
+    definition.dispose();
+    usageNote.dispose();
+  }
+}
+
+Future<int?> _showRevisionDialog(
+  BuildContext context,
+  DictionaryEntryManagementRepository manager,
+  String entryId,
+  List<LocalDictionaryRevision> revisions,
+) {
+  return showDialog<int>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text('バージョン履歴'),
+      content: SizedBox(
+        width: 480,
+        child: revisions.isEmpty
+            ? const Text('履歴はありません。')
+            : ListView.separated(
+                shrinkWrap: true,
+                itemCount: revisions.length,
+                separatorBuilder: (context, index) => const Divider(height: 1),
+                itemBuilder: (context, index) {
+                  final revision = revisions[index];
+                  return ListTile(
+                    onTap: () async {
+                      final historical = await manager.getRevision(
+                        entryId,
+                        revision.revision,
+                      );
+                      if (!context.mounted) return;
+                      final restore = await _showRevisionPreview(
+                        context,
+                        revision.revision,
+                        historical,
+                      );
+                      if (restore == true && context.mounted) {
+                        Navigator.pop(context, revision.revision);
+                      }
+                    },
+                    title: Text(
+                      'Revision ${revision.revision}・'
+                      '${_versionOriginLabel(revision.origin)}',
+                    ),
+                    subtitle: Text(
+                      '${_formatDateTime(revision.createdAt)}\n'
+                      '${revision.model}・出典 ${revision.sourceCount} 件',
+                    ),
+                    isThreeLine: true,
+                    trailing: FilledButton.tonal(
+                      onPressed: () =>
+                          Navigator.pop(context, revision.revision),
+                      child: const Text('復元'),
+                    ),
+                  );
+                },
+              ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('閉じる'),
+        ),
+      ],
+    ),
+  );
+}
+
+Future<bool?> _showRevisionPreview(
+  BuildContext context,
+  int revision,
+  DictionaryEntry entry,
+) {
+  return showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text('Revision $revision'),
+      content: SizedBox(
+        width: 480,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                entry.headword,
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              Text('${entry.reading}　${entry.partOfSpeechLabel}'),
+              const SizedBox(height: 16),
+              Text(entry.primarySense.definition),
+              if (entry.primarySense.examples.isNotEmpty) ...[
+                const SizedBox(height: 12),
+                for (final example in entry.primarySense.examples)
+                  Text('・$example'),
+              ],
+            ],
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context, false),
+          child: const Text('戻る'),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.pop(context, true),
+          child: const Text('この版を復元'),
+        ),
+      ],
+    ),
+  );
 }
 
 class _SecondaryInformation extends ConsumerWidget {
@@ -304,20 +661,96 @@ class _SecondaryInformation extends ConsumerWidget {
               ),
             ],
           ),
-        ExpansionTile(
-          title: const Text('出典'),
-          children: [
-            ListTile(
-              leading: const Icon(Icons.verified_outlined),
-              title: Text(entry.sourceLabel),
-              subtitle: const Text('プロトタイプ用に作成した内容'),
-            ),
-          ],
-        ),
+        if (entry.generationInfo case final generation?)
+          ExpansionTile(
+            title: const Text('出典'),
+            children: generation.sources.isEmpty
+                ? const [
+                    ListTile(
+                      leading: Icon(Icons.info_outline),
+                      title: Text('参照できるウェブ資料はありません'),
+                      subtitle: Text('モデルの既有知識を主に使用しています。'),
+                    ),
+                  ]
+                : [
+                    for (final source in generation.sources)
+                      ListTile(
+                        leading: const Icon(Icons.link),
+                        title: Text(source.title),
+                        subtitle: Text(
+                          '${source.url}\n${source.licenseSpdx}',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                  ],
+          )
+        else
+          ExpansionTile(
+            title: const Text('出典'),
+            children: [
+              ListTile(
+                leading: const Icon(Icons.verified_outlined),
+                title: Text(entry.sourceLabel),
+                subtitle: const Text('Kotoba 内蔵辞書'),
+              ),
+            ],
+          ),
+        if (entry.generationInfo case final generation?)
+          ExpansionTile(
+            key: const Key('generation-information'),
+            title: const Text('生成情報'),
+            children: [
+              ListTile(
+                dense: true,
+                title: const Text('モデル'),
+                subtitle: Text(generation.model),
+              ),
+              ListTile(
+                dense: true,
+                title: const Text('生成日時'),
+                subtitle: Text(_formatDateTime(generation.generatedAt)),
+              ),
+              ListTile(
+                dense: true,
+                title: const Text('情報源'),
+                subtitle: Text('${generation.sourceCount} 件'),
+              ),
+              ListTile(
+                dense: true,
+                title: const Text('バージョン'),
+                subtitle: Text(
+                  '${_versionOriginLabel(entry.versionOrigin)}'
+                  '・${generation.generatorVersion}',
+                ),
+                trailing: entry.locked
+                    ? const Tooltip(
+                        message: '現在のバージョンはロックされています',
+                        child: Icon(Icons.lock_outline),
+                      )
+                    : null,
+              ),
+            ],
+          ),
       ],
     );
   }
 }
+
+String _formatDateTime(DateTime? value) {
+  if (value == null) return '不明';
+  final local = value.toLocal();
+  String two(int number) => number.toString().padLeft(2, '0');
+  return '${local.year}-${two(local.month)}-${two(local.day)} '
+      '${two(local.hour)}:${two(local.minute)}';
+}
+
+String _versionOriginLabel(String value) => switch (value) {
+  'generated' => '初回生成',
+  'edited' => 'ユーザー編集',
+  'regenerated' => '再生成',
+  _ => '内蔵データ',
+};
 
 class _EntryImage extends StatelessWidget {
   const _EntryImage({required this.asset});

@@ -15,6 +15,9 @@ try {
     python -m unittest discover -s services/editor_api/tests -v
     if ($LASTEXITCODE -ne 0) { throw 'Editor tests failed.' }
 
+    python -m unittest discover -s services/local_dictionary/tests -t . -v
+    if ($LASTEXITCODE -ne 0) { throw 'Local dictionary generation tests failed.' }
+
     if (-not (Test-Path -LiteralPath $flutter)) {
         $flutterCommand = Get-Command flutter -ErrorAction SilentlyContinue
         if (-not $flutterCommand) {

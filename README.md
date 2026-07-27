@@ -1,24 +1,31 @@
 # Kotoba
 
-Kotoba is an offline-first, ad-free Japanese-to-Japanese dictionary MVP for
-iOS, Windows, and macOS. It prioritizes the most useful meaning,
-simple Japanese definitions, examples, pronunciation, and clear distinctions
-between similar words.
+Kotoba is a self-hosted, generative Japanese-to-Japanese dictionary for iOS,
+Windows, and macOS. Its bundled dictionary remains available offline. When an
+explicitly submitted query is missing, the private local service searches the
+web, asks an OpenAI-compatible LLM for structured content, validates it, stores
+an immutable revision in local SQLite, and returns it immediately.
 
 ## Current release status
 
-This repository contains a runnable **engineering MVP / development package**.
-Its 24 original fixture entries are intentionally marked `ai_draft` and the
-App labels them `レビュー前のデモ内容`. They may be used for development and
-customer review, but the release builder blocks a production package until a
-qualified human reviewer supplies review evidence and approves the content.
+This repository contains a runnable **engineering MVP**. Private self-hosted
+entries use `generating` / `ready` / `failed` / `stale` and do not require
+review, approval, or publication. Only automatically validated content enters
+the local formal-entry table. The older editorial approval state machine is
+retained solely for a future public dictionary package and is not part of
+private lookup or generation.
 
 ## Repository map
 
 - `apps/dictionary_app` — Flutter client, native SQLite with a Web fixture
-  fallback, TTS, favorites, history, settings, and safe package updates.
-- `apps/content_editor` + `services/editor_api` — local editorial workbench and
-  guarded working-copy API.
+  fallback, on-demand local generation, Revision management, TTS, favorites,
+  history, settings, and safe package updates.
+- `services/local_dictionary` — private generation jobs, Wikimedia search,
+  OpenAI-compatible LLM adapter, automatic validation, SQLite and HTTP API.
+- `deploy` + `scripts/deploy-self-hosted.ps1` — token-protected Docker Compose
+  deployment with Ollama and Qwen3 8B.
+- `apps/content_editor` + `services/editor_api` — future public-package
+  editorial workbench; it is separate from private self-hosted entries.
 - `packages` — canonical schema, Japanese normalization, deinflection, and
   ranked search.
 - `tools/database_builder` — deterministic SQLite/release builder, validators,
@@ -28,7 +35,22 @@ qualified human reviewer supplies review evidence and approves the content.
 - `docs` — product baseline, architecture, ADRs, licensing, search, testing,
   roadmap, and backlog.
 
-## Quick start
+## One-command self-hosted start
+
+Requirements: Docker Desktop / Docker Engine with Compose v2, plus Flutter
+3.44+ to run the client.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/deploy-self-hosted.ps1
+powershell -ExecutionPolicy Bypass -File scripts/run-self-hosted-app.ps1
+```
+
+The deployment script creates a random API token, starts Ollama and the Kotoba
+API, pulls `qwen3:8b`, and completes a health check. See
+[the self-hosted generation guide](docs/self-hosted-generation.md) for manual,
+remote, macOS and iOS configuration.
+
+## Development
 
 Requirements: Python 3.12+ and Flutter 3.44+. A portable Flutter SDK is kept in
 `.tooling/flutter` on the original development machine but is not committed.
@@ -37,19 +59,21 @@ Requirements: Python 3.12+ and Flutter 3.44+. A portable Flutter SDK is kept in
 # All Python data/search tests
 python -m unittest discover -s tests -v
 
+# Self-hosted generation/API tests
+python -m unittest discover -s services/local_dictionary/tests -t . -v
+
 # Content editor API/security tests
 python -m unittest discover -s services/editor_api/tests -v
 
-# Start the local content editor
-python -m services.editor_api
-# Open http://127.0.0.1:8765
+# Start the generation API (requires an OpenAI-compatible LLM)
+python -m services.local_dictionary
 
 # Flutter client
 cd apps/dictionary_app
 ..\..\.tooling\flutter\bin\flutter.bat pub get
 ..\..\.tooling\flutter\bin\flutter.bat analyze
 ..\..\.tooling\flutter\bin\flutter.bat test
-..\..\.tooling\flutter\bin\flutter.bat run -d chrome
+..\..\.tooling\flutter\bin\flutter.bat run -d windows
 ```
 
 Rebuild the development dictionary package from canonical data:
@@ -63,9 +87,8 @@ python -m tools.database_builder `
   --allow-unreviewed
 ```
 
-`--allow-unreviewed` always marks the manifest as
-`development/contains_unreviewed`; the App updater refuses that manifest. Omit
-the flag for a production release. Draft content then causes a hard failure.
+This builder is for versioned public/bundled packages. Its review gates do not
+apply to the separate private local-generation SQLite.
 
 ## One-command local verification
 
@@ -91,4 +114,4 @@ and the remaining production gates. Release owners use the
 SBOM evidence is documented in
 [the supply-chain review](docs/security-supply-chain.md). The project does not
 include Chinese definitions, accounts, advertising, analytics, OCR, flashcards,
-or AI tutoring in MVP scope.
+or a general-purpose AI chat tutor in MVP scope.

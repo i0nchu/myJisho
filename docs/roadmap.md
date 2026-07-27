@@ -1,6 +1,6 @@
 # Kotoba MVP 路線圖
 
-本路線圖採「可驗收增量」而非日期承諾。M0–M4 完成才是 MVP；M5 為 MVP 後內容與能力擴充。各里程碑只能在 exit criteria 具有 CI、測試或審核證據時關閉。
+本路線圖採「可驗收增量」而非日期承諾。客戶於 2026-07-27 將產品改為 self-hosted 生成式辭典，因此新增 M2G；私人本地詞條不再依賴 M3 的公共內容審核。各里程碑只能在 exit criteria 具有 CI、測試或外部驗收證據時關閉。
 
 ## 0. 治理節奏
 
@@ -73,11 +73,33 @@
 - 手機與桌面主要流程可用，沒有 Blocker/Critical。
 - 核心頁面涵蓋 loading/empty/error/offline 狀態。
 
-## M3 — 內容供應鏈與編輯器
+## M2G — Self-hosted 按需生成
 
 ### 目標
 
-建立可審核、可追溯、可重建且不依賴商業辭典的內容生產線。
+在私人環境中，正式送出未收錄詞彙時自動搜尋、生成、驗證、保存並立即使用，不需要人工審核或發布。
+
+### 交付
+
+- 輸入 lookup 與 explicit-submit generation 的硬性邊界。
+- Wikimedia 搜尋、OpenAI-compatible LLM、local entry JSON Schema 與語意 validator。
+- `generating`／`ready`／`failed`／`stale` jobs 與 `generated`／`edited`／`regenerated` immutable Revision。
+- 編輯、歷史預覽／復原、重新生成、刪除與鎖定。
+- 低干擾來源不足／knowledge-only／stale／failed 提示及生成資訊。
+- bearer-token API、Ollama + Qwen3 8B Compose 與一鍵部署／啟動腳本。
+
+### Exit criteria
+
+- 十項客戶驗收條件均有自動化或明確外部測試證據。
+- 失敗生成不得寫入 entries，重複正式送出不得產生平行同詞工作。
+- 私人詞條 schema／App 不包含 review／approve／publish 狀態。
+- 真實 Qwen3 8B 代表詞集完成日文品質抽樣；iPhone 實機透過 HTTPS endpoint 完成 smoke test。
+
+## M3 — 公共內容供應鏈與編輯器
+
+### 目標
+
+建立未來公共詞條包可審核、可追溯、可重建且不依賴商業辭典的內容生產線。此流程不限制私人 self-hosted 詞條。
 
 ### 交付
 

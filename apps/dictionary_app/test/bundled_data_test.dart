@@ -24,7 +24,7 @@ void main() {
       final entries = await repository.allEntries();
 
       expect(entries.length, 24);
-      expect(entries.every((entry) => entry.isReviewPending), isTrue);
+      expect(entries.every((entry) => entry.status == 'ready'), isTrue);
       final rain = entries.singleWhere((entry) => entry.headword == '雨');
       expect(rain.relations.single.headword, '飴');
       for (final (query, expected) in [

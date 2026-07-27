@@ -198,13 +198,7 @@ void main() {
     ) async {
       _setViewport(tester, const Size(390, 844));
       final semantics = tester.ensureSemantics();
-      await tester.pumpWidget(
-        _testApp(
-          entries: [
-            testEntry(editStatus: 'ai_draft', reviewStatus: 'ai_draft'),
-          ],
-        ),
-      );
+      await tester.pumpWidget(_testApp(entries: [testEntry()]));
       await tester.pumpAndSettle();
 
       final searchData = tester
@@ -252,31 +246,18 @@ void main() {
       semantics.dispose();
     });
 
-    testWidgets('review status is conveyed by icon, text, and semantics', (
-      tester,
-    ) async {
+    testWidgets('normal entries do not show a review warning', (tester) async {
       _setViewport(tester, const Size(390, 844));
       final semantics = tester.ensureSemantics();
-      await tester.pumpWidget(
-        _testApp(
-          entries: [
-            testEntry(editStatus: 'ai_draft', reviewStatus: 'ai_draft'),
-          ],
-        ),
-      );
+      await tester.pumpWidget(_testApp(entries: [testEntry()]));
       await tester.pumpAndSettle();
       await _searchFor(tester, '食べる');
       await tester.tap(find.byKey(const Key('result-entry_taberu_001')));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.science_outlined), findsOneWidget);
-      expect(find.text('レビュー前のデモ内容'), findsOneWidget);
-      expect(find.text('公開前に日本語の確認が必要です。'), findsOneWidget);
-      final statusData = tester
-          .getSemantics(find.byKey(const Key('review-status-banner')))
-          .getSemanticsData();
-      expect(statusData.label, contains('レビュー状態'));
-      expect(statusData.label, contains('日本語の確認が必要'));
+      expect(find.byIcon(Icons.science_outlined), findsNothing);
+      expect(find.text('レビュー前のデモ内容'), findsNothing);
+      expect(find.byKey(const Key('review-status-banner')), findsNothing);
       semantics.dispose();
     });
 

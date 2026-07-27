@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kotoba.invalid/schema/local-entry-v1.json",
+  "title": "Kotoba self-hosted local entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entry_id",
+    "headword",
+    "forms",
+    "readings",
+    "parts_of_speech",
+    "frequency_rank",
+    "editorial_level",
+    "status",
+    "version_origin",
+    "locked",
+    "senses",
+    "source_ids",
+    "generation",
+    "created_at",
+    "updated_at",
+    "data_version"
+  ],
+  "properties": {
+    "entry_id": {"type": "string", "minLength": 1},
+    "headword": {"type": "string", "minLength": 1},
+    "forms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/form"}
+    },
+    "readings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/reading"}
+    },
+    "parts_of_speech": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "frequency_rank": {"type": ["integer", "null"], "minimum": 1},
+    "editorial_level": {"enum": ["imported", "curated", "featured"]},
+    "status": {"enum": ["ready", "stale"]},
+    "version_origin": {"enum": ["generated", "edited", "regenerated"]},
+    "locked": {"type": "boolean"},
+    "senses": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sense"}
+    },
+    "source_ids": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    },
+    "generation": {"$ref": "#/$defs/generation"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "data_version": {"type": "string", "minLength": 1}
+  },
+  "$defs": {
+    "form": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "type", "common"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1},
+        "type": {"enum": ["primary", "alternate", "kana", "variant", "rare"]},
+        "common": {"type": "boolean"}
+      }
+    },
+    "reading": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kana", "primary"],
+      "properties": {
+        "kana": {"type": "string", "minLength": 1},
+        "primary": {"type": "boolean"}
+      }
+    },
+    "example": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["example_id", "sentence", "source_id"],
+      "properties": {
+        "example_id": {"type": "string", "minLength": 1},
+        "sentence": {"type": "string", "minLength": 1},
+        "source_id": {"type": ["string", "null"]}
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entry_id", "relation_type", "note_ja"],
+      "properties": {
+        "entry_id": {"type": "string", "minLength": 1},
+        "relation_type": {
+          "enum": [
+            "synonym",
+            "near_synonym",
+            "antonym",
+            "hypernym",
+            "hyponym",
+            "easily_confused",
+            "related",
+            "orthographic_variant"
+          ]
+        },
+        "note_ja": {"type": "string"}
+      }
+    },
+    "sense": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sense_id",
+        "order",
+        "definition_ja_simple",
+        "usage_note_ja",
+        "register",
+        "importance",
+        "examples",
+        "relations",
+        "image_assets",
+        "audio_assets",
+        "source_ids"
+      ],
+      "properties": {
+        "sense_id": {"type": "string", "minLength": 1},
+        "order": {"type": "integer", "minimum": 1},
+        "definition_ja_simple": {"type": "string", "minLength": 1},
+        "usage_note_ja": {"type": "string"},
+        "register": {"type": "string", "minLength": 1},
+        "importance": {"enum": ["primary", "secondary", "rare"]},
+        "examples": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/example"}
+        },
+        "relations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/relation"}
+        },
+        "image_assets": {"type": "array", "maxItems": 0},
+        "audio_assets": {"type": "array", "maxItems": 0},
+        "source_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "title",
+        "url",
+        "snippet",
+        "retrieved_at",
+        "license_spdx"
+      ],
+      "properties": {
+        "source_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "url": {"type": "string", "minLength": 1},
+        "snippet": {"type": "string"},
+        "retrieved_at": {"type": "string", "format": "date-time"},
+        "license_spdx": {"type": "string", "minLength": 1}
+      }
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "generated_at",
+        "generator_version",
+        "source_count",
+        "knowledge_only",
+        "sources"
+      ],
+      "properties": {
+        "model": {"type": "string", "minLength": 1},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "generator_version": {"type": "string", "minLength": 1},
+        "source_count": {"type": "integer", "minimum": 0},
+        "knowledge_only": {"type": "boolean"},
+        "sources": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/source"}
+        }
+      }
+    }
+  }
+}

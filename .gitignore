@@ -16,3 +16,5 @@ Thumbs.db
 data/generated/*
 !data/generated/.gitkeep
 services/editor_api/.working/
+services/local_dictionary/.working/
+deploy/.env

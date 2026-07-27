@@ -1,0 +1,7 @@
+*
+!packages/
+!packages/japanese_normalizer/
+!packages/japanese_normalizer/**
+!services/
+!services/local_dictionary/
+!services/local_dictionary/**

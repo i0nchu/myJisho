@@ -1,5 +1,6 @@
 import '../domain/dictionary_entry.dart';
 import '../domain/search_hit.dart';
+import 'local_dictionary_client.dart';
 
 /// Read-only contract for the versioned dictionary database.
 ///
@@ -24,4 +25,28 @@ abstract interface class DictionaryRepositoryLifecycle {
 /// Update activation must await this before deleting its rollback backup.
 abstract interface class DictionaryRepositoryReadiness {
   Future<void> verifyReady();
+}
+
+/// Optional self-hosted generation capability.
+///
+/// Search remains read-only. Implementations may generate only when this
+/// method is called after an explicit user submission.
+abstract interface class DictionaryGenerationRepository {
+  Future<DictionaryEntry> generateMissing(String query);
+}
+
+abstract interface class DictionaryEntryManagementRepository {
+  Future<List<LocalDictionaryRevision>> listRevisions(String entryId);
+
+  Future<DictionaryEntry> getRevision(String entryId, int revision);
+
+  Future<DictionaryEntry> editEntry(String entryId, Map<String, Object?> patch);
+
+  Future<DictionaryEntry> restoreRevision(String entryId, int revision);
+
+  Future<DictionaryEntry> regenerate(String entryId);
+
+  Future<DictionaryEntry> setLocked(String entryId, bool locked);
+
+  Future<void> deleteEntry(String entryId);
 }

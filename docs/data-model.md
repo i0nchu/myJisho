@@ -1,7 +1,16 @@
 # Kotoba data model
 
-Status: MVP contract, schema version 1
+Status: public/bundled package contract, schema version 1
 Owner: Dictionary Data
+
+Kotoba now has two deliberately separate dictionary contracts:
+
+1. This document describes immutable public/bundled packages and their
+   publication governance.
+2. `services/local_dictionary/schema.json` describes private self-hosted
+   generated entries. Those entries use `ready` / `stale`, immutable revisions
+   with `generated` / `edited` / `regenerated`, and no review or publication
+   fields. See `docs/self-hosted-generation.md`.
 
 ## Authority and artifacts
 
@@ -43,7 +52,7 @@ canonical fields fail schema validation rather than silently drifting between
 editor, builder, and client. A future compatible reader may ignore fields only
 after a schema migration decision is recorded.
 
-## Provenance and review state
+## Public-package provenance and review state
 
 Every entry and example cites a source ID. External sources additionally require
 the license URL, retrieval time, redistribution/modification/commercial-use
@@ -53,11 +62,15 @@ sentence, image, and audio licenses are not assumed to be the same. `path` is a
 normalized relative POSIX path; absolute paths, traversal (`..`), empty segments,
 NUL, and backslash escapes are rejected.
 
-Editorial states are `imported`, `draft`, `ai_draft`, `needs_review`, `reviewed`,
+For public/bundled package publication only, editorial states are `imported`, `draft`, `ai_draft`, `needs_review`, `reviewed`,
 `approved`, `published`, `rejected`, and `deprecated`. AI-assisted content may
 be approved or published only when it has a non-empty human reviewer, review
 timestamp, and entry/review/sense statuses aligned to the requested state. The
 fixture intentionally remains `ai_draft` pending that independent review.
+
+These states must never be used to block or label a private self-hosted entry.
+Private content is automatically saved after validation and enters public
+governance only after a separate, explicit future submission action.
 
 ## SQLite projection
 

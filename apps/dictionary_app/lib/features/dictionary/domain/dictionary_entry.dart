@@ -29,9 +29,11 @@ class DictionaryEntry {
     required this.forms,
     required this.senses,
     required this.relations,
-    required this.sourceLabel,
-    required this.editStatus,
-    required this.reviewStatus,
+    this.sourceLabel = 'Kotoba 内蔵辞書',
+    this.status = 'ready',
+    this.versionOrigin = 'imported',
+    this.locked = false,
+    this.generationInfo,
     this.imageAsset,
     this.audioAsset,
   }) : editorialLevel =
@@ -40,6 +42,7 @@ class DictionaryEntry {
 
   factory DictionaryEntry.fromJson(Map<String, Object?> json) {
     final isCanonical = json.containsKey('entry_id');
+    final isGenerated = isCanonical && json['generation'] is Map;
     final canonicalForms = isCanonical
         ? (json['forms'] as List<Object?>? ?? const [])
               .map(
@@ -70,6 +73,9 @@ class DictionaryEntry {
         : (json['relations'] as List<Object?>? ?? const []);
     final rawSourceIds = json['source_ids'] as List<Object?>? ?? const [];
     final legacySources = json['sources'] as List<Object?>? ?? const [];
+    final generation = isGenerated
+        ? GenerationInfo.fromJson(json['generation']! as Map<String, Object?>)
+        : null;
     final firstImages =
         firstSense['image_assets'] as List<Object?>? ?? const [];
     final firstAudio = firstSense['audio_assets'] as List<Object?>? ?? const [];
@@ -84,7 +90,8 @@ class DictionaryEntry {
               .map(_partOfSpeechLabel)
               .toList(growable: false),
       frequencyRank:
-          json[isCanonical ? 'frequency_rank' : 'frequencyRank']! as int,
+          json[isCanonical ? 'frequency_rank' : 'frequencyRank'] as int? ??
+          999999,
       editorialLevel: isCanonical
           ? EditorialLevel.parse(json['editorial_level'])
           : json['editorialLevel'] != null
@@ -98,21 +105,26 @@ class DictionaryEntry {
           .map((value) => RelatedEntry.fromJson(value! as Map<String, Object?>))
           .toList(growable: false),
       sourceLabel: isCanonical
-          ? rawSourceIds.isNotEmpty
+          ? generation != null
+                ? generation.sources.isNotEmpty
+                      ? generation.sources
+                            .map((source) => source.title)
+                            .join('・')
+                      : 'モデルの既有知識'
+                : rawSourceIds.isNotEmpty
                 ? rawSourceIds.cast<String>().join('・')
                 : legacySources.isNotEmpty
                 ? ((legacySources.first! as Map<String, Object?>)['source_id']
                           as String? ??
-                      '出典情報あり')
-                : '出典情報なし'
+                      'Kotoba 内蔵辞書')
+                : 'Kotoba 内蔵辞書'
           : json['sourceLabel']! as String,
-      editStatus: isCanonical
-          ? (json['edit_status'] as String? ?? 'imported')
-          : (json['editStatus'] as String? ?? 'approved'),
-      reviewStatus: isCanonical
-          ? ((json['review'] as Map<String, Object?>?)?['status'] as String? ??
-                'needs_review')
-          : (json['reviewStatus'] as String? ?? 'approved'),
+      status: isGenerated ? json['status']! as String : 'ready',
+      versionOrigin: isGenerated
+          ? json['version_origin']! as String
+          : 'imported',
+      locked: isGenerated && json['locked'] == true,
+      generationInfo: generation,
       imageAsset: isCanonical
           ? _canonicalMediaPath(firstImages)
           : json['imageAsset'] as String? ?? json['imageDataUri'] as String?,
@@ -132,19 +144,22 @@ class DictionaryEntry {
   final List<DictionarySense> senses;
   final List<RelatedEntry> relations;
   final String sourceLabel;
-  final String editStatus;
-  final String reviewStatus;
+  final String status;
+  final String versionOrigin;
+  final bool locked;
+  final GenerationInfo? generationInfo;
   final String? imageAsset;
   final String? audioAsset;
 
   DictionarySense get primarySense => senses.first;
   String get partOfSpeechLabel => partsOfSpeech.join('・');
-  bool get isReviewPending =>
-      editStatus == 'ai_draft' ||
-      editStatus == 'draft' ||
-      editStatus == 'needs_review' ||
-      reviewStatus == 'ai_draft' ||
-      reviewStatus == 'needs_review';
+  bool get isGeneratedLocally => generationInfo != null;
+  bool get isStale => status == 'stale';
+  bool get hasLowSourceWarning =>
+      generationInfo != null &&
+      !generationInfo!.knowledgeOnly &&
+      generationInfo!.sourceCount < 2;
+  bool get isKnowledgeOnly => generationInfo?.knowledgeOnly ?? false;
   @Deprecated('Use editorialLevel so featured and curated remain distinct.')
   bool get curated => editorialLevel != EditorialLevel.imported;
 
@@ -159,8 +174,10 @@ class DictionaryEntry {
     senses: senses,
     relations: relations ?? this.relations,
     sourceLabel: sourceLabel,
-    editStatus: editStatus,
-    reviewStatus: reviewStatus,
+    status: status,
+    versionOrigin: versionOrigin,
+    locked: locked,
+    generationInfo: generationInfo,
     imageAsset: imageAsset,
     audioAsset: audioAsset,
   );
@@ -191,6 +208,65 @@ class DictionaryEntry {
     if (!safe) throw FormatException('Unsafe media path: $path');
     return normalized;
   }
+}
+
+class GenerationInfo {
+  const GenerationInfo({
+    required this.model,
+    required this.generatedAt,
+    required this.generatorVersion,
+    required this.sourceCount,
+    required this.knowledgeOnly,
+    required this.sources,
+  });
+
+  factory GenerationInfo.fromJson(Map<String, Object?> json) => GenerationInfo(
+    model: json['model']! as String,
+    generatedAt: DateTime.tryParse(json['generated_at']! as String),
+    generatorVersion: json['generator_version']! as String,
+    sourceCount: json['source_count']! as int,
+    knowledgeOnly: json['knowledge_only']! as bool,
+    sources: (json['sources'] as List<Object?>? ?? const [])
+        .map(
+          (value) => GenerationSource.fromJson(value! as Map<String, Object?>),
+        )
+        .toList(growable: false),
+  );
+
+  final String model;
+  final DateTime? generatedAt;
+  final String generatorVersion;
+  final int sourceCount;
+  final bool knowledgeOnly;
+  final List<GenerationSource> sources;
+}
+
+class GenerationSource {
+  const GenerationSource({
+    required this.sourceId,
+    required this.title,
+    required this.url,
+    required this.snippet,
+    required this.retrievedAt,
+    required this.licenseSpdx,
+  });
+
+  factory GenerationSource.fromJson(Map<String, Object?> json) =>
+      GenerationSource(
+        sourceId: json['source_id']! as String,
+        title: json['title']! as String,
+        url: json['url']! as String,
+        snippet: json['snippet'] as String? ?? '',
+        retrievedAt: DateTime.tryParse(json['retrieved_at']! as String),
+        licenseSpdx: json['license_spdx']! as String,
+      );
+
+  final String sourceId;
+  final String title;
+  final String url;
+  final String snippet;
+  final DateTime? retrievedAt;
+  final String licenseSpdx;
 }
 
 class DictionarySense {

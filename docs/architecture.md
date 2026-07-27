@@ -1,8 +1,8 @@
 # Kotoba 系統架構
 
-- 狀態：MVP baseline
-- 架構型態：離線優先的跨平台客戶端 + 可重建內容供應鏈
-- 核心原則：canonical data 是內容權威來源；SQLite 是唯讀、可替換、可重建的交付產物；個人資料與辭典資料隔離
+- 狀態：Self-hosted generative MVP baseline
+- 架構型態：離線內建詞庫 + 私人按需生成服務 + 可重建公共內容供應鏈
+- 核心原則：公共 SQLite 唯讀且可替換；私人生成 SQLite 可變且具 immutable Revision；兩者與個人資料互相隔離
 
 ## 1. 系統脈絡
 
@@ -28,7 +28,21 @@ Flutter App ── repository ── Dictionary DB (replaceable, read-only)
      └────────────────────── User DB (history/favorites/settings)
 ```
 
-App 在完全離線時不需要任何服務端。內容編輯與發布是開發／營運工具鏈，不在終端使用者的查詞關鍵路徑上。
+App 查詢既有詞條時不需要任何服務端。只有正式送出且兩層詞庫皆未命中的查詢會使用私人生成服務。公共內容編輯與發布仍是獨立營運工具鏈，不在私人生成關鍵路徑上。
+
+### 1.1 私人生成資料流
+
+```text
+Flutter explicit submit
+  → bundled read-only DB + private local DB lookup
+  → Wikimedia search
+  → OpenAI-compatible LLM JSON
+  → schema + semantic auto-validation
+  → private SQLite entry + immutable Revision
+  → immediate result
+```
+
+輸入變化只允許 lookup。失敗生成只寫 generation job，不寫正式 entry。私人流程不存在 review／approve／publish；未來公共提交必須是另一個明確操作與資料邊界。
 
 ## 2. Monorepo 與技術邊界
 
@@ -36,6 +50,8 @@ App 在完全離線時不需要任何服務端。內容編輯與發布是開發�
 apps/dictionary_app        Flutter presentation + application layer
 apps/content_editor        Browser-based internal editor
 services/editor_api        Local/internal editorial API
+services/local_dictionary  Private generation/search/validation/Revision API
+deploy                     Token-protected Ollama + API container deployment
 packages/dictionary_schema Shared schema/types and validation contracts
 packages/search_engine     Query planning, scoring, explain data structures
 packages/japanese_normalizer Runtime normalization/conjugation logic
@@ -113,7 +129,15 @@ SpeechService / AudioService / ConnectivityService
 - favorite 只保存穩定 `entry_id`；若新資料包移除詞條，保留 orphan 狀態以供復原或顯示「目前版本不可用」，不可靜默刪除。
 - migration forward/backward path 至少有 fixture 測試；資料庫損壞與 dictionary 損壞需分別處理。
 
-### 4.3 媒體
+### 4.3 Private generated dictionary
+
+- `entries` 只保存通過自動驗證的 `ready`／`stale` 詞條。
+- `generation_jobs` 保存 `generating`／`ready`／`failed`／`stale` 工作狀態與結構化失敗原因。
+- `revisions` 只追加、不覆寫；edit、restore、lock、regenerate 均建立新 Revision。
+- private DB 與 bundled DB、user DB 物理分離，公共 package builder 不讀取它。
+- API 預設 loopback；非 loopback 綁定強制 bearer token，正式跨裝置部署另由 HTTPS reverse proxy 終止 TLS。
+
+### 4.4 媒體
 
 核心包只放必要的小型、已審核資產；額外媒體以內容雜湊命名並由 assets manifest 驗證。媒體失敗不影響文字詞條，asset provenance／license 保留在 canonical metadata 與 App 署名頁。
 
