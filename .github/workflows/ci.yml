@@ -20,6 +20,31 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Content editor tests
         run: python -m unittest discover -s services/editor_api/tests -v
+      - name: Self-hosted generation tests
+        run: python -m unittest discover -s services/local_dictionary/tests -t . -v
+      - name: Ubuntu staging deployment preflight
+        run: |
+          shellcheck \
+            scripts/install-docker-ubuntu.sh \
+            scripts/deploy-self-hosted.sh \
+            scripts/backup-self-hosted.sh \
+            scripts/restore-self-hosted.sh
+          python -m py_compile scripts/stage-smoke-test.py
+          docker compose \
+            --env-file deploy/.env.example \
+            -f deploy/compose.yaml \
+            -f deploy/compose.stage.yaml \
+            config --quiet
+          docker compose \
+            --env-file deploy/.env.example \
+            -f deploy/compose.yaml \
+            -f deploy/compose.stage.yaml \
+            build kotoba-api
+          docker run --rm \
+            -e KOTOBA_STAGE_DOMAIN=stage-kotoba.example.com \
+            -v "$PWD/deploy/Caddyfile:/etc/caddy/Caddyfile:ro" \
+            caddy:2.11.4-alpine \
+            validate --config /etc/caddy/Caddyfile --adapter caddyfile
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: "3.44.7"

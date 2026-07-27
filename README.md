@@ -6,6 +6,11 @@ explicitly submitted query is missing, the private local service searches the
 web, asks an OpenAI-compatible LLM for structured content, validates it, stores
 an immutable revision in local SQLite, and returns it immediately.
 
+Client release targets are iOS, Windows, and macOS. Android support was
+explicitly removed by customer scope decision (ADR-0005). The self-hosted
+server supports an Ubuntu Server 24.04 staging deployment through Docker
+Compose; a repository Linux runner is not a committed Linux desktop release.
+
 ## Current release status
 
 This repository contains a runnable **engineering MVP**. Private self-hosted
@@ -22,8 +27,8 @@ private lookup or generation.
   history, settings, and safe package updates.
 - `services/local_dictionary` — private generation jobs, Wikimedia search,
   OpenAI-compatible LLM adapter, automatic validation, SQLite and HTTP API.
-- `deploy` + `scripts/deploy-self-hosted.ps1` — token-protected Docker Compose
-  deployment with Ollama and Qwen3 8B.
+- `deploy` + `scripts/deploy-self-hosted.ps1` / `.sh` — token-protected Docker
+  Compose deployment with Ollama, Qwen3 8B and optional Caddy HTTPS.
 - `apps/content_editor` + `services/editor_api` — future public-package
   editorial workbench; it is separate from private self-hosted entries.
 - `packages` — canonical schema, Japanese normalization, deinflection, and
@@ -49,6 +54,19 @@ The deployment script creates a random API token, starts Ollama and the Kotoba
 API, pulls `qwen3:8b`, and completes a health check. See
 [the self-hosted generation guide](docs/self-hosted-generation.md) for manual,
 remote, macOS and iOS configuration.
+
+For an Ubuntu Server 24.04 staging server with a real iPhone or desktop client:
+
+```bash
+sudo ./scripts/install-docker-ubuntu.sh
+# Log out and back in once after first-time Docker installation.
+./scripts/deploy-self-hosted.sh --domain stage-kotoba.example.com
+python3 scripts/stage-smoke-test.py --query 食べました
+```
+
+The complete DNS, HTTPS, firewall, device, backup, restore, update and rollback
+procedure is in the
+[Ubuntu staging deployment runbook](docs/ubuntu-stage-deployment.md).
 
 ## Development
 

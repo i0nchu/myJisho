@@ -89,6 +89,20 @@ powershell -ExecutionPolicy Bypass -File scripts/run-self-hosted-app.ps1
 
 Docker Compose 預設只把 API 發布在 host loopback `127.0.0.1:8766`。實體 iPhone 或跨主機部署必須使用 HTTPS reverse proxy、專用網域與 bearer token，並把該網域加入 `KOTOBA_ALLOWED_HOSTS`；不得直接把未加密的 8766 port 暴露到公網。
 
+Ubuntu Server 24.04 staging 可執行：
+
+```bash
+sudo ./scripts/install-docker-ubuntu.sh
+# 第一次安裝 Docker 後登出並重新登入。
+./scripts/deploy-self-hosted.sh --domain stage-kotoba.example.com
+python3 scripts/stage-smoke-test.py --query 食べました
+```
+
+Linux staging overlay 以 Caddy 對外提供 HTTPS，API 仍只在 host loopback
+發布 8766，Ollama 不發布 host port。完整的 DNS、防火牆、實機連線、
+備份／還原、更新／回滾與驗收步驟見
+[Ubuntu Server 24.04 staging 部署手冊](ubuntu-stage-deployment.md)。
+
 ## 6. 手動啟動
 
 已有 Ollama 或其他 OpenAI-compatible 模型服務時：
