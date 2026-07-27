@@ -64,12 +64,12 @@ jobs:
           flutter build web --release
       - name: Dependency, license, secret, and SBOM audit
         run: python tools/security_audit.py
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: kotoba-web
           path: apps/dictionary_app/build/web
           if-no-files-found: error
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: kotoba-security-evidence
           path: |
@@ -89,7 +89,7 @@ jobs:
       - name: Build Windows release app
         working-directory: apps/dictionary_app
         run: flutter build windows --release
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: kotoba-windows-release-unsigned
           path: apps/dictionary_app/build/windows/x64/runner/Release
@@ -113,7 +113,7 @@ jobs:
       - name: Build iOS debug simulator app
         working-directory: apps/dictionary_app
         run: flutter build ios --debug --simulator --no-codesign
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: kotoba-apple-preflight-unsigned
           path: |
