@@ -1,0 +1,165 @@
+name: myJisho CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python-compatibility:
+    name: Python 3.10 compatibility
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.10"
+      - name: Compile Python sources
+        run: python -m compileall -q packages services tools tests scripts/stage-smoke-test.py
+      - name: Run Python tests
+        run: |
+          python -m unittest discover -s tests -v
+          python -m unittest discover -s services/editor_api/tests -v
+          python -m unittest discover -s services/local_dictionary/tests -t . -v
+
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.13"
+      - name: Data and search tests
+        run: python -m unittest discover -s tests -v
+      - name: Content editor tests
+        run: python -m unittest discover -s services/editor_api/tests -v
+      - name: Self-hosted generation tests
+        run: python -m unittest discover -s services/local_dictionary/tests -t . -v
+      - name: Project version consistency
+        run: |
+          python - <<'PY'
+          import pathlib
+          import re
+
+          project_version = pathlib.Path("VERSION").read_text(encoding="utf-8").strip()
+          pubspec = pathlib.Path("apps/dictionary_app/pubspec.yaml").read_text(encoding="utf-8")
+          app_metadata = pathlib.Path("apps/dictionary_app/lib/app_metadata.dart").read_text(encoding="utf-8")
+          match = re.search(r"^version:\s*([0-9]+\.[0-9]+\.[0-9]+)(?:\+\d+)?$", pubspec, re.MULTILINE)
+          assert match is not None, "Flutter app version is missing"
+          assert match.group(1) == project_version, (match.group(1), project_version)
+          assert f"myJishoVersion = '{project_version}'" in app_metadata
+          PY
+      - name: Linux self-hosted deployment preflight
+        run: |
+          shellcheck \
+            scripts/install-docker-ubuntu.sh \
+            scripts/deploy-self-hosted.sh \
+            scripts/backup-self-hosted.sh \
+            scripts/restore-self-hosted.sh
+          bash scripts/deploy-self-hosted.sh --help | grep -- "--ollama-url"
+          if grep -Eq '(^|[[:space:]])ollama[[:space:]]+(pull|show|list)' \
+            scripts/deploy-self-hosted.sh; then
+            echo "Linux deploy script must use the Ollama HTTP API, not a host CLI."
+            exit 1
+          fi
+          python -m py_compile scripts/stage-smoke-test.py
+          if docker compose \
+            --env-file deploy/.env.example \
+            -f deploy/compose.internal.yaml \
+            config --quiet 2>/dev/null; then
+            echo "Blank MYJISHO_LLM_MODEL must be rejected."
+            exit 1
+          fi
+          MYJISHO_LLM_MODEL=ci-explicit-model \
+          docker compose \
+            --env-file deploy/.env.example \
+            -f deploy/compose.internal.yaml \
+            config --quiet
+          MYJISHO_LLM_MODEL=ci-explicit-model \
+          docker compose \
+            --env-file deploy/.env.example \
+            -f deploy/compose.internal.yaml \
+            config --format json |
+            python -c 'import json,sys; d=json.load(sys.stdin); s=d["services"]["myjisho-api"]; assert s["network_mode"] == "host"; assert "ports" not in s; assert "ollama" not in d["services"]; assert s["environment"]["MYJISHO_API_HOST"] == "127.0.0.1"; assert s["environment"]["MYJISHO_LLM_BASE_URL"] == "http://127.0.0.1:11434/v1"; assert s["environment"]["MYJISHO_LLM_MODEL"] == "ci-explicit-model"'
+          MYJISHO_LLM_MODEL=ci-explicit-model \
+          docker compose \
+            --env-file deploy/.env.example \
+            -f deploy/compose.internal.yaml \
+            build myjisho-api
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: "3.44.7"
+          channel: stable
+          cache: true
+      - name: Flutter quality gates
+        working-directory: apps/dictionary_app
+        run: |
+          flutter pub get
+          dart format --output=none --set-exit-if-changed lib test
+          flutter analyze
+          flutter test --exclude-tags golden
+          flutter build web --release
+      - name: Dependency, license, secret, and SBOM audit
+        run: python tools/security_audit.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: myjisho-web
+          path: apps/dictionary_app/build/web
+          if-no-files-found: error
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: myjisho-security-evidence
+          path: |
+            build/security-audit.json
+            build/myjisho.cdx.json
+          if-no-files-found: error
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: "3.44.7"
+          channel: stable
+          cache: true
+      - name: Platform golden tests
+        working-directory: apps/dictionary_app
+        run: flutter test --tags golden
+      - name: Build Windows release app
+        working-directory: apps/dictionary_app
+        run: flutter build windows --release
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: myjisho-windows-release-unsigned
+          path: apps/dictionary_app/build/windows/x64/runner/Release
+          if-no-files-found: error
+
+  apple:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: "3.44.7"
+          channel: stable
+          cache: true
+      - name: Build macOS release app
+        working-directory: apps/dictionary_app
+        run: flutter build macos --release
+      # Flutter does not support release/profile execution on the iOS
+      # simulator. This is a compile preflight only; signed physical-device
+      # release archives remain an external release gate.
+      - name: Build iOS debug simulator app
+        working-directory: apps/dictionary_app
+        run: flutter build ios --debug --simulator --no-codesign
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: myjisho-apple-preflight-unsigned
+          path: |
+            apps/dictionary_app/build/macos/Build/Products/Release
+            apps/dictionary_app/build/ios/iphonesimulator/Runner.app
+          if-no-files-found: error

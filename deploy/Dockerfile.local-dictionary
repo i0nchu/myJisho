@@ -1,0 +1,21 @@
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    MYJISHO_API_HOST=0.0.0.0
+
+WORKDIR /app
+
+RUN useradd --create-home --uid 10001 myjisho \
+    && mkdir -p /data \
+    && chown myjisho:myjisho /data
+
+COPY --chown=myjisho:myjisho packages /app/packages
+COPY --chown=myjisho:myjisho services/local_dictionary /app/services/local_dictionary
+
+USER myjisho
+
+EXPOSE 8766
+VOLUME ["/data"]
+
+CMD ["python", "-m", "services.local_dictionary", "--database", "/data/local_dictionary.sqlite"]

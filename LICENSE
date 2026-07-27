@@ -1,0 +1,10 @@
+Copyright (c) 2026 myJisho Project. All rights reserved.
+
+This source code is provided for evaluation of the myJisho MVP only. No
+permission is granted to copy, redistribute, sublicense, or use it in a
+production service without a separate written license from the copyright
+owner.
+
+Third-party dependencies and future dictionary data sources remain subject
+to their own licenses. The original draft fixtures under `data/fixtures` are
+separately offered under CC0-1.0 under `data/fixtures/LICENSE.md`.

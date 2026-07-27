@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>myJisho 內容編輯器</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">MYJISHO · EDITORIAL WORKBENCH</p>
+      <h1>內容編輯器</h1>
+    </div>
+    <div id="connection" class="connection">正在連線…</div>
+  </header>
+
+  <main class="workspace">
+    <aside class="entry-browser" aria-label="詞條清單">
+      <label for="search">搜尋詞條</label>
+      <input id="search" type="search" placeholder="搜尋詞目、表記或讀音" autocomplete="off">
+      <p id="result-count" class="muted"></p>
+      <div id="entry-list" class="entry-list"></div>
+    </aside>
+
+    <section class="editor-pane" aria-label="詞條編輯區">
+      <div id="empty-state" class="empty-state">
+        <span>ことば</span>
+        <h2>選擇一筆詞條開始編輯</h2>
+        <p>此工具只寫入本機 working copy；正式發佈仍須通過人工審核與資料 gate。</p>
+      </div>
+      <form id="entry-form" class="hidden">
+        <div class="editor-heading">
+          <div>
+            <p class="eyebrow">詞條編輯</p>
+            <h2 id="entry-title"></h2>
+          </div>
+          <span id="status-badge" class="status-badge"></span>
+        </div>
+
+        <div id="ai-warning" class="notice hidden">AI 草稿必須先送交人工審核並完成校閱，才能核准或發佈。</div>
+        <section class="panel primary-panel">
+          <h3>見出與讀音</h3>
+          <div id="basic-fields" class="field-grid"></div>
+          <div id="parts-section" class="editor-subsection"></div>
+          <div id="forms-section" class="editor-subsection"></div>
+          <div id="readings-section" class="editor-subsection"></div>
+        </section>
+        <section class="panel">
+          <div class="section-heading"><h3>詞義、例句與關聯</h3><button id="add-sense" type="button" class="secondary">＋ 新增詞義</button></div>
+          <div id="senses"></div>
+        </section>
+        <details id="advanced-panel" class="panel disclosure">
+          <summary>進階設定</summary>
+          <p class="muted">出典與編輯優先度等欄位只在需要時調整；技術識別碼由系統管理。</p>
+          <div id="advanced-fields"></div>
+        </details>
+        <details id="system-panel" class="panel disclosure">
+          <summary>系統資訊</summary>
+          <p class="muted">以下資訊僅供查核與複製，不會由一般表單修改。</p>
+          <div id="system-info"></div>
+        </details>
+        <section class="panel workflow-panel">
+          <h3>人工審核流程</h3>
+          <div class="field-grid">
+            <label id="reviewer-label">審核者姓名<input id="reviewer" autocomplete="name" placeholder="完成校閱、核准或發佈時必填"></label>
+            <label>審核備註<input id="review-notes" placeholder="審核依據或待辦事項"></label>
+          </div>
+          <div id="transition-buttons" class="button-row"></div>
+        </section>
+        <section id="issues-panel" class="panel issues hidden" aria-live="polite">
+          <div class="section-heading"><h3>驗證結果</h3><span id="issue-summary" class="muted"></span></div>
+          <ul id="issues"></ul>
+        </section>
+        <div class="sticky-actions">
+          <span id="save-state" class="muted" aria-live="polite"></span>
+          <button id="validate" type="button" class="secondary">驗證草稿</button>
+          <button id="save" type="submit">儲存 working copy</button>
+        </div>
+      </form>
+    </section>
+
+    <aside class="preview-pane" aria-label="App 預覽">
+      <p class="eyebrow">APP-LIKE PREVIEW</p>
+      <div id="preview" class="phone-card">
+        <p class="muted">選取詞條後顯示即時預覽</p>
+      </div>
+    </aside>
+  </main>
+  <div id="toast" class="toast hidden" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

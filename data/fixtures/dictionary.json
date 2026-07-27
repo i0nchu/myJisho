@@ -1,0 +1,216 @@
+{
+  "schema_version": 1,
+  "dictionary_version": "0.1.0-fixture.1",
+  "sources": [
+    {
+      "source_id": "myjisho_fixture_original_cc0",
+      "title": "myJisho MVP original fixture entries",
+      "source_type": "original",
+      "author": "myJisho project (AI-assisted draft; human review pending)",
+      "license_spdx": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "original_url": null,
+      "retrieved_at": null,
+      "redistribution_allowed": true,
+      "modification_allowed": true,
+      "commercial_use_allowed": true,
+      "attribution_required": false,
+      "ai_assisted": true,
+      "notes": "Created specifically for myJisho tests. Must remain ai_draft until a qualified human Japanese-language reviewer approves it. No commercial dictionary was copied."
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "entry_ame_rain_001", "headword": "雨",
+      "forms": [{"text": "雨", "type": "primary", "common": true}, {"text": "あめ", "type": "kana", "common": true}],
+      "readings": [{"kana": "あめ", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 500,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_ame_rain_001", "order": 1, "definition_ja_simple": "空の雲から水のつぶが落ちてくる天気。", "usage_note_ja": "同じ読みの「飴」は食べ物。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_ame_rain_001", "sentence": "午後から雨が降った。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_ame_candy_001", "relation_type": "easily_confused", "note_ja": "「雨」は天気で、「飴」は甘い食べ物。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_ame_candy_001", "headword": "飴",
+      "forms": [{"text": "飴", "type": "primary", "common": true}, {"text": "あめ", "type": "kana", "common": true}],
+      "readings": [{"kana": "あめ", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 6000,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_ame_candy_001", "order": 1, "definition_ja_simple": "砂糖などを固めて作る、甘い食べ物。", "usage_note_ja": "同じ読みの「雨」と漢字を区別する。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_ame_candy_001", "sentence": "子どもに飴を一つあげた。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_ame_rain_001", "relation_type": "easily_confused", "note_ja": "「飴」は食べ物で、「雨」は空から水が降る天気。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_au_meet_001", "headword": "会う",
+      "forms": [{"text": "会う", "type": "primary", "common": true}, {"text": "あう", "type": "kana", "common": true}],
+      "readings": [{"kana": "あう", "primary": true}], "parts_of_speech": ["verb-godan"], "frequency_rank": 200,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_au_meet_001", "order": 1, "definition_ja_simple": "人と同じ場所に行き、顔を合わせる。", "usage_note_ja": "人に会う場合に使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_au_meet_001", "sentence": "駅で友達に会った。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_au_fit_001", "relation_type": "easily_confused", "note_ja": "「会う」は人と顔を合わせること。「合う」は二つのものが一致すること。"}, {"entry_id": "entry_au_encounter_001", "relation_type": "easily_confused", "note_ja": "「遭う」は好ましくない出来事を経験する場合に多い。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_au_fit_001", "headword": "合う",
+      "forms": [{"text": "合う", "type": "primary", "common": true}, {"text": "あう", "type": "kana", "common": true}],
+      "readings": [{"kana": "あう", "primary": true}], "parts_of_speech": ["verb-godan"], "frequency_rank": 300,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_au_fit_001", "order": 1, "definition_ja_simple": "二つのものが同じになったり、よく似合ったりする。", "usage_note_ja": "大きさ、時間、考えなどが一致する場合に使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_au_fit_001", "sentence": "この靴は足の大きさに合う。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_au_meet_001", "relation_type": "easily_confused", "note_ja": "「会う」は人と顔を合わせる意味。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_au_encounter_001", "headword": "遭う",
+      "forms": [{"text": "遭う", "type": "primary", "common": false}, {"text": "あう", "type": "kana", "common": true}],
+      "readings": [{"kana": "あう", "primary": true}], "parts_of_speech": ["verb-godan"], "frequency_rank": 8000,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_au_encounter_001", "order": 1, "definition_ja_simple": "事故や災害など、好ましくない出来事を経験する。", "usage_note_ja": "被害に遭う、事故に遭う、のように使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_au_encounter_001", "sentence": "旅行中に大雨に遭った。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_au_meet_001", "relation_type": "easily_confused", "note_ja": "「会う」は人と顔を合わせる意味で、普通は悪い出来事には使わない。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_gakkou_001", "headword": "学校",
+      "forms": [{"text": "学校", "type": "primary", "common": true}, {"text": "がっこう", "type": "kana", "common": true}],
+      "readings": [{"kana": "がっこう", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 400,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_gakkou_001", "order": 1, "definition_ja_simple": "先生から勉強を教わるために、子どもや学生が通う場所。", "usage_note_ja": "小学校、中学校、高校、大学などを広く指す。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_gakkou_001", "sentence": "毎朝八時に学校へ行く。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_hashi_bridge_001", "headword": "橋",
+      "forms": [{"text": "橋", "type": "primary", "common": true}, {"text": "はし", "type": "kana", "common": true}],
+      "readings": [{"kana": "はし", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 1200,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_hashi_bridge_001", "order": 1, "definition_ja_simple": "川や谷などの上を渡れるように作った道。", "usage_note_ja": "同じ読みの「箸」と漢字を区別する。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_hashi_bridge_001", "sentence": "橋を渡って川の向こうへ行く。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_hashi_chopsticks_001", "relation_type": "easily_confused", "note_ja": "「橋」は渡る場所で、「箸」は食事の道具。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_hashi_chopsticks_001", "headword": "箸",
+      "forms": [{"text": "箸", "type": "primary", "common": true}, {"text": "はし", "type": "kana", "common": true}],
+      "readings": [{"kana": "はし", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 2200,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_hashi_chopsticks_001", "order": 1, "definition_ja_simple": "食べ物をつまむために使う、細い二本の道具。", "usage_note_ja": "普通は二本を一組にして使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_hashi_chopsticks_001", "sentence": "箸でご飯を食べる。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_hashi_bridge_001", "relation_type": "easily_confused", "note_ja": "「箸」は食事の道具で、「橋」は川などを渡る場所。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_hirou_001", "headword": "拾う",
+      "forms": [{"text": "拾う", "type": "primary", "common": true}, {"text": "ひろう", "type": "kana", "common": true}],
+      "readings": [{"kana": "ひろう", "primary": true}], "parts_of_speech": ["verb-godan"], "frequency_rank": 1420,
+      "editorial_level": "featured", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_hirou_001", "order": 1, "definition_ja_simple": "地面などに落ちているものを見つけて、手で取る。", "usage_note_ja": "落とし物や自然にある物を取る場面でよく使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_hirou_001", "sentence": "道で財布を拾った。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}, {"example_id": "example_hirou_002", "sentence": "海岸で貝殻を拾う。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_toru_001", "relation_type": "easily_confused", "note_ja": "「取る」は広い意味で使い、「拾う」は落ちているものなどを見つけて取る場合に使う。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_iku_001", "headword": "行く",
+      "forms": [{"text": "行く", "type": "primary", "common": true}, {"text": "いく", "type": "kana", "common": true}],
+      "readings": [{"kana": "いく", "primary": true}], "parts_of_speech": ["verb-godan-irregular-te"], "frequency_rank": 100,
+      "editorial_level": "featured", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_iku_001", "order": 1, "definition_ja_simple": "今いる場所から、別の場所へ移動する。", "usage_note_ja": "話し手から離れる方向の移動に使うことが多い。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_iku_001", "sentence": "明日は図書館へ行く。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_kaeru_change_001", "headword": "変える",
+      "forms": [{"text": "変える", "type": "primary", "common": true}, {"text": "かえる", "type": "kana", "common": true}],
+      "readings": [{"kana": "かえる", "primary": true}], "parts_of_speech": ["verb-ichidan"], "frequency_rank": 700,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_kaeru_change_001", "order": 1, "definition_ja_simple": "物の形や状態、方法などを別のものにする。", "usage_note_ja": "他のものを変化させる意味。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_kaeru_change_001", "sentence": "会議の時間を変えた。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_kaeru_return_001", "relation_type": "easily_confused", "note_ja": "「変える」は変化させること。「帰る」は元の場所へ戻ること。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_kaeru_return_001", "headword": "帰る",
+      "forms": [{"text": "帰る", "type": "primary", "common": true}, {"text": "かえる", "type": "kana", "common": true}],
+      "readings": [{"kana": "かえる", "primary": true}], "parts_of_speech": ["verb-godan"], "frequency_rank": 350,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_kaeru_return_001", "order": 1, "definition_ja_simple": "自分の家や、もといた場所へ戻る。", "usage_note_ja": "「かえる」と読むが、活用は五段。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_kaeru_return_001", "sentence": "仕事が終わって家に帰る。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_kaeru_change_001", "relation_type": "easily_confused", "note_ja": "「帰る」は場所へ戻ること。「変える」は状態などを別のものにすること。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_kouhii_001", "headword": "コーヒー",
+      "forms": [{"text": "コーヒー", "type": "primary", "common": true}, {"text": "珈琲", "type": "rare", "common": false}],
+      "readings": [{"kana": "コーヒー", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 1800,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_kouhii_001", "order": 1, "definition_ja_simple": "焼いた豆から作る、香りと苦みのある飲み物。", "usage_note_ja": "普通は片仮名で書く。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_kouhii_001", "sentence": "朝に温かいコーヒーを飲む。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_mieru_001", "headword": "見える",
+      "forms": [{"text": "見える", "type": "primary", "common": true}, {"text": "みえる", "type": "kana", "common": true}],
+      "readings": [{"kana": "みえる", "primary": true}], "parts_of_speech": ["verb-ichidan"], "frequency_rank": 700,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_mieru_001", "order": 1, "definition_ja_simple": "目に自然に入ってきて、姿や形が分かる。", "usage_note_ja": "意志よりも、見ることが可能な状態を表す。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_mieru_001", "sentence": "窓から海が見える。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_miru_001", "relation_type": "easily_confused", "note_ja": "「見る」は意志的な動作。「見える」は自然に目に入る状態。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_miru_001", "headword": "見る",
+      "forms": [{"text": "見る", "type": "primary", "common": true}, {"text": "みる", "type": "kana", "common": true}],
+      "readings": [{"kana": "みる", "primary": true}], "parts_of_speech": ["verb-ichidan"], "frequency_rank": 80,
+      "editorial_level": "featured", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_miru_001", "order": 1, "definition_ja_simple": "目を向けて、物の姿や様子を知る。", "usage_note_ja": "最も広く使える「みる」の表記。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_miru_001", "sentence": "地図を見て道を確認する。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_miru_watch_001", "relation_type": "easily_confused", "note_ja": "映画や試合などを意識して鑑賞する場合は「観る」と書くことがある。"}, {"entry_id": "entry_mieru_001", "relation_type": "easily_confused", "note_ja": "「見える」は自然に目に入る状態を表す。"}, {"entry_id": "entry_mitsumeru_001", "relation_type": "near_synonym", "note_ja": "「見つめる」は一つの対象を長く集中して見る。"}, {"entry_id": "entry_nagameru_001", "relation_type": "near_synonym", "note_ja": "「眺める」は広い景色などをしばらく見る。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_miru_watch_001", "headword": "観る",
+      "forms": [{"text": "観る", "type": "primary", "common": true}, {"text": "みる", "type": "kana", "common": true}],
+      "readings": [{"kana": "みる", "primary": true}], "parts_of_speech": ["verb-ichidan"], "frequency_rank": 3500,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_miru_watch_001", "order": 1, "definition_ja_simple": "映画や試合などを、内容に注意しながら見る。", "usage_note_ja": "一般には「見る」と書くことも多い。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_miru_watch_001", "sentence": "家族と映画を観る。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_miru_001", "relation_type": "orthographic_variant", "note_ja": "広い意味では「見る」を使える。「観る」は鑑賞を意識した表記。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_mitsumeru_001", "headword": "見つめる",
+      "forms": [{"text": "見つめる", "type": "primary", "common": true}, {"text": "みつめる", "type": "kana", "common": true}],
+      "readings": [{"kana": "みつめる", "primary": true}], "parts_of_speech": ["verb-ichidan"], "frequency_rank": 5000,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_mitsumeru_001", "order": 1, "definition_ja_simple": "一つの物に目を向けたまま、しばらく見る。", "usage_note_ja": "注意や感情を強く向ける感じがある。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_mitsumeru_001", "sentence": "猫が窓の外を見つめている。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_miru_001", "relation_type": "near_synonym", "note_ja": "「見る」より、視線を長く一つの対象へ向ける意味が強い。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_nagameru_001", "headword": "眺める",
+      "forms": [{"text": "眺める", "type": "primary", "common": true}, {"text": "ながめる", "type": "kana", "common": true}],
+      "readings": [{"kana": "ながめる", "primary": true}], "parts_of_speech": ["verb-ichidan"], "frequency_rank": 4500,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_nagameru_001", "order": 1, "definition_ja_simple": "景色や物の全体を、ゆっくり見る。", "usage_note_ja": "広い範囲を楽しみながら見る場合によく使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_nagameru_001", "sentence": "山の上から町を眺めた。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_miru_001", "relation_type": "near_synonym", "note_ja": "「見る」より、景色などをしばらくゆっくり見る意味が強い。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_neko_001", "headword": "猫",
+      "forms": [{"text": "猫", "type": "primary", "common": true}, {"text": "ねこ", "type": "kana", "common": true}],
+      "readings": [{"kana": "ねこ", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 900,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_neko_001", "order": 1, "definition_ja_simple": "小さくて体が柔らかく、家で飼われることが多い動物。", "usage_note_ja": "動物の名前。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_neko_001", "sentence": "白い猫が庭で眠っている。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_shimbun_001", "headword": "新聞",
+      "forms": [{"text": "新聞", "type": "primary", "common": true}, {"text": "しんぶん", "type": "kana", "common": true}],
+      "readings": [{"kana": "しんぶん", "primary": true}], "parts_of_speech": ["noun"], "frequency_rank": 800,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_shimbun_001", "order": 1, "definition_ja_simple": "社会の出来事や情報を記事にして、定期的に伝えるもの。", "usage_note_ja": "紙のものだけでなく、新聞を作る組織を指すこともある。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_shimbun_001", "sentence": "朝、新聞でニュースを読んだ。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_shizuka_001", "headword": "静か",
+      "forms": [{"text": "静か", "type": "primary", "common": true}, {"text": "しずか", "type": "kana", "common": true}],
+      "readings": [{"kana": "しずか", "primary": true}], "parts_of_speech": ["adjective-na"], "frequency_rank": 1000,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_shizuka_001", "order": 1, "definition_ja_simple": "音が小さく、騒がしくない様子。", "usage_note_ja": "名詞の前では「静かな」となる。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_shizuka_001", "sentence": "図書館の中は静かだった。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_taberu_001", "headword": "食べる",
+      "forms": [{"text": "食べる", "type": "primary", "common": true}, {"text": "たべる", "type": "kana", "common": true}],
+      "readings": [{"kana": "たべる", "primary": true}], "parts_of_speech": ["verb-ichidan"], "frequency_rank": 500,
+      "editorial_level": "featured", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_taberu_001", "order": 1, "definition_ja_simple": "食べ物を口に入れて、かんで飲み込む。", "usage_note_ja": "食事や食品について広く使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_taberu_001", "sentence": "朝ご飯にパンを食べた。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_takai_001", "headword": "高い",
+      "forms": [{"text": "高い", "type": "primary", "common": true}, {"text": "たかい", "type": "kana", "common": true}],
+      "readings": [{"kana": "たかい", "primary": true}], "parts_of_speech": ["adjective-i"], "frequency_rank": 250,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_takai_001", "order": 1, "definition_ja_simple": "下から上までの距離が大きい。", "usage_note_ja": "値段が大きい意味にも使う。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_takai_001", "sentence": "この山はとても高い。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    },
+    {
+      "entry_id": "entry_toru_001", "headword": "取る",
+      "forms": [{"text": "取る", "type": "primary", "common": true}, {"text": "とる", "type": "kana", "common": true}],
+      "readings": [{"kana": "とる", "primary": true}], "parts_of_speech": ["verb-godan"], "frequency_rank": 100,
+      "editorial_level": "curated", "edit_status": "ai_draft",
+      "senses": [{"sense_id": "sense_toru_001", "order": 1, "definition_ja_simple": "手などを使って、物を自分のところへ動かす。", "usage_note_ja": "非常に広い意味を持つ動詞。", "register": "neutral", "importance": "primary", "examples": [{"example_id": "example_toru_001", "sentence": "机の上から本を取る。", "source_id": "myjisho_fixture_original_cc0", "audio_asset_id": null}], "relations": [{"entry_id": "entry_hirou_001", "relation_type": "easily_confused", "note_ja": "「拾う」は落ちているものなどを見つけて取る場合に限られる。"}], "image_assets": [], "audio_assets": [], "source_ids": ["myjisho_fixture_original_cc0"], "review_status": "ai_draft"}],
+      "source_ids": ["myjisho_fixture_original_cc0"], "review": {"status": "ai_draft", "reviewed_by": null, "reviewed_at": null, "notes": "Human review required."}, "created_at": "2026-07-22T00:00:00Z", "updated_at": "2026-07-22T00:00:00Z", "data_version": "0.1.0"
+    }
+  ]
+}
