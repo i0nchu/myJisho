@@ -29,8 +29,7 @@ script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 repo_root=$(cd -- "${script_dir}/.." && pwd)
 deploy_dir="${repo_root}/deploy"
 env_file="${deploy_dir}/.env"
-base_compose="${deploy_dir}/compose.yaml"
-stage_compose="${deploy_dir}/compose.stage.yaml"
+internal_compose="${deploy_dir}/compose.internal.yaml"
 
 if [[ ! -f ${env_file} ]]; then
   echo "找不到 deploy/.env；請先完成 staging 部署。" >&2
@@ -44,6 +43,12 @@ for command_name in docker realpath sha256sum; do
 done
 docker compose version >/dev/null
 docker info >/dev/null
+
+deployment_mode=$(awk -F= '$1 == "KOTOBA_DEPLOYMENT_MODE" { sub(/^[^=]*=/, ""); print; exit }' "${env_file}")
+if [[ ${deployment_mode:-internal} != "internal" ]]; then
+  echo "此還原工具只支援目前的 internal deployment mode。" >&2
+  exit 1
+fi
 
 backup_setting=$(awk -F= '$1 == "KOTOBA_BACKUP_DIR" { sub(/^[^=]*=/, ""); print; exit }' "${env_file}")
 backup_setting=${backup_setting:-./backups}
@@ -100,8 +105,7 @@ echo "先備份目前資料。"
 compose=(
   docker compose
   --env-file "${env_file}"
-  -f "${base_compose}"
-  -f "${stage_compose}"
+  -f "${internal_compose}"
 )
 "${compose[@]}" stop -t 30 kotoba-api
 restart_api() {

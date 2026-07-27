@@ -135,7 +135,9 @@ SpeechService / AudioService / ConnectivityService
 - `generation_jobs` 保存 `generating`／`ready`／`failed`／`stale` 工作狀態與結構化失敗原因。
 - `revisions` 只追加、不覆寫；edit、restore、lock、regenerate 均建立新 Revision。
 - private DB 與 bundled DB、user DB 物理分離，公共 package builder 不讀取它。
-- API 預設 loopback；非 loopback 綁定強制 bearer token，正式跨裝置部署另由 HTTPS reverse proxy 終止 TLS。
+- API 預設 loopback；非 loopback 綁定強制 bearer token。Ubuntu staging
+  仍維持 loopback，跨裝置只由 Tailscale Serve 終止 tailnet 私人 HTTPS；
+  proxy hostname 必須明確列入 allowlist，API token 仍為必要條件。
 
 ### 4.4 媒體
 

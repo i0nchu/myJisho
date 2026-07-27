@@ -87,20 +87,26 @@ powershell -ExecutionPolicy Bypass -File scripts/run-self-hosted-app.ps1
 
 第二個命令從 `deploy/.env` 讀取 token，以 `--dart-define` 啟動 Windows App。可用 `-Device macos` 或 `-Device ios` 切換 Flutter target。
 
-Docker Compose 預設只把 API 發布在 host loopback `127.0.0.1:8766`。實體 iPhone 或跨主機部署必須使用 HTTPS reverse proxy、專用網域與 bearer token，並把該網域加入 `KOTOBA_ALLOWED_HOSTS`；不得直接把未加密的 8766 port 暴露到公網。
+Windows Docker Compose 預設只把 API 發布在 host loopback
+`127.0.0.1:8766`。不得直接把未加密的 8766 或 Ollama 11434 暴露到
+LAN／公網。
 
 Ubuntu Server 24.04 staging 可執行：
 
 ```bash
 sudo ./scripts/install-docker-ubuntu.sh
 # 第一次安裝 Docker 後登出並重新登入。
-./scripts/deploy-self-hosted.sh --domain stage-kotoba.example.com
+./scripts/deploy-self-hosted.sh
 python3 scripts/stage-smoke-test.py --query 食べました
+
+# 選用：只在 tailnet 內提供實機可用的私人 HTTPS。
+./scripts/deploy-self-hosted.sh --tailscale
 ```
 
-Linux staging overlay 以 Caddy 對外提供 HTTPS，API 仍只在 host loopback
-發布 8766，Ollama 不發布 host port。完整的 DNS、防火牆、實機連線、
-備份／還原、更新／回滾與驗收步驟見
+Ubuntu staging 沿用主機已安裝的 Ollama，只建立 host-network Kotoba API
+container，且 API 只監聽 loopback。需要 iPhone／跨網路測試時，以
+Tailscale Serve 提供 tailnet 內的 HTTPS，不使用公開 DNS、Caddy 或 Funnel。
+完整的 Ollama 檢查、Tailscale、實機連線、備份／還原及更新／回滾見
 [Ubuntu Server 24.04 staging 部署手冊](ubuntu-stage-deployment.md)。
 
 ## 6. 手動啟動

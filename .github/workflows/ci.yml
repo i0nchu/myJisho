@@ -32,19 +32,17 @@ jobs:
           python -m py_compile scripts/stage-smoke-test.py
           docker compose \
             --env-file deploy/.env.example \
-            -f deploy/compose.yaml \
-            -f deploy/compose.stage.yaml \
+            -f deploy/compose.internal.yaml \
             config --quiet
           docker compose \
             --env-file deploy/.env.example \
-            -f deploy/compose.yaml \
-            -f deploy/compose.stage.yaml \
+            -f deploy/compose.internal.yaml \
+            config --format json |
+            python -c 'import json,sys; d=json.load(sys.stdin); s=d["services"]["kotoba-api"]; assert s["network_mode"] == "host"; assert "ports" not in s; assert "ollama" not in d["services"]; assert s["environment"]["KOTOBA_API_HOST"] == "127.0.0.1"; assert s["environment"]["KOTOBA_LLM_BASE_URL"] == "http://127.0.0.1:11434/v1"'
+          docker compose \
+            --env-file deploy/.env.example \
+            -f deploy/compose.internal.yaml \
             build kotoba-api
-          docker run --rm \
-            -e KOTOBA_STAGE_DOMAIN=stage-kotoba.example.com \
-            -v "$PWD/deploy/Caddyfile:/etc/caddy/Caddyfile:ro" \
-            caddy:2.11.4-alpine \
-            validate --config /etc/caddy/Caddyfile --adapter caddyfile
       - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
         with:
           flutter-version: "3.44.7"

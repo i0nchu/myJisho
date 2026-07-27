@@ -11,7 +11,7 @@ import sys
 import time
 from typing import Any
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote, urlencode
+from urllib.parse import quote, urlencode, urlsplit
 from urllib.request import Request, urlopen
 
 
@@ -104,8 +104,28 @@ def main() -> int:
     values = load_env(args.env_file.resolve())
     token = values.get("KOTOBA_API_TOKEN", "")
     require(32 <= len(token) <= 512 and not any(char.isspace() for char in token), "API token 無效")
-    endpoint = args.endpoint or f"https://{values.get('KOTOBA_STAGE_DOMAIN', '')}"
-    require(endpoint.startswith("https://") and len(endpoint) > 8, "staging endpoint 無效")
+    private_hostname = values.get("KOTOBA_STAGE_DOMAIN", "")
+    endpoint = args.endpoint or (
+        f"https://{private_hostname}"
+        if private_hostname
+        else "http://127.0.0.1:8766"
+    )
+    parsed_endpoint = urlsplit(endpoint)
+    is_loopback_http = (
+        parsed_endpoint.scheme == "http"
+        and parsed_endpoint.hostname in {"127.0.0.1", "::1", "localhost"}
+    )
+    require(
+        parsed_endpoint.scheme == "https" or is_loopback_http,
+        "endpoint 必須是 HTTPS；只有 server loopback 可使用 HTTP",
+    )
+    require(
+        bool(parsed_endpoint.hostname)
+        and parsed_endpoint.path in {"", "/"}
+        and not parsed_endpoint.query
+        and not parsed_endpoint.fragment,
+        "staging endpoint 無效",
+    )
     query = args.query.strip()
     require(bool(query), "查詢詞不可為空")
 
@@ -113,7 +133,7 @@ def main() -> int:
     started_at = time.monotonic()
     _, health = api.request("GET", "/api/health")
     require(health.get("ok") is True, "health payload 未回報 ok=true")
-    print(f"[PASS] HTTPS health：model={health.get('model', '')}")
+    print(f"[PASS] Endpoint health：model={health.get('model', '')}")
 
     submit_status, submitted = api.request(
         "POST",

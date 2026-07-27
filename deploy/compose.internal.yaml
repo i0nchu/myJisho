@@ -1,0 +1,42 @@
+services:
+  kotoba-api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.local-dictionary
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      KOTOBA_API_HOST: 127.0.0.1
+      KOTOBA_API_TOKEN: ${KOTOBA_API_TOKEN:?KOTOBA_API_TOKEN is required}
+      KOTOBA_ALLOWED_HOSTS: ${KOTOBA_ALLOWED_HOSTS:-127.0.0.1,localhost}
+      KOTOBA_LLM_BASE_URL: ${KOTOBA_LLM_BASE_URL:-http://127.0.0.1:11434/v1}
+      KOTOBA_LLM_MODEL: ${KOTOBA_LLM_MODEL:-qwen3:8b}
+    volumes:
+      - kotoba-data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import os,urllib.request; r=urllib.request.Request('http://127.0.0.1:8766/api/health',headers={'Authorization':'Bearer '+os.environ['KOTOBA_API_TOKEN']}); urllib.request.urlopen(r,timeout=3).read()",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  backup-helper:
+    image: alpine:3.22.2
+    profiles: ["tools"]
+    network_mode: none
+    volumes:
+      - kotoba-data:/data
+      - ${KOTOBA_BACKUP_DIR:-./backups}:/backup
+
+volumes:
+  kotoba-data:

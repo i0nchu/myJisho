@@ -24,7 +24,7 @@ that local automation cannot replace.
 | AC-10 Safe update | 24 update tests cover HTTPS, fixed package contract, progress/cancel, interruption/disk-full, size/hash/assets/checksums, assets↔SQLite binding, pre-open recovery, real Drift readiness and rollback | Select/publish HTTPS host and run platform fault smoke; signing/key rotation decision | PASS automated / EXTERNAL CONFIG+DEVICE |
 | AC-11 Traceable release | schema/data/license/review validator tests; deterministic builder; editor audit workflow/security tests | Editorial/licensing sign-off for exact production input checksum | PASS mechanism; EXTERNAL GATE for content |
 | AC-12 Platform RC | committed iOS/Windows/macOS runners and CI jobs | Successful release artifacts, signing and recorded device smoke for all three platforms | EXTERNAL GATE |
-| AC-13 Self-hosted generation | generation/schema/semantic/storage/HTTP tests; Flutter explicit-submit gating, existing-entry reuse, generated metadata and action tests; token-protected Compose; Ubuntu 24.04 installer, Caddy HTTPS overlay, backup/restore and staging smoke tooling | Run the committed stack on Ubuntu 24.04; sample real Qwen3 8B quality; complete physical iPhone HTTPS smoke | PASS automated / EXTERNAL SERVER+MODEL+DEVICE |
+| AC-13 Self-hosted generation | generation/schema/semantic/storage/HTTP tests; Flutter explicit-submit gating, existing-entry reuse, generated metadata and action tests; Ubuntu 24.04 host-Ollama Compose, loopback-only API, Tailscale Serve allowlist contract, backup/restore and staging smoke tooling | Run the committed stack on Ubuntu 24.04; sample real Qwen3 8B quality; complete physical iPhone tailnet HTTPS smoke | PASS automated / EXTERNAL SERVER+MODEL+DEVICE |
 
 ## Evidence commands
 

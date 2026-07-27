@@ -27,6 +27,7 @@ class LocalDictionaryServerTests(unittest.TestCase):
             store,
             DictionaryGenerator(FakeSearchProvider(), self.llm),
             api_token="test-token-0123456789abcdef012345",
+            allowed_hosts={"kotoba-stage.example.ts.net"},
         )
         self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
         self.thread.start()
@@ -159,6 +160,54 @@ class LocalDictionaryServerTests(unittest.TestCase):
         )
         self.assertEqual(status, 403)
         self.assertEqual(payload["error"]["code"], "forbidden_origin")
+
+    def test_private_https_reverse_proxy_host_and_origin_are_allowed(self) -> None:
+        status, payload = self.request(
+            "POST",
+            "/api/generation-jobs",
+            {"query": "食べる"},
+            headers={
+                "Host": "kotoba-stage.example.ts.net",
+                "Origin": "https://kotoba-stage.example.ts.net",
+            },
+        )
+        self.assertEqual(status, 202)
+        self.assertEqual(payload["job"]["status"], "generating")
+
+    def test_tailscale_forwarded_host_and_origin_are_allowed(self) -> None:
+        status, payload = self.request(
+            "POST",
+            "/api/generation-jobs",
+            {"query": "食べる"},
+            headers={
+                "Origin": "https://kotoba-stage.example.ts.net",
+                "X-Forwarded-Host": "kotoba-stage.example.ts.net",
+                "X-Forwarded-Proto": "https",
+            },
+        )
+        self.assertEqual(status, 202)
+        self.assertEqual(payload["job"]["status"], "generating")
+
+    def test_reverse_proxy_host_rejects_non_https_port(self) -> None:
+        status, payload = self.request(
+            "GET",
+            "/api/health",
+            headers={"Host": "kotoba-stage.example.ts.net:80"},
+        )
+        self.assertEqual(status, 421)
+        self.assertEqual(payload["error"]["code"], "invalid_host")
+
+    def test_forwarded_host_rejects_non_https_protocol(self) -> None:
+        status, payload = self.request(
+            "GET",
+            "/api/health",
+            headers={
+                "X-Forwarded-Host": "kotoba-stage.example.ts.net",
+                "X-Forwarded-Proto": "http",
+            },
+        )
+        self.assertEqual(status, 421)
+        self.assertEqual(payload["error"]["code"], "invalid_host")
 
     def test_missing_bearer_token_is_rejected(self) -> None:
         status, payload = self.request(

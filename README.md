@@ -28,7 +28,8 @@ private lookup or generation.
 - `services/local_dictionary` — private generation jobs, Wikimedia search,
   OpenAI-compatible LLM adapter, automatic validation, SQLite and HTTP API.
 - `deploy` + `scripts/deploy-self-hosted.ps1` / `.sh` — token-protected Docker
-  Compose deployment with Ollama, Qwen3 8B and optional Caddy HTTPS.
+  Compose deployment. Ubuntu reuses host Ollama and optionally exposes only
+  the loopback API through private Tailscale Serve HTTPS.
 - `apps/content_editor` + `services/editor_api` — future public-package
   editorial workbench; it is separate from private self-hosted entries.
 - `packages` — canonical schema, Japanese normalization, deinflection, and
@@ -50,22 +51,26 @@ powershell -ExecutionPolicy Bypass -File scripts/deploy-self-hosted.ps1
 powershell -ExecutionPolicy Bypass -File scripts/run-self-hosted-app.ps1
 ```
 
-The deployment script creates a random API token, starts Ollama and the Kotoba
-API, pulls `qwen3:8b`, and completes a health check. See
+The Windows deployment script starts an Ollama container. The Ubuntu script
+reuses the host's existing Ollama, starts only the loopback-bound Kotoba API,
+and completes a health check. See
 [the self-hosted generation guide](docs/self-hosted-generation.md) for manual,
 remote, macOS and iOS configuration.
 
-For an Ubuntu Server 24.04 staging server with a real iPhone or desktop client:
+For an Ubuntu Server 24.04 internal staging server:
 
 ```bash
 sudo ./scripts/install-docker-ubuntu.sh
 # Log out and back in once after first-time Docker installation.
-./scripts/deploy-self-hosted.sh --domain stage-kotoba.example.com
+./scripts/deploy-self-hosted.sh
 python3 scripts/stage-smoke-test.py --query 食べました
+
+# Optional: private iPhone/desktop access inside the same tailnet.
+./scripts/deploy-self-hosted.sh --tailscale
 ```
 
-The complete DNS, HTTPS, firewall, device, backup, restore, update and rollback
-procedure is in the
+No public DNS or inbound Internet port is required. The complete host-Ollama,
+Tailscale, device, backup, restore, update and rollback procedure is in the
 [Ubuntu staging deployment runbook](docs/ubuntu-stage-deployment.md).
 
 ## Development

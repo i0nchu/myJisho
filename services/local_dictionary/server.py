@@ -386,6 +386,18 @@ class LocalDictionaryHandler(BaseHTTPRequestHandler):
         if len(values) != 1:
             raise ValueError("exactly one Host header is required")
         raw = values[0]
+        forwarded_hosts = self.headers.get_all("X-Forwarded-Host", failobj=[])
+        forwarded_protocols = self.headers.get_all("X-Forwarded-Proto", failobj=[])
+        is_trusted_proxy_request = bool(forwarded_hosts or forwarded_protocols)
+        if is_trusted_proxy_request:
+            if (
+                len(forwarded_hosts) != 1
+                or len(forwarded_protocols) != 1
+                or forwarded_protocols[0].strip().lower() != "https"
+                or not _is_loopback_hostname(self.client_address[0])
+            ):
+                raise ValueError("invalid reverse-proxy headers")
+            raw = forwarded_hosts[0]
         if raw != raw.strip() or any(character in raw for character in "/\\@,?#"):
             raise ValueError("invalid Host header")
         parsed = urlsplit(f"//{raw}")
@@ -396,10 +408,16 @@ class LocalDictionaryHandler(BaseHTTPRequestHandler):
         hostname = hostname.lower()
         if hostname not in self.server.allowed_hosts:
             raise ValueError("Host is not the bound loopback address")
-        effective_port = port if port is not None else 80
-        if effective_port != self.server.server_port:
-            raise ValueError("Host port does not match the server")
-        return "http", hostname, effective_port
+        if _is_loopback_hostname(hostname) and not is_trusted_proxy_request:
+            effective_port = port if port is not None else 80
+            if effective_port != self.server.server_port:
+                raise ValueError("Host port does not match the server")
+            return "http", hostname, effective_port
+        if _is_loopback_hostname(hostname):
+            raise ValueError("reverse proxy must provide a non-loopback host")
+        if port not in {None, 443}:
+            raise ValueError("reverse-proxy Host port must be 443")
+        return "https", hostname, 443
 
     def _handle_exception(self, error: Exception) -> None:
         if isinstance(error, StoreConflictError):
@@ -453,7 +471,7 @@ def _parse_origin(raw: str) -> tuple[str, str, int]:
         raise ValueError("invalid Origin header")
     parsed = urlsplit(raw)
     if (
-        parsed.scheme.lower() != "http"
+        parsed.scheme.lower() not in {"http", "https"}
         or not parsed.hostname
         or parsed.username is not None
         or parsed.password is not None
@@ -462,7 +480,18 @@ def _parse_origin(raw: str) -> tuple[str, str, int]:
         or parsed.fragment
     ):
         raise ValueError("invalid Origin header")
-    return "http", parsed.hostname.lower(), parsed.port if parsed.port is not None else 80
+    scheme = parsed.scheme.lower()
+    default_port = 443 if scheme == "https" else 80
+    return scheme, parsed.hostname.lower(), parsed.port if parsed.port is not None else default_port
+
+
+def _is_loopback_hostname(hostname: str) -> bool:
+    if hostname == "localhost":
+        return True
+    try:
+        return ipaddress.ip_address(hostname).is_loopback
+    except ValueError:
+        return False
 
 
 def _bind_host(host: str, *, allow_remote: bool) -> str:
