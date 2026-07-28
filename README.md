@@ -12,27 +12,29 @@ and saves successful results locally. It also supports revision history,
 editing, regeneration, restoration, deletion, version locking, Japanese TTS,
 favorites, and search history.
 
-The current development version is `0.1.1`. The first public release will use
-version `1.0.0`.
+![Windows supported](https://img.shields.io/badge/Windows-supported-2ea44f?logo=windows11&logoColor=white)
+![iOS not supported](https://img.shields.io/badge/iOS-not_supported-6e7781?logo=apple&logoColor=white)
+![macOS not supported](https://img.shields.io/badge/macOS-unsupported-6e7781?logo=apple&logoColor=white)
+![Android not supported](https://img.shields.io/badge/Android-not_supported-6e7781?logo=android&logoColor=white)
 
 ## Project structure
 
 ```text
-apps/dictionary_app       Flutter client
-apps/content_editor       Local content editor
-services/local_dictionary Generation, validation, storage, and HTTP API
-services/editor_api       Content editor API
-packages                  Schema, normalization, deinflection, and search
-tools/database_builder    SQLite dictionary package builder
-deploy                    Docker Compose configuration
-scripts                   Deployment, backup, restore, and verification
+apps/dictionary_app         Flutter client
+apps/content_editor         Local content editor
+services/local_dictionary   Generation, validation, storage, and HTTP API
+services/editor_api         Content editor API
+packages                    Schema, normalization, deinflection, and search
+tools/database_builder      SQLite dictionary package builder
+deploy                      Docker Compose configuration
+scripts                     Deployment, backup, restore, and verification
 ```
 
 ## Deployment
 
 myJisho is deployed with Docker Compose. Copy `deploy/.env.example` to
 `deploy/.env`, set a secure `MYJISHO_API_TOKEN`, and explicitly select
-`MYJISHO_LLM_MODEL`; the model has no default.
+`MYJISHO_LLM_MODEL`.
 
 Start myJisho together with its managed Ollama service:
 
